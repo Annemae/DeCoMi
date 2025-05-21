@@ -1,0 +1,12 @@
+{
+    "decisions": [
+        {"id": "decision1",
+        "decision_requirements_level": true,
+        "decision_logic_level": true,
+        "lines of code": [[272, 294], [316, 463], [471, 540]]},
+        {"id": "decision2",
+        "decision_requirements_level": true,
+        "decision_logic_level": true,
+        "lines of code": [[658, 683], [702, 725]]}
+    ]
+}

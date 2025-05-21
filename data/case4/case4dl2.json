@@ -1,0 +1,62 @@
+{
+    "Conditions" : {
+        "toString(Object val)" : {
+            "Type" : "string"
+        },
+        "d" : {
+            "Type" : "boolean"
+        },
+        "base" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "numberToString(double d, int base)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d != d",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"NaN\";"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == Double.POSITIVE_INFINITY",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"Infinity\";"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == Double.NEGATIVE_INFINITY",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"-Infinity\";"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == 0.0",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"0\";"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == d && d != Double.POSITIVE_INFINITY && d != Double.NEGATIVE_INFINITY && d != 0.0",
+            "base" : "(base < 2) || (base > 36)",
+            "numberToString(double d, int base)" : "throw Context.reportRuntimeError1(\"msg.bad.radix\", Integer.toString(base));"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == d && d != Double.POSITIVE_INFINITY && d != Double.NEGATIVE_INFINITY && d != 0.0",
+            "base" : "base != 10",
+            "numberToString(double d, int base)" : "return DToA.JS_dtobasestr(base, d);"
+        },
+        {
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);",
+            "d" : "d == d && d != Double.POSITIVE_INFINITY && d != Double.NEGATIVE_INFINITY && d != 0.0",
+            "base" : "(base >= 2 && base <= 36) && base == 10",
+            "numberToString(double d, int base)" : "return result.toString();"
+        } 
+    ]
+}

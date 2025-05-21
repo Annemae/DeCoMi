@@ -1,0 +1,32 @@
+{
+    "Conditions" : {
+        "neTargets" : {
+            "Type" : "boolean"
+        },
+        "neSources" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "uptodate(ResourceCollection src, ResourceCollection target)" : {
+            "Type" : "boolean"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "neTargets" : "neTargets > 0",
+            "neSources" : "-",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
+        },
+        {
+            "neTargets" : "neTargets <= 0",
+            "neSources" : "neSources > 0",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
+        },
+        {
+            "neTargets" : "neTargets <= 0",
+            "neSources" : "neSources <= 0",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
+        }
+    ]
+}

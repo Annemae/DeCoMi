@@ -1,0 +1,8 @@
+{
+    "Decisions" : {
+        "uptodate(ResourceCollection src, ResourceCollection target)" : {
+            "Input" : ["neTargets", "neSources"]
+        }
+    },
+    "InputData" : ["neTargets", "neSources"]
+}

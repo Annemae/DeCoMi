@@ -1,0 +1,11 @@
+{
+    "Decisions" : {
+        "toString(Object val)" : {
+            "Input" : ["val"]
+        },
+        "numberToString(double d, int base)" : {
+            "Input" : ["toString(Object val)", "d", "base"]
+        }
+    },
+    "InputData" : ["val", "d", "base"]
+}

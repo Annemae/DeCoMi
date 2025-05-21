@@ -1,0 +1,8 @@
+{
+    "Decisions" : {
+        "format(String s)" : {
+            "Input" : ["s", "pageParts"]
+        }
+    },
+    "InputData" : ["s", "pageParts"]
+}

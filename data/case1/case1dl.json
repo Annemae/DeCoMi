@@ -1,0 +1,22 @@
+{
+    "Conditions" : {
+        "expression" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkArgument(boolean expression)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "expression" : "!expression",
+            "checkArgument(boolean expression)" : "throw new IllegalArgumentException();"
+        },
+        {
+            "expression" : "expression",
+            "checkArgument(boolean expression)" : null
+        }
+    ]
+}

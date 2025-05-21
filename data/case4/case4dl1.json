@@ -1,0 +1,38 @@
+{
+    "Conditions" : {
+        "val" : {
+            "Type" : "number"
+        }
+    },
+    "Conclusions" : {
+        "toString(Object val)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "val" : "val == null",
+            "toString(Object val)" : "return "null";"
+        },
+        {
+            "val" : "val == Undefined.instance",
+            "toString(Object val)" : "return \"undefined\";"
+        },
+        {
+            "val" : "val instanceof String",
+            "toString(Object val)" : "return (String)val;"
+        },
+        {
+            "val" : "val instanceof Number",
+            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);"
+        },
+        {
+            "val" : "val instanceof Scriptable",
+            "toString(Object val)" : "throw errorWithClassName(\"msg.primitive.expected\", val);"
+        },
+        {
+            "val" : "-",
+            "toString(Object val)" : "return val.toString();"
+        }    
+    ]
+}

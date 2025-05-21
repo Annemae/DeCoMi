@@ -1,0 +1,42 @@
+{
+    "Conditions" : {
+        "val" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "toNumber(Object val)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "val" : "val instanceof Number",
+            "toNumber(Object val)" : "return ((Number) val).doubleValue();"
+        },
+        {
+            "val" : "val == null",
+            "toNumber(Object val)" : "return +0.0;"
+        },
+        {
+            "val" : "val == Undefined.instance",
+            "toNumber(Object val)" : "return NaN;"
+        },
+        {
+            "val" : "val instanceof String",
+            "toNumber(Object val)" : "return toNumber((String) val);"
+        },
+        {
+            "val" : "val instanceof Boolean",
+            "toNumber(Object val)" : "return ((Boolean) val).booleanValue() ? 1 : +0.0;"
+        },
+        {
+            "val" : "val instanceof Scriptable",
+            "toNumber(Object val)" : "throw errorWithClassName(\"msg.primitive.expected\", val);"
+        },
+        {
+            "val" : "-",
+            "toNumber(Object val)" : "return NaN;"
+        }
+    ]
+}

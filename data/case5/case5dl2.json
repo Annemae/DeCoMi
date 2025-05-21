@@ -1,0 +1,145 @@
+{
+    "Conditions" : {
+        "toNumber(Object val)" : {
+            "Type" : "string"
+        },
+        "start, len" : {
+            "Type" : "boolean"
+        },
+        "startChar" : {
+            "Type" : "boolean"
+        },
+        "c1" : {
+            "Type" : "boolean"
+        },
+        "c2" : {
+            "Type" : "boolean"
+        },
+        "endchar" : {
+            "Type" : "boolean"
+        },
+        "start, end, s" : {
+            "Type" : "boolean"
+        },
+        "MSJVM_BUG_WORKAROUND" : {
+            "Type" : "boolean"
+        },
+        "c" : {
+            "Type" : "boolean"
+        },
+        "ex" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "toNumber(String s)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start == len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "-",
+            "start, end, s": "-",
+            "?": "-",
+            "c": "-",
+            "ex": "-",
+            "toNumber(String s)": "return +0.0;"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start + 2 < len",
+            "startChar": "startChar == '0'",
+            "c1": "c1 == 'x' || c1 == 'X'",
+            "c2": "-",
+            "endchar": "-",
+            "start, end, s": "-",
+            "?": "-",
+            "c": "-",
+            "ex": "-",
+            "toNumber(String s)": "return stringToNumber(s, start + 2, 16);"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start + 3 < len && s.charAt(start + 1) == '0'",
+            "startChar": "startChar == '+' || startChar == '-'",
+            "c1": "-",
+            "c2": "c2 == 'x' || c2 == 'X'",
+            "endchar": "-",
+            "start, end, s": "-",
+            "?": "-",
+            "c": "-",
+            "ex": "-",
+            "toNumber(String s)": "return startChar == '-' ? -val : val;"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start != len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "endChar == 'y'",
+            "start, end, s": "start + 7 == end && s.regionMatches(start, \"Infinity\", 0, 8)",
+            "?": "-",
+            "c": "-",
+            "ex": "-",
+            "toNumber(String s)": "return startChar == '-' ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start != len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "endChar == 'y'",
+            "start, end, s": "start + 7 != end && !(s.regionMatches(start, \"Infinity\", 0, 8))",
+            "?": "-",
+            "c": "-",
+            "ex": "-",
+            "toNumber(String s)": "return NaN;"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start != len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "endChar != 'y'",
+            "start, end, s": "-",
+            "?": "MSJVM_BUG_WORKAROUNDS",
+            "c": "('0' > c && c > '9') && c != '.' && c != 'e' && c != 'E' && c != '+' && c != '-'",
+            "ex": "-",
+            "toNumber(String s)": "return NaN;"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start != len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "endChar != 'y'",
+            "start, end, s": "-",
+            "?": "-",
+            "c": "-",
+            "ex": "!(NumberFormatException ex)",
+            "toNumber(String s)": "return Double.valueOf(sub).doubleValue();"
+        },
+        {
+            "toNumber(Object val)": "return toNumber((String) val);",
+            "start, len": "start != len",
+            "startChar": "-",
+            "c1": "-",
+            "c2": "-",
+            "endchar": "endChar != 'y'",
+            "start, end, s": "-",
+            "?": "-",
+            "c": "-",
+            "ex": "NumberFormatException ex",
+            "toNumber(String s)": "return NaN;"
+        }
+    ]
+}

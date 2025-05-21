@@ -1,0 +1,37 @@
+{
+    "Conditions" : {
+        "s" : {
+            "Type" : "boolean"
+        },
+        "pageParts" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "format(String s)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "s" : "s == null",
+            "pageParts" : "-",
+            "format(String s)" : "return \"\";"	
+        },
+        {
+            "s" : "s != null",
+            "pageParts" : "pageParts.length == 2",
+            "format(String s)" : "return pageParts[1];"	
+        },
+        {
+            "s" : "s != null",
+            "pageParts" : "pageParts.length >= 1",
+            "format(String s)" : "return pageParts[0];"	
+        },
+        {
+            "s" : "s != null",
+            "pageParts" : "-",
+            "format(String s)" : "return \"\";"	
+        }
+    ]
+}

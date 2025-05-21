@@ -1,0 +1,8 @@
+{
+    "Decisions" : {
+        "checkArgument(boolean expression)" : {
+            "Input" : ["expression"]
+        }
+    },
+    "InputData" : ["expression"]
+}

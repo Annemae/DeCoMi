@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc_1="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di_1="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:di="http://www.omg.org/spec/DMN/20191111/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20191111/DC/" id="fileUpdateCheck" name="File Update Check" namespace="https://example.com/dmn/fileUpdate" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="input_targetMissingCount" name="targetMissingCount">
+    <variable name="targetMissingCount" typeRef="integer" />
+  </inputData>
+  <inputData id="input_sourceMissingCount" name="sourceMissingCount">
+    <variable name="sourceMissingCount" typeRef="integer" />
+  </inputData>
+  <inputData id="input_oldestTargetModified" name="oldestTargetModified">
+    <variable name="oldestTargetModified" typeRef="dateTime" />
+  </inputData>
+  <inputData id="input_newestSourceModified" name="newestSourceModified">
+    <variable name="newestSourceModified" typeRef="dateTime" />
+  </inputData>
+  <decision id="decision_uptodate" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <variable name="uptodate(ResourceCollection src, ResourceCollection target)" typeRef="boolean" />
+    <informationRequirement>
+      <requiredDecision href="#decision_missingSources" />
+      <requiredInput href="#input_newestSourceModified" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0x9x39c">
+      <requiredInput href="#InputData_07zy7eq" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_13azeq4">
+      <requiredInput href="#InputData_1av8w3i" />
+    </informationRequirement>
+    <decisionTable>
+      <input id="input3" label="neTargets">
+        <inputExpression typeRef="boolean">
+          <text>missingTargets</text>
+        </inputExpression>
+      </input>
+      <input id="input4" label="neSources">
+        <inputExpression typeRef="boolean">
+          <text>missingSources</text>
+        </inputExpression>
+      </input>
+      <output id="output3" label="uptodate(ResourceCollection src, ResourceCollection target)" name="uptodate" typeRef="boolean" />
+      <rule>
+        <inputEntry>
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry>
+          <text>-</text>
+        </inputEntry>
+        <outputEntry>
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>
+          <text>neTargets &lt;= 0</text>
+        </inputEntry>
+        <inputEntry>
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <outputEntry>
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>
+          <text>neTargets &lt;= 0</text>
+        </inputEntry>
+        <inputEntry>
+          <text>neSources &lt;= 0</text>
+        </inputEntry>
+        <outputEntry>
+          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1av8w3i" name="neTargets" />
+  <inputData id="InputData_07zy7eq" name="neSources" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0oe510a">
+      <dmndi:DMNShape id="DMNShape_1lgpe8c" dmnElementRef="decision_uptodate">
+        <dc_1:Bounds height="80" width="180" x="210" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0t3ctg2" dmnElementRef="InputData_1av8w3i">
+        <dc_1:Bounds height="45" width="125" x="157" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1tuay6j" dmnElementRef="InputData_07zy7eq">
+        <dc_1:Bounds height="45" width="125" x="317" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_054i4ko" dmnElementRef="InformationRequirement_0x9x39c">
+        <di_1:waypoint x="380" y="237" />
+        <di_1:waypoint x="330" y="180" />
+        <di_1:waypoint x="330" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0w6utmt" dmnElementRef="InformationRequirement_13azeq4">
+        <di_1:waypoint x="220" y="237" />
+        <di_1:waypoint x="270" y="180" />
+        <di_1:waypoint x="270" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

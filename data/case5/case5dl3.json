@@ -1,0 +1,58 @@
+{
+    "Conditions" : {
+        "toNumber(String s)" : {
+            "Type" : "string"
+        },
+        "start, end" : {
+            "Type" : "boolean"
+        },
+        "sum" : {
+            "Type" : "boolean"
+        },
+        "radix" : {
+            "Type" : "boolean"
+        },
+        "nfe" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "stringToNumber(String s, int start, int radix)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start == end",
+            "sum": "-",
+            "radix": "-",
+            "nfe": "-",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
+        },
+        {
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "sum >= 9007199254740992.0",
+            "radix": "radix == 10",
+            "nfe": "!(NumberFormatException nfe)",
+            "stringToNumber(String s, int start, int radix)": "return Double.valueOf(s.substring(start, end)).doubleValue();"
+        },
+        {
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "sum >= 9007199254740992.0",
+            "radix": "radix == 10",
+            "nfe": "NumberFormatException nfe",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
+        },
+        {
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "-",
+            "radix": "-",
+            "nfe": "-",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
+        }
+    ]
+}
