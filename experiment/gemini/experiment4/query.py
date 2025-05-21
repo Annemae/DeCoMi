@@ -821,7 +821,7 @@ example_3_output = """
 
 def generate(question, temperature):
     client = genai.Client(
-        api_key="AIzaSyCQo2lUDvtNvaIisaKC-jRdLfRaRCZonwM"
+        api_key=""
     )
 
     model = "gemini-2.5-pro-preview-05-06"

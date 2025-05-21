@@ -5966,9 +5966,11 @@ public static void openWinConfigFileDialog() {
 example_6_output = """
 """
 
+openai.api_key = ""
+
 def generate(question, temperature):
     response = openai.Completion.create(
-      model="",
+      model="gpt-4.1-2025-04-14",
       prompt=question,
       temperature=temperature,
       max_tokens=2048,

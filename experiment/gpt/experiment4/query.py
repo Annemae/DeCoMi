@@ -818,9 +818,11 @@ example_3_output = """
 </definitions>
 """
 
+openai.api_key = ""
+
 def generate(question, temperature):
     response = openai.Completion.create(
-      model="",
+      model="gpt-4.1-2025-04-14",
       prompt=question,
       temperature=temperature,
       max_tokens=5000
