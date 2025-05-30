@@ -1,0 +1,227 @@
+Q: We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Below is a part of Java source code, between quotation marks. What does this code decide? 
+
+"""
+public static void checkArgument(boolean expression) {
+  if (!expression) {
+    throw new IllegalArgumentException();
+  }
+}
+""" 
+
+A: This code decides whether a given boolean expression is true. If the expression is false, it throws an IllegalArgumentException; otherwise, it does nothing.
+
+Q: What happens when the expression parameter is true? 
+
+A: When the expression parameter is true, the method does nothing and completes normally without throwing any exception.
+
+Q: What are the variables that influence this decision? 
+
+A: The only variable that influences this decision is the boolean parameter named expression.
+
+Q: For each input and output, give me an overview of their data type and their possible values. 
+
+A:  
+- Input: The input is the parameter expression, which is of the boolean data type. Its possible values are true or false.
+- Output: The method does not return any value (its return type is void), but it can throw an exception. The output is therefore either:
+  - Normal completion (no exception), which occurs if expression is true.
+  - An IllegalArgumentException is thrown, which occurs if expression is false.
+
+Q: What are the relevant values of the numerical variables? 
+
+A: There are no numerical variables in this code. The only relevant variable is a boolean (expression), which can only be true or false.
+
+Q: Consider the following examples (6 examples; some contain decisions that can be modeled, some do not): 
+
+Input: 
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "iterator" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "iterator" : "iterator.hasNext()",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "iterator.next()"
+        },
+        {
+            "iterator" : "!(iterator.hasNext())",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "defaultValue"
+        }
+    ]
+}
+ 
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+protected void checkInterval(long start, long end) {
+  if (end < start) {
+      throw new IllegalArgumentException("The end instant must be greater than the start instant");
+  }
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "start, end" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkInterval(long start, long end)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "start, end" : "end < start",
+            "checkInterval(long start, long end)" : "throw new IllegalArgumentException("The end instant must be greater than the start instant");"
+        },
+        {
+            "start, end" : "end >= start",
+            "checkInterval(long start, long end)" : null
+        }
+    ]
+}
+ 
+Input: 
+public static String getVersion() {
+    return version;
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+@Override
+public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+    Args.notNull(host, "HTTP host");
+    final int port = host.getPort();
+    if (port > 0) {
+        return port;
+    }
+    final String name = host.getSchemeName();
+    if (name.equalsIgnoreCase("http")) {
+        return 80;
+    } else if (name.equalsIgnoreCase("https")) {
+        return 443;
+    } else {
+        throw new UnsupportedSchemeException(name + " protocol is not supported");
+    }
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "port" : {
+            "Type" : "boolean"
+        },
+        "name" : {
+            "Type" : "string"
+        }
+    },
+    "Conclusions" : {
+        "resolve(final HttpHost host)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "port" : "port > 0",
+            "name" : "-",
+            "resolve(final HttpHost host)" : "return port;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("http")",
+            "resolve(final HttpHost host)" : "return 80;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("https")",
+            "resolve(final HttpHost host)" : "return 443;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "!(name.equalsIgnoreCase("http")) && !(name.equalsIgnoreCase("https"))",
+            "resolve(final HttpHost host)" : "throw new UnsupportedSchemeException(name + " protocol is not supported");"
+        }
+    ]
+}
+ 
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Could you generate a DMN decision table for the part of Java source code provided in the first question that starts with "Q"? If a decision is present, provide a complete and valid structured JSON object with conditions, conclusions, and decision rules for this part of Java source code; otherwise, provide an empty JSON object. Do not interpret the decision, i.e., take the decision logic exactly as written in the source code. Do not write anything else. 
+
+{
+    "Conditions" : {
+        "expression" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkArgument(boolean expression)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "expression" : "true",
+            "checkArgument(boolean expression)" : null
+        },
+        {
+            "expression" : "false",
+            "checkArgument(boolean expression)" : "throw new IllegalArgumentException();"
+        }
+    ]
+}
+
+Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
+
+A: Yes, this table is complete. The only input variable is a boolean (expression), which can be either true or false. The decision table includes a rule for both possible values of expression, so there is an applicable rule for every possible input.
+
+Q: According to your table, answer the following question. What happens when the expression parameter is false? 
+
+A: When the expression parameter is false, the method throws a new IllegalArgumentException.
+

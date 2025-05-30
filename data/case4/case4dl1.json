@@ -12,7 +12,7 @@
     "DecisionRules" : [
         {
             "val" : "val == null",
-            "toString(Object val)" : "return "null";"
+            "toString(Object val)" : "return \"null\";"
         },
         {
             "val" : "val == Undefined.instance",

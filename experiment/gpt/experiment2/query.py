@@ -1,16 +1,18 @@
-import openai
+from openai import AzureOpenAI
 
-case_1 = ("""
+case_1 = ("case1",
+"""
 public static void checkArgument(boolean expression) {
   if (!expression) {
     throw new IllegalArgumentException();
   }
 }
 """, 
-"What does the checkArgument method return when the expression is true?", 
-"What does the checkArgument method return when the expression is false?")
+"What happens when the expression parameter is true?", 
+"What happens when the expression parameter is false?")
 
-case_2 = ("""
+case_2 = ("case2",
+"""
 public String format(String s) {
     if (s == null) {
         return "";
@@ -26,10 +28,11 @@ public String format(String s) {
 
 }
 """, 
-"Is the first or second part of the string returned when the pageParts.length is equal to 2?", 
-"If the string is null, what is returned?")
+"Is the first or second part of the s parameter returned when the length of the pageParts local variable is equal to 2?", 
+"If the s parameter is null, what is returned?")
 
-case_3 = ("""
+case_3 = ("case3",
+"""
 private boolean uptodate(ResourceCollection src, ResourceCollection target) {
     org.apache.tools.ant.types.resources.selectors.Date datesel
         = new org.apache.tools.ant.types.resources.selectors.Date();
@@ -64,10 +67,11 @@ private boolean uptodate(ResourceCollection src, ResourceCollection target) {
     return oldestTarget.getLastModified() >= newestSource.getLastModified();
 }
 """, 
-"What is returned when the oldest target file is older than the newest source?", 
-"What is returned when the oldest target file is newer than the newest source?")
+"What is returned when the oldest target is older than the newest source?", 
+"What is returned when the oldest target is newer than the newest source?")
 
-case_4_part_1 = ("""
+case_4_part_1 = ("case4.1",
+"""
 public static String toString(Object val) {
     for (;;) {
         if (val == null) {
@@ -95,10 +99,11 @@ public static String toString(Object val) {
     }
 }
 """, 
-"What is returned when the val is null?", 
-"What is returned when the val is an instance of String?")
+"What is returned when the val parameter is null?", 
+"What is returned when the val parameter is an instance of String?")
 
-case_4_part_2 = ("""
+case_4_part_2 = ("case4.2",
+"""
 public static String numberToString(double d, int base) {
     if (d != d)
         return "NaN";
@@ -124,10 +129,11 @@ public static String numberToString(double d, int base) {
 
 }
 """, 
-"What is returned when the 'd' variable is equal to 0.0?", 
-"What is returned when the 'd' variable is equal to Double.POSITIVE_INFINITY?")
+"What is returned when the d parameter is equal to 0.0?", 
+"What is returned when the base parameter is smaller than 2?")
 
-case_5_part_1 = ("""
+case_5_part_1 = ("case5.1",
+"""
 public static double toNumber(Object val)
 {
     for (;;) {
@@ -152,10 +158,11 @@ public static double toNumber(Object val)
     }
 }
 """, 
-"What does the toNumber method return when the val is an instance of Number?", 
-"What does the toNumber method return when the val is an instance of Scriptable?")
+"What does the toNumber method return when the val parameter is an instance of Number?", 
+"What does the toNumber method return when the val parameter is an instance of Scriptable?")
 
-case_5_part_2 = ("""
+case_5_part_2 = ("case5.2",
+"""
 static double stringToNumber(String s, int start, int radix) {
     char digitMax = '9';
     char lowerCaseBound = 'a';
@@ -305,10 +312,11 @@ static double stringToNumber(String s, int start, int radix) {
     return sum;
 }
 """, 
-"What is returned when the 'start' variable is equal to 'end'?", 
+"What is returned when the start parameter is equal to the end local variable?", 
 "What happens when a NumberFormatException is thrown?")
 
-case_5_part_3 = ("""
+case_5_part_3 = ("case5.3",
+"""
 public static double toNumber(String s) {
     int len = s.length();
     int start = 0;
@@ -380,10 +388,11 @@ public static double toNumber(String s) {
     }
 }
 """, 
-"What happens when a NumberFormatException is thrown?", 
-"What is returned when the start variable is equal to the end variable?")
+"What happens when the try block is entered?", 
+"What is returned when the start local variable is equal to the end local variable?")
 
-case_6 = ("""
+case_6 = ("case6",
+"""
 /**
  * Backed up property.
  * @since jEdit 3.2pre2
@@ -431,15 +440,17 @@ public static final String GZIPPED = "gzipped";
 "What is the value of the BACKED_UP property?",
 "What is the value of the CARET property?") 
 
-case_7 = ("""
+case_7 = ("case7",
+"""
 public static CommonPattern compile(String pattern) {
   return Platform.compilePattern(pattern);
 }
 """, 
 "What does the compile method return?", 
-"What parameter is passed to the compile method?")
+"What is returned when the pattern parameter is an empty string?")
 
-case_8 = ("""
+case_8 = ("case8",
+"""
 /** {@inheritDoc}. */
 public void executeTargets(Project project, String[] targetNames)
     throws BuildException {
@@ -460,10 +471,11 @@ public void executeTargets(Project project, String[] targetNames)
     }
 }
 """, 
-"What does the executeTargets method return when the project is in keep going mode?", 
-"What happens when 'thrownException' is not null?")
+"What does the executeTargets method do when the project parameter is in keep going mode?", 
+"What happens when the thrownException local variable is not null?")
 
-case_9 = ("""
+case_9 = ("case9",
+"""
 private static NotationSettings initializeDefaultSettings() {
     NotationSettings settings = new NotationSettings();
     settings.parent = null;
@@ -482,9 +494,10 @@ private static NotationSettings initializeDefaultSettings() {
 }
 """, 
 "What does the initializeDefaultSettings method return?", 
-"To what is settings.parent set in the initializeDefaultSettings method?")
+"To what is the settings.parent field set in the initializeDefaultSettings method?")
 
-case_10 = ("""
+case_10 = ("case10",
+"""
 public synchronized void channelsProgress(String id, double p) {
     ProgressNode pn = progressNodes.get(id);
     boolean ins = false;
@@ -510,7 +523,7 @@ public synchronized void channelsProgress(String id, double p) {
     dataTree.repaint();
 }
 """, 
-"What happens when the 'p' variable is equal to 1?", 
+"What happens when the p parameter is equal to 1?", 
 "What does the channelsProgress method return?")
 
 example_1_input = """
@@ -643,6 +656,7 @@ public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatRe
 public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
 """
 example_4_output = """
+{ }
 """
 
 example_5_input = """
@@ -651,6 +665,7 @@ public static String getVersion() {
 }
 """
 example_5_output = """
+{ }
 """
 
 example_6_input = """
@@ -674,37 +689,43 @@ public static void openWinConfigFileDialog() {
 }
 """
 example_6_output = """
+{ }
 """
 
-openai.api_key = ""
-
 def generate(question, temperature):
-    response = openai.Completion.create(
-      model="gpt-4.1-2025-04-14",
-      prompt=question,
-      temperature=temperature,
-      max_tokens=2048,
-      top_p=1,
-      frequency_penalty=0.0,
-      presence_penalty=0.6,
+    client = AzureOpenAI(
+        api_version="2024-12-01-preview",
+        azure_endpoint="",
+        api_key=""
     )
 
-    return response.choices[0].text
-    return response.strip()
+    response = client.chat.completions.create(
+        messages= [{
+            "role": "user",
+            "content": question,
+        }],
+        max_completion_tokens=30000,
+        temperature=temperature,
+        model="gpt-4.1",
+        top_p=1.0,
+        frequency_penalty=0.0,
+        presence_penalty=0.6
+    )
+
+    return response.choices[0].message.content
+
 temperatures = [0, 0.3, 0.7, 1]
 cases = [case_1, case_2, case_3, case_4_part_1, case_4_part_2, case_5_part_1, case_5_part_2, case_5_part_3, case_6, case_7, case_8, case_9, case_10]
 
-case_counter = 100
-def run_query(code, question_1, question_2, temperature):
-    global case_counter
-    input = [f'We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Below is a part of Java source code, between quotation marks. What does this code decide? \n\n\"\"\"{code}\"\"\"',
+def run_query(code, case_name, question_1, question_2, temperature):
+    input = [f'We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Below is a part of Java source code, between quotation marks. What does this code decide? \n\n\"\"\"{code}\"\"\"',
         question_1,
         'What are the variables that influence this decision?',
         'For each input and output, give me an overview of their data type and their possible values.',
         'What are the relevant values of the numerical variables?', 
-        f'Could you generate a DMN decision table for the part of Java source code provided in the first question? Examples (6 examples): \n\n Input: {example_1_input} \n Expected JSON output: {example_1_output} \n Input: {example_2_input} \n Expected JSON output: {example_2_output} \n Input: {example_3_input} \n Expected JSON output: {example_3_output} \n Input: {example_4_input} \n Expected JSON output: {example_4_output} \n Input: {example_5_input} \n Expected JSON output: {example_5_output} \n Input: {example_6_input} \n Expected JSON output: {example_6_output}\n\n Please provide the table as a complete, valid structured JSON object. The JSON object should contain the conditions, conclusions, and decision rules, if they are present. Do not write anything else.',
+        f'Consider the following examples (6 examples; some contain decisions that can be modeled, some do not): \n\nInput: {example_1_input} \nExpected JSON output: {example_1_output} \nInput: {example_4_input} \nExpected JSON output: {example_4_output} \nInput: {example_2_input} \nExpected JSON output: {example_2_output} \nInput: {example_5_input} \nExpected JSON output: {example_5_output} \nInput: {example_3_input} \nExpected JSON output: {example_3_output} \nInput: {example_6_input} \nExpected JSON output: {example_6_output} \nCould you generate a DMN decision table for the part of Java source code provided in the first question that starts with "Q"? If a decision is present, provide a complete and valid structured JSON object with conditions, conclusions, and decision rules for this part of Java source code; otherwise, provide an empty JSON object. Do not interpret the decision, i.e., take the decision logic exactly as written in the source code. Do not write anything else.',
         'Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable?',
-        f'According to your table, answer the following question. {question_2}',]
+        f'According to your table, answer the following question. {question_2}']
     
     query = ""
         
@@ -713,17 +734,22 @@ def run_query(code, question_1, question_2, temperature):
         response = generate(query, temperature)
         query += f"{response}\n\n"
 
-    open(f"results/case_{case_counter}_temp_{temperature}.txt", "w").write(query)
+    query = query.replace("\u2264", "<=")  
+    query = query.replace("\u2265", ">=")
+    query = query.replace("\u2192", "->")
+    query = query.replace("\u2190", "<-")
 
-    case_counter += 1
+    open(f"results/{case_name}_temp_{temperature}.txt", "w").write(query)
 
 
 if __name__ == "__main__":
     for temperature in temperatures:
         for case in cases:
-            code = case[0]
-            question_1 = case[1]
-            question_2 = case[2]
+            case_name = case[0]
+            code = case[1]
+            question_1 = case[2]
+            question_2 = case[3]
 
-            print(f"Running case {case_counter} with temperature {temperature}...")
-            run_query(code, question_1, question_2, temperature)
+            print(f"Running {case_name} with temperature {temperature}...")
+
+            run_query(code, case_name, question_1, question_2, temperature)

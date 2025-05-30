@@ -1,7 +1,8 @@
 from google import genai
 from google.genai import types
 
-case_1 = """
+case_1 = ("case1", 
+"""
 /**
  * Ensures the truth of an expression involving one or more parameters to the calling method.
  *
@@ -13,9 +14,10 @@ public static void checkArgument(boolean expression) {
         throw new IllegalArgumentException();
     }
 }
-"""
+""")
 
-case_2 = """
+case_2 = ("case2",
+"""
 package org.jabref.logic.layout.format;
 
 import org.jabref.logic.layout.LayoutFormatter;
@@ -44,9 +46,10 @@ public class LastPage implements LayoutFormatter {
 
     }
 }
-"""
+""")
 
-case_3 = """
+case_3 = ("case3",
+"""
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
@@ -339,10 +342,11 @@ public class DependSet extends MatchingTask {
         }
     }
 }
-"""
+""")
 
-case_4_and_5 = """
-/* -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
+case_4_and_5 = ("case4and5",
+"""
+ * -*- Mode: java; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0
@@ -928,7 +932,7 @@ public class ScriptRuntime {
 
             if (' ' <= c && c <= '~' && c != escapeQuote && c != '\\') {
                 // an ordinary print character (like C isprint()) and not "
-                // or \ .
+                // or \\ .
                 if (sb != null) {
                     sb.append((char)c);
                 }
@@ -952,7 +956,7 @@ public class ScriptRuntime {
                 case '\\':  escape = '\\'; break;
             }
             if (escape >= 0) {
-                // an \escaped sort of character
+                // an \\escaped sort of character
                 sb.append('\\');
                 sb.append((char)escape);
             } else if (c == escapeQuote) {
@@ -3830,9 +3834,10 @@ public class ScriptRuntime {
     public static final String[] emptyStrings = new String[0];
 
 }
-"""
+""")
 
-case_6 = """
+case_6 = ("case6",
+"""
 /**
  * Backed up property.
  * @since jEdit 3.2pre2
@@ -3876,9 +3881,10 @@ public static final String TRAILING_EOL = "trailingEOL";
  * @since jEdit 4.0pre4
  */
 public static final String GZIPPED = "gzipped";
-"""
+""")
 
-case_7 = """
+case_7 = ("case7",
+"""
 /*
  * Copyright (C) 2016 The Guava Authors
  *
@@ -3922,9 +3928,10 @@ abstract class CommonPattern {
     return Platform.patternCompilerIsPcreLike();
   }
 }
-"""
+""")
 
-case_8 = """
+case_8 = ("case8",
+"""
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
@@ -3985,9 +3992,10 @@ public class DefaultExecutor implements Executor {
     }
 
 }
-"""
+""")
 
-case_9 = """
+case_9 = ("case9",
+"""
 /* $Id$
  *****************************************************************************
  * Copyright (c) 2009 Contributors - see below
@@ -4548,9 +4556,10 @@ public class NotationSettings {
     }
 
 }
-"""
+""")
 
-case_10 = """
+case_10 = ("case10",
+"""
 /**
  * I waive copyright and related rights in the this work worldwide through the CC0 1.0 Universal
  * public domain dedication. https://creativecommons.org/publicdomain/zero/1.0/legalcode
@@ -5837,7 +5846,7 @@ public class DataChooser extends JPanel {
     config.userTimes = getUserTimes();
   }
 }
-"""
+""")
 
 example_1_input = """
 /**
@@ -5855,8 +5864,6 @@ public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable 
 example_1_output = """
 {
     "id": "decision1",
-    "decision_requirements_level": true,
-    "decision_logic_level": true,
     "lines of code": [[9, 11]]
 }
 """ 
@@ -5879,8 +5886,6 @@ protected void checkInterval(long start, long end) {
 example_2_output = """
 {
     "id": "decision1",
-    "decision_requirements_level": true,
-    "decision_logic_level": true,
     "lines of code": [[9, 13]]
 }
 """
@@ -5918,8 +5923,6 @@ public class DefaultSchemePortResolver implements SchemePortResolver {
 example_3_output = """
 {
     "id": "decision1",
-    "decision_requirements_level": true,
-    "decision_logic_level": true,
     "lines of code": [[12, 26]]
 }
 """
@@ -5934,6 +5937,7 @@ public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatRe
 public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
 """
 example_4_output = """
+{ }
 """
 
 example_5_input = """
@@ -5942,6 +5946,7 @@ public static String getVersion() {
 }
 """
 example_5_output = """
+{ }
 """
 
 example_6_input = """
@@ -5965,9 +5970,10 @@ public static void openWinConfigFileDialog() {
 }
 """
 example_6_output = """
+{ }
 """
 
-def generate(question, temperature):
+def generate(question, temperature, json_output):
     client = genai.Client(
         api_key=""
     )
@@ -5981,11 +5987,18 @@ def generate(question, temperature):
             ],
         ),
     ]
-    generate_content_config = types.GenerateContentConfig(
-        response_mime_type="text/plain",
-        max_output_tokens=10000,
-        temperature=temperature
-    )
+    if json_output:
+        generate_content_config = types.GenerateContentConfig(
+            response_mime_type="application/json",
+            max_output_tokens=50000,
+            temperature=temperature,
+        )
+    else:
+        generate_content_config = types.GenerateContentConfig(
+            response_mime_type="text/plain",
+            max_output_tokens=50000,
+            temperature=temperature,
+        )
 
     response = ""  
 
@@ -6002,26 +6015,29 @@ def generate(question, temperature):
 temperatures = [0, 0.2, 0.4, 0.6, 0.8, 1]
 cases = [case_1, case_2, case_3, case_4_and_5, case_6, case_7, case_8, case_9, case_10]
 
-case_counter = 0
-def run_query(code, temperature):
-    global case_counter
-    input = ['Do you know Decision Model and Notation, and can you recognize DMN elements in source code?',
-        f'Given a file of Java source code, you are expected to indicate which functions contain decision requirements level or decision logic level-related elements, and if so, for which decision, in a structured JSON format. Examples (6 examples): \n\n  \n\n Input: {example_1_input} \n Expected JSON output: {example_1_output} \n Input: {example_2_input} \n Expected JSON output: {example_2_output} \n Input: {example_3_input} \n Expected JSON output: {example_3_output} \n Input: {example_4_input} \n Expected JSON output: {example_4_output} \n Input: {example_5_input} \n Expected JSON output: {example_5_output} \n Input: {example_6_input} \n Expected JSON output: {example_6_output}\n\n Only provide the relevant lines of code, whether they contain elements related to the decision logic level or the decision requirement level, and for which decision(s) as a complete, structured JSON object. Do not write anything else. Analyze the following source code: {code}',]
+def run_query(code, case_name, temperature):
+    input = ['We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize Decision Model and Notation elements in source code?',
+             f'Consider the following examples (6 examples; each contains one or no decision, but real examples may contain more): \n\nInput: {example_1_input} \nExpected JSON output: {example_1_output} \nInput: {example_4_input} \nExpected JSON output: {example_4_output} \nInput: {example_2_input} \nExpected JSON output: {example_2_output} \nInput: {example_5_input} \nExpected JSON output: {example_5_output} \nInput: {example_3_input} \nExpected JSON output: {example_3_output} \nInput: {example_6_input} \nExpected JSON output: {example_6_output} \nGiven a file of Java source code, create a new unique ID for each new decision. Identify which lines of code contain DMN elements, and indicate which decision each line corresponds to. Provide a complete and valid structured JSON object with IDs for each decision and the lines of code corresponding to those decisions; otherwise, provide an empty JSON object. Do not write anything else. Analyze the following source code: \n{code}']
     
     query = ""
         
     for question in input:
         query += f"Q: {question} \n\n"
-        response = generate(query, temperature)
+        if question.startswith("We will ask you two questions on Decision Model and Notation"):
+            response = generate(query, temperature, False)
+        else:
+            response = generate(query, temperature, True)
         query += f"{response}\n\n"
 
-    open(f"results/case_{case_counter}_temp_{temperature}.txt", "w").write(query)
-
-    case_counter += 1
+    open(f"results/{case_name}_temp_{temperature}.txt", "w").write(query)
 
 
 if __name__ == "__main__":
     for temperature in temperatures:
         for case in cases:
-            print(f"Running case {case_counter} with temperature {temperature}...")
-            run_query(case, temperature)
+            case_name = case[0]
+            code = case[1]
+
+            print(f"Running {case_name} with temperature {temperature}...")
+
+            run_query(code, case_name, temperature)

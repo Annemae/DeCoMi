@@ -1,6 +1,4 @@
 {
     "id": "decision1",
-    "decision_requirements_level": true,
-    "decision_logic_level": true,
     "lines of code": [[9, 11]]
 }

@@ -1,7 +1,8 @@
 from google import genai
 from google.genai import types
 
-case_1 = """
+case_1 = ("case1",
+"""
 {
     "Conditions" : {
         "expression" : {
@@ -33,9 +34,10 @@ case_1 = """
     },
     "InputData" : ["expression"]
 }
-"""
+""")
 
-case_2 = """
+case_2 = ("case2",
+"""
 {
     "Conditions" : {
         "s" : {
@@ -82,9 +84,10 @@ case_2 = """
     },
     "InputData" : ["s", "pageParts"]
 }
-"""
+""")
 
-case_3 = """
+case_3 = ("case3",
+"""
 {
     "Conditions" : {
         "neTargets" : {
@@ -126,9 +129,10 @@ case_3 = """
     },
     "InputData" : ["neTargets", "neSources"]
 }
-"""
+""")
 
-case_4 = """
+case_4 = ("case4",
+"""
 {
     "Conditions" : {
         "val" : {
@@ -242,9 +246,10 @@ case_4 = """
     },
     "InputData" : ["val", "d", "base"]
 }
-"""
+""")
 
-case_5 = """
+case_5 = ("case5",
+"""
 {
     "Conditions" : {
         "val" : {
@@ -507,7 +512,7 @@ case_5 = """
     },
     "InputData" : ["val", "start, end", "sum", "radix", "nfe", "c", "?", "endchar", "c1", "start, len", "startChar", "c2", "ex", "start, end, s"]
 }
-"""
+""")
 
 example_1_input = """
 {
@@ -835,7 +840,7 @@ def generate(question, temperature):
     ]
     generate_content_config = types.GenerateContentConfig(
         response_mime_type="text/plain",
-        max_output_tokens=10000,
+        max_output_tokens=50000,
         temperature=temperature
     )
 
@@ -854,11 +859,46 @@ def generate(question, temperature):
 temperatures = [0, 0.2, 0.4, 0.6, 0.8, 1]
 cases = [case_1, case_2, case_3, case_4, case_5]
 
-case_counter = 0
-def run_query(code, temperature):
-    global case_counter
-    input = ['Do you know Decision Model and Notation and can you create a DMN XML?',
-        f'Given multiple structured JSON objects, you are expected to generate a DMN XML file based on these JSON objects. Examples (6 examples): \n\n  \n\n Input: {example_1_input} \n Expected JSON output: {example_1_output} \n Input: {example_2_input} \n Expected JSON output: {example_2_output} \n Input: {example_3_input} \n Expected JSON output: {example_3_output} \n\n Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {code}',]
+# example = ("example",
+# """
+# {
+#     "Decisions" : {
+#         "Cool" : {
+#             "Input" : ["Niceness"]
+#         }
+#     },
+#     "InputData" : ["Niceness"]
+# }
+
+# {
+#     "Conditions" : {
+#         "Niceness" : {
+#             "Type" : "number"
+#         }
+#     },
+#     "Conclusions" : {
+#         "Cool" : {
+#             "Type" : "boolean"
+#         }
+#     },
+#     "DecisionRules" : [
+#         {
+#             "Niceness" : "0",
+#             "Cool" : "false"
+#         },
+#         {
+#             "Niceness" : "100",
+#             "Cool" : "true"
+#         }
+#     ]
+# }
+# """)
+# temperatures = [0]
+# cases = [example]
+
+def run_query(code, case_name, temperature):
+    input = ['We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DMN XML?',
+        f'Consider the following examples (3 examples): \n\n  \n\n Input: {example_1_input} \n Expected JSON output: {example_1_output} \n Input: {example_2_input} \n Expected JSON output: {example_2_output} \n Input: {example_3_input} \n Expected JSON output: {example_3_output} \nGiven multiple structured JSON objects, you are expected to generate a corresponding DMN XML file based on these JSON objects. Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {code}',]
     
     query = ""
         
@@ -867,13 +907,14 @@ def run_query(code, temperature):
         response = generate(query, temperature)
         query += f"{response}\n\n"
 
-    open(f"results/case_{case_counter}_temp_{temperature}.txt", "w").write(query)
-
-    case_counter += 1
-
+    open(f"results/{case_name}_temp_{temperature}.txt", "w").write(query)
 
 if __name__ == "__main__":
     for temperature in temperatures:
         for case in cases:
-            print(f"Running case {case_counter} with temperature {temperature}...")
-            run_query(case, temperature)
+            case_name = case[0]
+            code = case[1]
+
+            print(f"Running {case_name} with temperature {temperature}...")
+
+            run_query(code, case_name, temperature)

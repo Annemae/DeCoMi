@@ -1,0 +1,430 @@
+Q: We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Below is a part of Java source code, between quotation marks. What does this code decide? 
+
+"""
+static double stringToNumber(String s, int start, int radix) {
+    char digitMax = '9';
+    char lowerCaseBound = 'a';
+    char upperCaseBound = 'A';
+    int len = s.length();
+    if (radix < 10) {
+        digitMax = (char) ('0' + radix - 1);
+    }
+    if (radix > 10) {
+        lowerCaseBound = (char) ('a' + radix - 10);
+        upperCaseBound = (char) ('A' + radix - 10);
+    }
+    int end;
+    double sum = 0.0;
+    for (end=start; end < len; end++) {
+        char c = s.charAt(end);
+        int newDigit;
+        if ('0' <= c && c <= digitMax)
+            newDigit = c - '0';
+        else if ('a' <= c && c < lowerCaseBound)
+            newDigit = c - 'a' + 10;
+        else if ('A' <= c && c < upperCaseBound)
+            newDigit = c - 'A' + 10;
+        else
+            break;
+        sum = sum*radix + newDigit;
+    }
+    if (start == end) {
+        return NaN;
+    }
+    if (sum >= 9007199254740992.0) {
+        if (radix == 10) {
+            /* If we're accumulating a decimal number and the number
+                * is >= 2^53, then the result from the repeated multiply-add
+                * above may be inaccurate.  Call Java to get the correct
+                * answer.
+                */
+            try {
+                return Double.valueOf(s.substring(start, end)).doubleValue();
+            } catch (NumberFormatException nfe) {
+                return NaN;
+            }
+        } else if (radix == 2 || radix == 4 || radix == 8 ||
+                    radix == 16 || radix == 32)
+        {
+            /* The number may also be inaccurate for one of these bases.
+                * This happens if the addition in value*radix + digit causes
+                * a round-down to an even least significant mantissa bit
+                * when the first dropped bit is a one.  If any of the
+                * following digits in the number (which haven't been added
+                * in yet) are nonzero then the correct action would have
+                * been to round up instead of down.  An example of this
+                * occurs when reading the number 0x1000000000000081, which
+                * rounds to 0x1000000000000000 instead of 0x1000000000000100.
+                */
+            int bitShiftInChar = 1;
+            int digit = 0;
+
+            final int SKIP_LEADING_ZEROS = 0;
+            final int FIRST_EXACT_53_BITS = 1;
+            final int AFTER_BIT_53         = 2;
+            final int ZEROS_AFTER_54 = 3;
+            final int MIXED_AFTER_54 = 4;
+
+            int state = SKIP_LEADING_ZEROS;
+            int exactBitsLimit = 53;
+            double factor = 0.0;
+            boolean bit53 = false;
+            // bit54 is the 54th bit (the first dropped from the mantissa)
+            boolean bit54 = false;
+
+            for (;;) {
+                if (bitShiftInChar == 1) {
+                    if (start == end)
+                        break;
+                    digit = s.charAt(start++);
+                    if ('0' <= digit && digit <= '9')
+                        digit -= '0';
+                    else if ('a' <= digit && digit <= 'z')
+                        digit -= 'a' - 10;
+                    else
+                        digit -= 'A' - 10;
+                    bitShiftInChar = radix;
+                }
+                bitShiftInChar >>= 1;
+                boolean bit = (digit & bitShiftInChar) != 0;
+
+                switch (state) {
+                    case SKIP_LEADING_ZEROS:
+                        if (bit) {
+                        --exactBitsLimit;
+                        sum = 1.0;
+                        state = FIRST_EXACT_53_BITS;
+                    }
+                    break;
+                    case FIRST_EXACT_53_BITS:
+                        sum *= 2.0;
+                    if (bit)
+                        sum += 1.0;
+                    --exactBitsLimit;
+                    if (exactBitsLimit == 0) {
+                        bit53 = bit;
+                        state = AFTER_BIT_53;
+                    }
+                    break;
+                    case AFTER_BIT_53:
+                    bit54 = bit;
+                    factor = 2.0;
+                    state = ZEROS_AFTER_54;
+                    break;
+                    case ZEROS_AFTER_54:
+                    if (bit) {
+                        state = MIXED_AFTER_54;
+                    }
+                    // fallthrough
+                    case MIXED_AFTER_54:
+                    factor *= 2;
+                    break;
+                }
+            }
+            switch (state) {
+                case SKIP_LEADING_ZEROS:
+                sum = 0.0;
+                break;
+                case FIRST_EXACT_53_BITS:
+                case AFTER_BIT_53:
+                // do nothing
+                break;
+                case ZEROS_AFTER_54:
+                // x1.1 -> x1 + 1 (round up)
+                // x0.1 -> x0 (round down)
+                if (bit54 & bit53)
+                    sum += 1.0;
+                sum *= factor;
+                break;
+                case MIXED_AFTER_54:
+                // x.100...1.. -> x + 1 (round up)
+                // x.0anything -> x (round down)
+                if (bit54)
+                    sum += 1.0;
+                sum *= factor;
+                break;
+            }
+        }
+        /* We don't worry about inaccurate numbers for any other base. */
+    }
+    return sum;
+}
+""" 
+
+A: This code decides how to convert a substring of a given string, starting at a specified index, into a numeric value (as a double) according to a specified radix (base), handling both standard and edge cases for parsing large numbers and different numeral systems. It determines the numeric value represented by that substring (in the given radix), or returns NaN if the conversion is not possible. The code also includes special logic to ensure correct rounding and accuracy for very large numbers and certain radices.
+
+Q: What is returned when the start parameter is equal to the end local variable? 
+
+A: When the start parameter is equal to the end local variable, the function returns NaN. This situation occurs when no valid digits are found in the substring to convert to a number.
+
+Q: What are the variables that influence this decision? 
+
+A: The variables that influence this decision are s (the input string), start (the starting index for parsing), len (the length of the string), radix (the numeral base), and end (the current index during the parsing loop). Specifically, start and end determine if any valid digits were parsed; if start equals end after the digit-parsing loop, it means no valid digits were found.
+
+Q: For each input and output, give me an overview of their data type and their possible values. 
+
+A: Here is an overview of each input and output, including their data types and possible values:
+
+**Inputs:**
+
+1. `s`  
+   - Data type: `String`  
+   - Possible values: Any Java String. Typically, it should contain characters representing a number in the specified radix. It may be empty, contain non-digit characters, or have valid numeric substrings.
+
+2. `start`  
+   - Data type: `int`  
+   - Possible values: Any integer >= 0 and <= s.length(). It specifies the index from which to start parsing. If equal to or greater than s.length(), no digits will be parsed.
+
+3. `radix`  
+   - Data type: `int`  
+   - Possible values: Typically between 2 and 36 (inclusive), representing the base for number conversion (e.g., 2 for binary, 10 for decimal, 16 for hexadecimal). Values outside this range could result in incorrect behavior or no valid digits being parsed.
+
+**Output:**
+
+- Return value  
+  - Data type: `double`  
+  - Possible values:
+    - A double value representing the number encoded in the substring of `s` starting at `start`, in the given `radix`.
+    - `NaN` (Not a Number): Returned if no valid digits are found, or if there is an error converting very large decimal numbers.
+    - For valid input, the output can be any finite double that fits the parsed value (with possible loss of precision for very large numbers).
+
+
+Q: What are the relevant values of the numerical variables? 
+
+A: The relevant values of the numerical variables are:
+
+- **start**: Any integer between 0 and s.length() (inclusive). Its value determines where parsing begins. If start >= s.length(), no digits are parsed.
+- **end**: Ranges from start up to s.length(). It is incremented for each valid digit found. It marks the position after the last valid digit parsed.
+- **radix**: Typically between 2 and 36, as these are the valid bases for number conversion in most programming contexts. Values outside this range may result in unexpected behavior or failure to parse any digits.
+- **len**: Equal to s.length(), it defines the upper bound for parsing.
+- **sum**: Starts at 0.0, accumulates the numeric value as digits are parsed. Can take any double value representing the parsed number.
+- **exactBitsLimit**: Used internally for large numbers in certain radices; initialized to 53 (the number of significant bits in a JavaScript double mantissa).
+- **factor**: Used for scaling during rounding correction in large numbers; can take positive double values.
+- **bit53**, **bit54**: Booleans used to hold the state of specific bits for rounding logic in large number parsing.
+- **digit**, **newDigit**: Integers representing the numeric value of the current character being parsed; values depend on radix (for radix N, valid newDigit ranges from 0 to N-1).
+- **bitShiftInChar**: Used for bitwise processing in large-number correction; starts at 1 and is shifted right during processing.
+
+The most relevant values are those for which:
+- **start < len** and `s.charAt(start)` through `s.charAt(end-1)` are valid digit characters in the specified radix, so parsing proceeds.
+- **radix** is within the typical base range (2–36); parsing will not succeed for most values outside this interval.
+- **sum** can become very large (>= 2^53), which triggers special handling for accuracy and rounding.
+
+These values directly impact whether the function finds valid digits, how it accumulates the numeric value, and whether it returns a meaningful number or NaN.
+
+Q: Consider the following examples (6 examples; some contain decisions that can be modeled, some do not): 
+
+Input: 
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "iterator" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "iterator" : "iterator.hasNext()",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "iterator.next()"
+        },
+        {
+            "iterator" : "!(iterator.hasNext())",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "defaultValue"
+        }
+    ]
+}
+ 
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+protected void checkInterval(long start, long end) {
+  if (end < start) {
+      throw new IllegalArgumentException("The end instant must be greater than the start instant");
+  }
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "start, end" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkInterval(long start, long end)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "start, end" : "end < start",
+            "checkInterval(long start, long end)" : "throw new IllegalArgumentException("The end instant must be greater than the start instant");"
+        },
+        {
+            "start, end" : "end >= start",
+            "checkInterval(long start, long end)" : null
+        }
+    ]
+}
+ 
+Input: 
+public static String getVersion() {
+    return version;
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+@Override
+public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+    Args.notNull(host, "HTTP host");
+    final int port = host.getPort();
+    if (port > 0) {
+        return port;
+    }
+    final String name = host.getSchemeName();
+    if (name.equalsIgnoreCase("http")) {
+        return 80;
+    } else if (name.equalsIgnoreCase("https")) {
+        return 443;
+    } else {
+        throw new UnsupportedSchemeException(name + " protocol is not supported");
+    }
+}
+ 
+Expected JSON output: 
+{
+    "Conditions" : {
+        "port" : {
+            "Type" : "boolean"
+        },
+        "name" : {
+            "Type" : "string"
+        }
+    },
+    "Conclusions" : {
+        "resolve(final HttpHost host)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "port" : "port > 0",
+            "name" : "-",
+            "resolve(final HttpHost host)" : "return port;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("http")",
+            "resolve(final HttpHost host)" : "return 80;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("https")",
+            "resolve(final HttpHost host)" : "return 443;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "!(name.equalsIgnoreCase("http")) && !(name.equalsIgnoreCase("https"))",
+            "resolve(final HttpHost host)" : "throw new UnsupportedSchemeException(name + " protocol is not supported");"
+        }
+    ]
+}
+ 
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Could you generate a DMN decision table for the part of Java source code provided in the first question that starts with "Q"? If a decision is present, provide a complete and valid structured JSON object with conditions, conclusions, and decision rules for this part of Java source code; otherwise, provide an empty JSON object. Do not interpret the decision, i.e., take the decision logic exactly as written in the source code. Do not write anything else. 
+
+{
+    "Conditions": {
+        "s, start, radix": {
+            "Type": "boolean"
+        },
+        "sum, radix, s, start, end": {
+            "Type": "boolean"
+        }
+    },
+    "Conclusions": {
+        "stringToNumber(String s, int start, int radix)": {
+            "Type": "string"
+        }
+    },
+    "DecisionRules": [
+        {
+            "s, start, radix": "start == end",
+            "sum, radix, s, start, end": "-",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
+        },
+        {
+            "s, start, radix": "start != end",
+            "sum, radix, s, start, end": "sum >= 9007199254740992.0 && radix == 10",
+            "stringToNumber(String s, int start, int radix)": "try { return Double.valueOf(s.substring(start, end)).doubleValue(); } catch (NumberFormatException nfe) { return NaN; }"
+        },
+        {
+            "s, start, radix": "start != end",
+            "sum, radix, s, start, end": "sum >= 9007199254740992.0 && (radix == 2 || radix == 4 || radix == 8 || radix == 16 || radix == 32)",
+            "stringToNumber(String s, int start, int radix)": "/* perform special bitwise rounding logic as in the source code, then return sum */"
+        },
+        {
+            "s, start, radix": "start != end",
+            "sum, radix, s, start, end": "!(sum >= 9007199254740992.0)",
+            "stringToNumber(String s, int start, int radix)": "return sum;"
+        }
+    ]
+}
+
+Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
+
+A: The table is complete. For every possible set of inputs, one of the decision rules will apply:
+
+- If start == end, the first rule applies.
+- If start != end and sum >= 9007199254740992.0 and radix == 10, the second rule applies.
+- If start != end and sum >= 9007199254740992.0 and radix is one of 2, 4, 8, 16, or 32, the third rule applies.
+- If start != end and sum < 9007199254740992.0, the fourth rule applies.
+
+There is no input combination for which none of the rules would match; every path through the logic is covered by at least one rule.
+
+Q: According to your table, answer the following question. What happens when a NumberFormatException is thrown? 
+
+A: When a NumberFormatException is thrown (which can only occur when sum >= 9007199254740992.0 and radix == 10), the method returns NaN. This is specified in the second rule of the table, where the try-catch block catches NumberFormatException and returns NaN.
+
