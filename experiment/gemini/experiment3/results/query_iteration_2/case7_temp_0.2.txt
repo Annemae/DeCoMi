@@ -1,0 +1,136 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DRD? 
+
+A: Yes, I am familiar with Decision Model and Notation (DMN), and I can describe the components and relationships within a Decision Requirements Diagram (DRD) and help in structuring one, though I cannot visually render it as an image.
+
+Q: 
+Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
+
+Input: 
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Input" : ["iterator"]
+        }
+    },
+    "InputData" : ["iterator"]
+}
+
+
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+
+Expected JSON output: 
+
+
+Input: 
+protected void checkInterval(long start, long end) {
+  if (end < start) {
+      throw new IllegalArgumentException("The end instant must be greater than the start instant");
+  }
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "checkInterval(long start, long end)" : {
+            "Input" : ["start, end"]
+        }
+    },
+    "InputData" : ["start, end"]
+}
+
+
+Input: 
+public static String getVersion() {
+    return version;
+}
+
+Expected JSON output: 
+
+
+Input: 
+@Override
+public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+    Args.notNull(host, "HTTP host");
+    final int port = host.getPort();
+    if (port > 0) {
+        return port;
+    }
+    final String name = host.getSchemeName();
+    if (name.equalsIgnoreCase("http")) {
+        return 80;
+    } else if (name.equalsIgnoreCase("https")) {
+        return 443;
+    } else {
+        throw new UnsupportedSchemeException(name + " protocol is not supported");
+    }
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "resolve(final HttpHost host)" : {
+            "Input" : ["port", "name"]
+        }
+    },
+    "InputData" : ["port", "name"]
+}
+
+
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+
+Expected JSON output: 
+
+
+Could you generate a DRD in JSON format for the following Java source code?
+
+Please follow these rules when extracting the DRD:
+
+1) Some of the provided decisions (i.e., functions) may serve as inputs to other decisions. Add these as entries to the `Input` field of the JSON representation for dependent decisions.
+2) Use variable names exactly as they appear in the source code. Do not rename, alter, or invent variable names.
+3) For the input data of each decision, include only the variables (i.e., function parameters and/or local variables) that are part of a decision expression (e.g., an `if` statement) within that function that directly influence an outcome (i.e., a return value).
+4) If multiple variables contribute to the same decision expression, they can be grouped together as a single input in the JSON representation.
+
+If a DRD is present in the code, provide a complete and valid structured JSON object representing the decisions, their inputs (either input data and/or other decisions), and the input data.  
+If no DRD can be constructed, return an empty JSON object.  
+Do not interpret the decisions, i.e., extract them exactly as defined in the source code.  
+Do not write anything else.
+
+Analyze the following source code:
+
+public static CommonPattern compile(String pattern) {
+  return Platform.compilePattern(pattern);
+}
+ 
+
+{}
+

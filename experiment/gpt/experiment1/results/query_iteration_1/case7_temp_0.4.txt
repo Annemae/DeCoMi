@@ -1,0 +1,177 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
+
+A: Yes, I am able to recognize functions or code segments that contain elements related to Decision Model and Notation (DMN), such as decision tables, input data, business knowledge models, and decision requirements diagrams, when they are present or referenced in source code.
+
+Q: Consider the following examples (6 examples; each contains one or no decision, but real examples may contain more): 
+
+Input: 
+/**
+ * Returns the next element in {@code iterator} or {@code defaultValue} if the iterator is empty.
+ * The {@link Iterables} analog to this method is {@link Iterables#getFirst}.
+ *
+ * @param defaultValue the default value to return if the iterator is empty
+ * @return the next element of {@code iterator} or the default value
+ * @since 7.0
+ */
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+ 
+Expected JSON output: 
+{
+    "Decisions": [
+        {"ID": "model_1_decision_1",
+        "FunctionName": "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)"}]
+}
+ 
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+//-----------------------------------------------------------------------
+/**
+ * Validates an interval.
+ * 
+ * @param start  the start instant in milliseconds
+ * @param end  the end instant in milliseconds
+ * @throws IllegalArgumentException if the interval is invalid
+ */
+protected void checkInterval(long start, long end) {
+    if (end < start) {
+        throw new IllegalArgumentException("The end instant must be greater than the start instant");
+    }
+}
+ 
+Expected JSON output: 
+{
+    "Decisions": [
+        {"ID": "model_1_decision_1",
+        "FunctionName": "checkInterval(long start, long end)"}]
+}
+ 
+Input: 
+public static String getVersion() {
+    return version;
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Input: 
+/**
+ * Default {@link SchemePortResolver}.
+ *
+ * @since 4.3
+ */
+@Contract(threading = ThreadingBehavior.IMMUTABLE)
+public class DefaultSchemePortResolver implements SchemePortResolver {
+
+    public static final DefaultSchemePortResolver INSTANCE = new DefaultSchemePortResolver();
+
+    @Override
+    public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+        Args.notNull(host, "HTTP host");
+        final int port = host.getPort();
+        if (port > 0) {
+            return port;
+        }
+        final String name = host.getSchemeName();
+        if (name.equalsIgnoreCase("http")) {
+            return 80;
+        } else if (name.equalsIgnoreCase("https")) {
+            return 443;
+        } else {
+            throw new UnsupportedSchemeException(name + " protocol is not supported");
+        }
+    }
+
+}
+ 
+Expected JSON output: 
+{
+    "Decisions": [
+        {"ID": "model_1_decision_1",
+        "FunctionName": "resolve(final HttpHost host)"}]
+}
+ 
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+ 
+Expected JSON output: 
+{ }
+ 
+Given a file of Java source code, identify which functions contain a decision, and indicate which DMN model each decision corresponds to. That is, decisions belonging to the same DMN model should be labeled with the same number. Provide a complete and valid structured JSON object with IDs for each decision and associated model number and the function name associated with the decision; otherwise, provide an empty JSON object. Do not write anything else. Analyze the following source code: 
+
+/*
+ * Copyright (C) 2016 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.common.base;
+
+import com.google.common.annotations.GwtCompatible;
+
+/**
+ * The subset of the {@link java.util.regex.Pattern} API which is used by this package, and also
+ * shared with the {@code re2j} library. For internal use only. Please refer to the {@code Pattern}
+ * javadoc for details.
+ */
+@GwtCompatible
+abstract class CommonPattern {
+  public abstract CommonMatcher matcher(CharSequence t);
+
+  public abstract String pattern();
+
+  public abstract int flags();
+
+  // Re-declare this as abstract to force subclasses to override.
+  @Override
+  public abstract String toString();
+
+  public static CommonPattern compile(String pattern) {
+    return Platform.compilePattern(pattern);
+  }
+
+  public static boolean isPcreLike() {
+    return Platform.patternCompilerIsPcreLike();
+  }
+}
+ 
+
+{ }
+

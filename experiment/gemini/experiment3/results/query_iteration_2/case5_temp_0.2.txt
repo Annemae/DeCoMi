@@ -1,0 +1,440 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DRD? 
+
+A: Yes, I am familiar with Decision Model and Notation (DMN) and I can create a Decision Requirements Diagram (DRD).
+
+Q: 
+Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
+
+Input: 
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Input" : ["iterator"]
+        }
+    },
+    "InputData" : ["iterator"]
+}
+
+
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+
+Expected JSON output: 
+
+
+Input: 
+protected void checkInterval(long start, long end) {
+  if (end < start) {
+      throw new IllegalArgumentException("The end instant must be greater than the start instant");
+  }
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "checkInterval(long start, long end)" : {
+            "Input" : ["start, end"]
+        }
+    },
+    "InputData" : ["start, end"]
+}
+
+
+Input: 
+public static String getVersion() {
+    return version;
+}
+
+Expected JSON output: 
+
+
+Input: 
+@Override
+public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+    Args.notNull(host, "HTTP host");
+    final int port = host.getPort();
+    if (port > 0) {
+        return port;
+    }
+    final String name = host.getSchemeName();
+    if (name.equalsIgnoreCase("http")) {
+        return 80;
+    } else if (name.equalsIgnoreCase("https")) {
+        return 443;
+    } else {
+        throw new UnsupportedSchemeException(name + " protocol is not supported");
+    }
+}
+
+Expected JSON output: 
+{
+    "Decisions" : {
+        "resolve(final HttpHost host)" : {
+            "Input" : ["port", "name"]
+        }
+    },
+    "InputData" : ["port", "name"]
+}
+
+
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+
+Expected JSON output: 
+
+
+Could you generate a DRD in JSON format for the following Java source code?
+
+Please follow these rules when extracting the DRD:
+
+1) Some of the provided decisions (i.e., functions) may serve as inputs to other decisions. Add these as entries to the `Input` field of the JSON representation for dependent decisions.
+2) Use variable names exactly as they appear in the source code. Do not rename, alter, or invent variable names.
+3) For the input data of each decision, include only the variables (i.e., function parameters and/or local variables) that are part of a decision expression (e.g., an `if` statement) within that function that directly influence an outcome (i.e., a return value).
+4) If multiple variables contribute to the same decision expression, they can be grouped together as a single input in the JSON representation.
+
+If a DRD is present in the code, provide a complete and valid structured JSON object representing the decisions, their inputs (either input data and/or other decisions), and the input data.  
+If no DRD can be constructed, return an empty JSON object.  
+Do not interpret the decisions, i.e., extract them exactly as defined in the source code.  
+Do not write anything else.
+
+Analyze the following source code:
+
+public static double toNumber(Object val)
+public static double toNumber(Object val)
+{
+    for (;;) {
+        if (val instanceof Number)
+            return ((Number) val).doubleValue();
+        if (val == null)
+            return +0.0;
+        if (val == Undefined.instance)
+            return NaN;
+        if (val instanceof String)
+            return toNumber((String) val);
+        if (val instanceof Boolean)
+            return ((Boolean) val).booleanValue() ? 1 : +0.0;
+        if (val instanceof Scriptable) {
+            val = ((Scriptable) val).getDefaultValue(NumberClass);
+            if (val instanceof Scriptable)
+                throw errorWithClassName("msg.primitive.expected", val);
+            continue;
+        }
+        warnAboutNonJSObject(val);
+        return NaN;
+    }
+}
+
+static double stringToNumber(String s, int start, int radix) {
+    char digitMax = '9';
+    char lowerCaseBound = 'a';
+    char upperCaseBound = 'A';
+    int len = s.length();
+    if (radix < 10) {
+        digitMax = (char) ('0' + radix - 1);
+    }
+    if (radix > 10) {
+        lowerCaseBound = (char) ('a' + radix - 10);
+        upperCaseBound = (char) ('A' + radix - 10);
+    }
+    int end;
+    double sum = 0.0;
+    for (end=start; end < len; end++) {
+        char c = s.charAt(end);
+        int newDigit;
+        if ('0' <= c && c <= digitMax)
+            newDigit = c - '0';
+        else if ('a' <= c && c < lowerCaseBound)
+            newDigit = c - 'a' + 10;
+        else if ('A' <= c && c < upperCaseBound)
+            newDigit = c - 'A' + 10;
+        else
+            break;
+        sum = sum*radix + newDigit;
+    }
+    if (start == end) {
+        return NaN;
+    }
+    if (sum >= 9007199254740992.0) {
+        if (radix == 10) {
+            /* If we're accumulating a decimal number and the number
+                * is >= 2^53, then the result from the repeated multiply-add
+                * above may be inaccurate.  Call Java to get the correct
+                * answer.
+                */
+            try {
+                return Double.valueOf(s.substring(start, end)).doubleValue();
+            } catch (NumberFormatException nfe) {
+                return NaN;
+            }
+        } else if (radix == 2 || radix == 4 || radix == 8 ||
+                    radix == 16 || radix == 32)
+        {
+            /* The number may also be inaccurate for one of these bases.
+                * This happens if the addition in value*radix + digit causes
+                * a round-down to an even least significant mantissa bit
+                * when the first dropped bit is a one.  If any of the
+                * following digits in the number (which haven't been added
+                * in yet) are nonzero then the correct action would have
+                * been to round up instead of down.  An example of this
+                * occurs when reading the number 0x1000000000000081, which
+                * rounds to 0x1000000000000000 instead of 0x1000000000000100.
+                */
+            int bitShiftInChar = 1;
+            int digit = 0;
+
+            final int SKIP_LEADING_ZEROS = 0;
+            final int FIRST_EXACT_53_BITS = 1;
+            final int AFTER_BIT_53         = 2;
+            final int ZEROS_AFTER_54 = 3;
+            final int MIXED_AFTER_54 = 4;
+
+            int state = SKIP_LEADING_ZEROS;
+            int exactBitsLimit = 53;
+            double factor = 0.0;
+            boolean bit53 = false;
+            // bit54 is the 54th bit (the first dropped from the mantissa)
+            boolean bit54 = false;
+
+            for (;;) {
+                if (bitShiftInChar == 1) {
+                    if (start == end)
+                        break;
+                    digit = s.charAt(start++);
+                    if ('0' <= digit && digit <= '9')
+                        digit -= '0';
+                    else if ('a' <= digit && digit <= 'z')
+                        digit -= 'a' - 10;
+                    else
+                        digit -= 'A' - 10;
+                    bitShiftInChar = radix;
+                }
+                bitShiftInChar >>= 1;
+                boolean bit = (digit & bitShiftInChar) != 0;
+
+                switch (state) {
+                    case SKIP_LEADING_ZEROS:
+                        if (bit) {
+                        --exactBitsLimit;
+                        sum = 1.0;
+                        state = FIRST_EXACT_53_BITS;
+                    }
+                    break;
+                    case FIRST_EXACT_53_BITS:
+                        sum *= 2.0;
+                    if (bit)
+                        sum += 1.0;
+                    --exactBitsLimit;
+                    if (exactBitsLimit == 0) {
+                        bit53 = bit;
+                        state = AFTER_BIT_53;
+                    }
+                    break;
+                    case AFTER_BIT_53:
+                    bit54 = bit;
+                    factor = 2.0;
+                    state = ZEROS_AFTER_54;
+                    break;
+                    case ZEROS_AFTER_54:
+                    if (bit) {
+                        state = MIXED_AFTER_54;
+                    }
+                    // fallthrough
+                    case MIXED_AFTER_54:
+                    factor *= 2;
+                    break;
+                }
+            }
+            switch (state) {
+                case SKIP_LEADING_ZEROS:
+                sum = 0.0;
+                break;
+                case FIRST_EXACT_53_BITS:
+                case AFTER_BIT_53:
+                // do nothing
+                break;
+                case ZEROS_AFTER_54:
+                // x1.1 -> x1 + 1 (round up)
+                // x0.1 -> x0 (round down)
+                if (bit54 & bit53)
+                    sum += 1.0;
+                sum *= factor;
+                break;
+                case MIXED_AFTER_54:
+                // x.100...1.. -> x + 1 (round up)
+                // x.0anything -> x (round down)
+                if (bit54)
+                    sum += 1.0;
+                sum *= factor;
+                break;
+            }
+        }
+        /* We don't worry about inaccurate numbers for any other base. */
+    }
+    return sum;
+}
+
+public static double toNumber(String s) {
+    int len = s.length();
+    int start = 0;
+    char startChar;
+    for (;;) {
+        if (start == len) {
+            // Empty or contains only whitespace
+            return +0.0;
+        }
+        startChar = s.charAt(start);
+        if (!Character.isWhitespace(startChar))
+            break;
+        start++;
+    }
+
+    if (startChar == '0') {
+        if (start + 2 < len) {
+            int c1 = s.charAt(start + 1);
+            if (c1 == 'x' || c1 == 'X') {
+                // A hexadecimal number
+                return stringToNumber(s, start + 2, 16);
+            }
+        }
+    } else if (startChar == '+' || startChar == '-') {
+        if (start + 3 < len && s.charAt(start + 1) == '0') {
+            int c2 = s.charAt(start + 2);
+            if (c2 == 'x' || c2 == 'X') {
+                // A hexadecimal number with sign
+                double val = stringToNumber(s, start + 3, 16);
+                return startChar == '-' ? -val : val;
+            }
+        }
+    }
+
+    int end = len - 1;
+    char endChar;
+    while (Character.isWhitespace(endChar = s.charAt(end)))
+        end--;
+    if (endChar == 'y') {
+        // check for "Infinity"
+        if (startChar == '+' || startChar == '-')
+            start++;
+        if (start + 7 == end && s.regionMatches(start, "Infinity", 0, 8))
+            return startChar == '-'
+                ? Double.NEGATIVE_INFINITY
+                : Double.POSITIVE_INFINITY;
+        return NaN;
+    }
+    // A non-hexadecimal, non-infinity number:
+    // just try a normal floating point conversion
+    String sub = s.substring(start, end+1);
+    if (MSJVM_BUG_WORKAROUNDS) {
+        // The MS JVM will accept non-conformant strings
+        // rather than throwing a NumberFormatException
+        // as it should.
+        for (int i=sub.length()-1; i >= 0; i--) {
+            char c = sub.charAt(i);
+            if (('0' <= c && c <= '9') || c == '.' ||
+                c == 'e' || c == 'E'  ||
+                c == '+' || c == '-')
+                continue;
+            return NaN;
+        }
+    }
+    try {
+        return Double.valueOf(sub).doubleValue();
+    } catch (NumberFormatException ex) {
+        return NaN;
+    }
+}
+ 
+
+{
+    "Decisions": {
+        "toNumber(Object val)": {
+            "Input": [
+                "val",
+                "toNumber(String s)"
+            ]
+        },
+        "stringToNumber(String s, int start, int radix)": {
+            "Input": [
+                "end, len",
+                "c, digitMax",
+                "c, lowerCaseBound",
+                "c, upperCaseBound",
+                "start, end",
+                "sum",
+                "radix",
+                "digit",
+                "state",
+                "bit",
+                "exactBitsLimit",
+                "bit54, bit53",
+                "bit54"
+            ]
+        },
+        "toNumber(String s)": {
+            "Input": [
+                "start, len",
+                "startChar",
+                "c1",
+                "c2",
+                "s",
+                "endChar",
+                "MSJVM_BUG_WORKAROUNDS",
+                "c",
+                "stringToNumber(String s, int start, int radix)"
+            ]
+        }
+    },
+    "InputData": [
+        "MSJVM_BUG_WORKAROUNDS",
+        "bit",
+        "bit53",
+        "bit54",
+        "c",
+        "c1",
+        "c2",
+        "digit",
+        "digitMax",
+        "end",
+        "endChar",
+        "exactBitsLimit",
+        "len",
+        "lowerCaseBound",
+        "radix",
+        "s",
+        "start",
+        "startChar",
+        "state",
+        "sum",
+        "val",
+        "upperCaseBound"
+    ]
+}
+
