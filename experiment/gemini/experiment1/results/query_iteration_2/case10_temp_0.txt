@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I can analyze source code to help identify functions that contain or interact with Decision Model and Notation (DMN) elements. My approach would involve looking for indicators such as the use of DMN-specific libraries or APIs, references to DMN file formats like .dmn XML, or code patterns that suggest the implementation or execution of DMN models, such as decision tables or business rules.
+A: Yes, I can analyze source code to identify functions that contain or interact with Decision Model and Notation elements. This would typically involve searching for DMN-specific XML structures, keywords, or API calls related to DMN engines.
 
 Q: 
 Consider the following examples (6 examples; each contains one or no decision, but real examples may contain more): 
@@ -139,7 +139,7 @@ Please follow these rules when extracting the relevant functions:
 1) Group decisions into DMN models by assigning them the same model number, ensuring that only functions forming a dependency chain, i.e., functions that directly or indirectly call or use each other, are included in the same DMN model. For example, if `num()` calls `sum()` and the result of `sum()` influences the return value of `num()`, both functions must be assigned the same model number, such as `model_3`.
 2) DMN models are to be created at the function level; consider each function in the Java source code file individually. 
 
-If decisions are present in the code, provide a complete and valid structured JSON object with IDs (i.e., corresponding model and decision IDs) and function names for this part of Java source code.  
+If decisions are present in the code, provide a complete and valid structured JSON object with model IDs and corresponding function names for this part of Java source code.
 If no decisions are present, return an empty JSON object.  
 Do not write anything else.
 
@@ -1437,6 +1437,18 @@ public class DataChooser extends JPanel {
   "Decisions": [
     {
       "Model": "model_1",
+      "FunctionName": "processLayout(ConfigFile cf, ActionListener listener)"
+    },
+    {
+      "Model": "model_1",
+      "FunctionName": "isSourceOpened(String src)"
+    },
+    {
+      "Model": "model_1",
+      "FunctionName": "getServerNode(String svr)"
+    },
+    {
+      "Model": "model_1",
       "FunctionName": "openSource(SeismicDataSource sds)"
     },
     {
@@ -1444,31 +1456,75 @@ public class DataChooser extends JPanel {
       "FunctionName": "finished()"
     },
     {
-      "Model": "model_2",
-      "FunctionName": "getTime()"
+      "Model": "model_1",
+      "FunctionName": "treeExpanded(TreeExpansionEvent event)"
     },
     {
-      "Model": "model_3",
-      "FunctionName": "getServerNode(String svr)"
-    },
-    {
-      "Model": "model_4",
+      "Model": "model_1",
       "FunctionName": "isOpened(AbstractChooserNode node)"
     },
     {
+      "Model": "model_2",
+      "FunctionName": "channelsUpdated()"
+    },
+    {
+      "Model": "model_2",
+      "FunctionName": "populateServer(ServerNode node, List<String> channels, boolean expandAll, boolean saveProgress)"
+    },
+    {
+      "Model": "model_3",
+      "FunctionName": "channelsProgress(String id, double p)"
+    },
+    {
+      "Model": "model_4",
+      "FunctionName": "channelsProgress(String id, final double progress)"
+    },
+    {
       "Model": "model_5",
-      "FunctionName": "isSourceOpened(String src)"
+      "FunctionName": "createToolBar()"
+    },
+    {
+      "Model": "model_5",
+      "FunctionName": "getSelectedServers()"
+    },
+    {
+      "Model": "model_5",
+      "FunctionName": "insertServer(SeismicDataSource source)"
     },
     {
       "Model": "model_6",
+      "FunctionName": "getTime()"
+    },
+    {
+      "Model": "model_6",
+      "FunctionName": "addTimeToBox(String t)"
+    },
+    {
+      "Model": "model_7",
+      "FunctionName": "createActionBar()"
+    },
+    {
+      "Model": "model_7",
       "FunctionName": "getSelectedLeaves(TreePath[] paths)"
     },
     {
       "Model": "model_7",
-      "FunctionName": "getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus)"
+      "FunctionName": "getGroupChannels(GroupNode gn)"
     },
     {
       "Model": "model_8",
+      "FunctionName": "createTree()"
+    },
+    {
+      "Model": "model_8",
+      "FunctionName": "setNearest(String channel)"
+    },
+    {
+      "Model": "model_9",
+      "FunctionName": "getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus)"
+    },
+    {
+      "Model": "model_10",
       "FunctionName": "getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean exp, boolean leaf, int row, boolean focus)"
     }
   ]

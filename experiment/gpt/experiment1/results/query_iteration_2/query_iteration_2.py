@@ -6024,7 +6024,7 @@ Please follow these rules when extracting the relevant functions:
 1) Group decisions into DMN models by assigning them the same model number, ensuring that only functions forming a dependency chain, i.e., functions that directly or indirectly call or use each other, are included in the same DMN model. For example, if `num()` calls `sum()` and the result of `sum()` influences the return value of `num()`, both functions must be assigned the same model number, such as `model_3`.
 2) DMN models are to be created at the function level; consider each function in the Java source code file individually. 
 
-If decisions are present in the code, provide a complete and valid structured JSON object with IDs (i.e., corresponding model and decision IDs) and function names for this part of Java source code.  
+If decisions are present in the code, provide a complete and valid structured JSON object with model IDs and corresponding function names for this part of Java source code.
 If no decisions are present, return an empty JSON object.  
 Do not write anything else.
 

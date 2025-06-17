@@ -737,8 +737,7 @@ def generate(question, temperature, json_output=False):
 
     return response.strip()
 
-# temperatures = [0, 0.3, 0.7, 1]
-temperatures = [0.7, 1]
+temperatures = [0, 0.3, 0.7, 1]
 
 cases = [case_1, case_2, case_3, case_4_part_1, case_4_part_2, case_5_part_1, case_5_part_2, case_5_part_3, case_6, case_7, case_8, case_9, case_10]
 

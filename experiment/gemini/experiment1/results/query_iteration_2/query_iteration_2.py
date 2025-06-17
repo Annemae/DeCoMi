@@ -6015,7 +6015,7 @@ def generate(question, temperature, json_output):
 
     return response.strip()
 
-temperatures = [0, 0.2, 0.4, 0.6, 0.8, 1]
+temperatures = [0.2, 0.4, 0.6, 0.8, 1]
 cases = [case_1, case_2, case_3, case_4_and_5, case_6, case_7, case_8, case_9, case_10]
 question_2 = f"""
 Consider the following examples (6 examples; each contains one or no decision, but real examples may contain more): 
@@ -6044,7 +6044,7 @@ Please follow these rules when extracting the relevant functions:
 1) Group decisions into DMN models by assigning them the same model number, ensuring that only functions forming a dependency chain, i.e., functions that directly or indirectly call or use each other, are included in the same DMN model. For example, if `num()` calls `sum()` and the result of `sum()` influences the return value of `num()`, both functions must be assigned the same model number, such as `model_3`.
 2) DMN models are to be created at the function level; consider each function in the Java source code file individually. 
 
-If decisions are present in the code, provide a complete and valid structured JSON object with IDs (i.e., corresponding model and decision IDs) and function names for this part of Java source code.  
+If decisions are present in the code, provide a complete and valid structured JSON object with model IDs and corresponding function names for this part of Java source code.
 If no decisions are present, return an empty JSON object.  
 Do not write anything else.
 

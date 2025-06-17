@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I can analyze source code to identify functions that interact with or represent Decision Model and Notation (DMN) elements. This recognition is primarily based on detecting explicit indicators such as the loading or parsing of DMN model files (often .dmn XML files), calls to DMN engine APIs provided by various libraries, or the processing of data structures specific to DMN inputs and outputs. Additionally, I can look for patterns or comments in the code that suggest it was automatically generated from a DMN model or manually implements logic derived from one, although recognizing manually translated logic without explicit DMN-related identifiers in the code itself can be more challenging.
+A: Yes, I can recognize functions that contain Decision Model and Notation (DMN) elements in source code, particularly when those functions interact with DMN execution engines, reference DMN-specific files or APIs, or implement structures that clearly mirror DMN components like decision tables. However, the accuracy of this recognition depends on the explicitness of the DMN implementation; if DMN logic is deeply embedded within generic code without clear DMN-specific patterns or library usage, it becomes more challenging to distinguish from standard business logic.
 
 Q: 
 Consider the following examples (6 examples; each contains one or no decision, but real examples may contain more): 
@@ -139,7 +139,7 @@ Please follow these rules when extracting the relevant functions:
 1) Group decisions into DMN models by assigning them the same model number, ensuring that only functions forming a dependency chain, i.e., functions that directly or indirectly call or use each other, are included in the same DMN model. For example, if `num()` calls `sum()` and the result of `sum()` influences the return value of `num()`, both functions must be assigned the same model number, such as `model_3`.
 2) DMN models are to be created at the function level; consider each function in the Java source code file individually. 
 
-If decisions are present in the code, provide a complete and valid structured JSON object with IDs (i.e., corresponding model and decision IDs) and function names for this part of Java source code.  
+If decisions are present in the code, provide a complete and valid structured JSON object with model IDs and corresponding function names for this part of Java source code.
 If no decisions are present, return an empty JSON object.  
 Do not write anything else.
 
@@ -1437,43 +1437,79 @@ public class DataChooser extends JPanel {
   "Decisions": [
     {
       "Model": "model_1",
-      "FunctionName": "getSelections()"
+      "FunctionName": "processLayout(ConfigFile cf, ActionListener listener)"
     },
     {
       "Model": "model_1",
-      "FunctionName": "getSelectedLeaves(TreePath[] paths)"
+      "FunctionName": "isSourceOpened(String src)"
     },
     {
       "Model": "model_1",
-      "FunctionName": "getGroupChannels(GroupNode gn)"
-    },
-    {
-      "Model": "model_2",
-      "FunctionName": "getTime()"
-    },
-    {
-      "Model": "model_3",
       "FunctionName": "getServerNode(String svr)"
     },
     {
-      "Model": "model_4",
-      "FunctionName": "getSelectedServers()"
+      "Model": "model_1",
+      "FunctionName": "treeExpanded(TreeExpansionEvent event)"
     },
     {
-      "Model": "model_5",
+      "Model": "model_1",
       "FunctionName": "isOpened(AbstractChooserNode node)"
     },
     {
+      "Model": "model_1",
+      "FunctionName": "finished()"
+    },
+    {
+      "Model": "model_1",
+      "FunctionName": "populateServer(ServerNode node, List<String> channels, boolean expandAll, boolean saveProgress)"
+    },
+    {
+      "Model": "model_1",
+      "FunctionName": "channelsUpdated()"
+    },
+    {
+      "Model": "model_2",
+      "FunctionName": "actionPerformed(ActionEvent e)"
+    },
+    {
+      "Model": "model_2",
+      "FunctionName": "getSelectedServers()"
+    },
+    {
+      "Model": "model_3",
+      "FunctionName": "actionPerformed(ActionEvent e)"
+    },
+    {
+      "Model": "model_3",
+      "FunctionName": "getSelectedLeaves(TreePath[] paths)"
+    },
+    {
+      "Model": "model_3",
+      "FunctionName": "getGroupChannels(GroupNode gn)"
+    },
+    {
+      "Model": "model_4",
+      "FunctionName": "mouseClicked(MouseEvent e)"
+    },
+    {
+      "Model": "model_4",
+      "FunctionName": "setNearest(String channel)"
+    },
+    {
+      "Model": "model_5",
+      "FunctionName": "getTime()"
+    },
+    {
+      "Model": "model_5",
+      "FunctionName": "actionPerformed(ActionEvent e)"
+    },
+    {
       "Model": "model_6",
-      "FunctionName": "openSource(SeismicDataSource sds)"
+      "FunctionName": "getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus)"
     },
     {
       "Model": "model_7",
       "FunctionName": "getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean exp, boolean leaf, int row, boolean focus)"
-    },
-    {
-      "Model": "model_8",
-      "FunctionName": "getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus)"
     }
   ]
 }

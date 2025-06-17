@@ -70,22 +70,22 @@ Decision Logic Level:
     "DecisionRules" : [
         {
             "s" : "s == null",
-            "pageParts" : "-",
+            "pageParts.length" : "-",
             "format(String s)" : "return \"\";"	
         },
         {
             "s" : "s != null",
-            "pageParts" : "pageParts.length == 2",
+            "pageParts.length" : "pageParts.length == 2",
             "format(String s)" : "return pageParts[1];"	
         },
         {
             "s" : "s != null",
-            "pageParts" : "pageParts.length >= 1",
+            "pageParts.length" : "pageParts.length >= 1",
             "format(String s)" : "return pageParts[0];"	
         },
         {
             "s" : "s != null",
-            "pageParts" : "-",
+            "pageParts.length" : "-",
             "format(String s)" : "return \"\";"	
         }
     ]
