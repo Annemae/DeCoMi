@@ -1,0 +1,95 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_execTargets" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+
+  <inputData id="InputData_project" name="project" />
+  <inputData id="InputData_thrownException" name="thrownException" />
+
+  <decision id="Decision_executeTargets" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InformationRequirement_to_project">
+      <requiredInput href="#InputData_project" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_to_thrownException">
+      <requiredInput href="#InputData_thrownException" />
+    </informationRequirement>
+
+    <decisionTable id="DecisionTable_main">
+      <input id="InputClause_project" label="project">
+        <inputExpression id="LiteralExpression_project_type" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_thrownException" label="thrownException">
+        <inputExpression id="LiteralExpression_thrownException_type" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_result" label="executeTargets(Project project, String[] targetNames)" name="" typeRef="string" />
+      <rule id="Rule_1">
+        <inputEntry id="UnaryTests_Rule1_Col1_project">
+          <text>!project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule1_Col2_thrownException">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule1_Output">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_2">
+        <inputEntry id="UnaryTests_Rule2_Col1_project">
+          <text>project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule2_Col2_thrownException">
+          <text>thrownException != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule2_Output">
+          <text>throw thrownException;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_3">
+        <inputEntry id="UnaryTests_Rule3_Col1_project">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule3_Col2_thrownException">
+          <text>!(thrownException != null)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule3_Output">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_execTargets">
+      <dmndi:DMNShape id="DMNShape_Decision_executeTargets" dmnElementRef="Decision_executeTargets">
+        <dc:Bounds height="80" width="180" x="250" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_project" dmnElementRef="InputData_project">
+        <dc:Bounds height="45" width="125" x="150" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_thrownException" dmnElementRef="InputData_thrownException">
+        <dc:Bounds height="45" width="125" x="350" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_to_project" dmnElementRef="InformationRequirement_to_project">
+        <di:waypoint x="212.5" y="220" />
+        <di:waypoint x="295" y="200" />
+        <di:waypoint x="295" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_to_thrownException" dmnElementRef="InformationRequirement_to_thrownException">
+        <di:waypoint x="412.5" y="220" />
+        <di:waypoint x="385" y="200" />
+        <di:waypoint x="385" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

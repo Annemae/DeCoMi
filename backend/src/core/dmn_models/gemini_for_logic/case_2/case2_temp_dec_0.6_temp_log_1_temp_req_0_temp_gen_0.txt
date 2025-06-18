@@ -1,0 +1,96 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_fmtstr01" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_s_var" name="s" />
+  <inputData id="InputData_pp_var" name="pageParts" />
+  <decision id="Decision_format_string" name="format(String s)">
+    <informationRequirement id="InfoReq_s_to_decision">
+      <requiredInput href="#InputData_s_var" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_pp_to_decision">
+      <requiredInput href="#InputData_pp_var" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_main">
+      <input id="InputClause_s_col" label="s">
+        <inputExpression id="LiteralExp_s_type" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_pp_col" label="pageParts">
+        <inputExpression id="LiteralExp_pp_type" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_result" label="format(String s)" name="" typeRef="string" />
+      <rule id="Rule_1_s_null">
+        <inputEntry id="UnaryTest_s_r1">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_pp_r1">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExp_out_r1">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_2_pp_len2">
+        <inputEntry id="UnaryTest_s_r2">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_pp_r2">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExp_out_r2">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_3_pp_len_ge1">
+        <inputEntry id="UnaryTest_s_r3">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_pp_r3">
+          <text>pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExp_out_r3">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_4_pp_other">
+        <inputEntry id="UnaryTest_s_r4">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_pp_r4">
+          <text>!(pageParts.length == 2) &amp;&amp; !(pageParts.length &gt;= 1)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExp_out_r4">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_visual">
+      <dmndi:DMNShape id="DMNShape_decision_node" dmnElementRef="Decision_format_string">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_input_s" dmnElementRef="InputData_s_var">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_s_req" dmnElementRef="InfoReq_s_to_decision">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_input_pp" dmnElementRef="InputData_pp_var">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_pp_req" dmnElementRef="InfoReq_pp_to_decision">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

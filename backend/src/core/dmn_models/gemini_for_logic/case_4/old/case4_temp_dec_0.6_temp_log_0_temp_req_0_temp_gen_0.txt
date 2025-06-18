@@ -1,0 +1,252 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_001" name="val" />
+  <inputData id="InputData_002" name="d" />
+  <inputData id="InputData_003" name="base" />
+  <inputData id="InputData_004" name="index, args" />
+  <decision id="Decision_001" name="numberToString(double d, int base)">
+    <informationRequirement id="InformationRequirement_001">
+      <requiredInput href="#InputData_002" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_002">
+      <requiredInput href="#InputData_003" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_001">
+      <input id="InputClause_001" label="d">
+        <inputExpression id="LiteralExpression_001" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_002" label="base">
+        <inputExpression id="LiteralExpression_002" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_001" label="numberToString(double d, int base)" name="" typeRef="string" />
+      <rule id="DecisionRule_001">
+        <inputEntry id="UnaryTests_001">
+          <text>d != d</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_002">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_003">
+          <text>"NaN"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_002">
+        <inputEntry id="UnaryTests_003">
+          <text>!(d != d) &amp;&amp; d == Double.POSITIVE_INFINITY</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_004">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_004">
+          <text>"Infinity"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_003">
+        <inputEntry id="UnaryTests_005">
+          <text>!(d != d) &amp;&amp; !(d == Double.POSITIVE_INFINITY) &amp;&amp; d == Double.NEGATIVE_INFINITY</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_006">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_005">
+          <text>"-Infinity"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_004">
+        <inputEntry id="UnaryTests_007">
+          <text>!(d != d) &amp;&amp; !(d == Double.POSITIVE_INFINITY) &amp;&amp; !(d == Double.NEGATIVE_INFINITY) &amp;&amp; d == 0.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_008">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_006">
+          <text>"0"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_005">
+        <inputEntry id="UnaryTests_009">
+          <text>!(d != d) &amp;&amp; !(d == Double.POSITIVE_INFINITY) &amp;&amp; !(d == Double.NEGATIVE_INFINITY) &amp;&amp; !(d == 0.0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_010">
+          <text>(base &lt; 2) || (base &gt; 36)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_007">
+          <text>throw Context.reportRuntimeError1("msg.bad.radix", Integer.toString(base));</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_006">
+        <inputEntry id="UnaryTests_011">
+          <text>!(d != d) &amp;&amp; !(d == Double.POSITIVE_INFINITY) &amp;&amp; !(d == Double.NEGATIVE_INFINITY) &amp;&amp; !(d == 0.0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_012">
+          <text>!((base &lt; 2) || (base &gt; 36)) &amp;&amp; base != 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_008">
+          <text>return DToA.JS_dtobasestr(base, d);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_007">
+        <inputEntry id="UnaryTests_013">
+          <text>!(d != d) &amp;&amp; !(d == Double.POSITIVE_INFINITY) &amp;&amp; !(d == Double.NEGATIVE_INFINITY) &amp;&amp; !(d == 0.0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014">
+          <text>!((base &lt; 2) || (base &gt; 36)) &amp;&amp; base == 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_009">
+          <text>return result.toString();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_002" name="toString(Object val)">
+    <informationRequirement id="InformationRequirement_003">
+      <requiredInput href="#InputData_001" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_004">
+      <requiredDecision href="#Decision_001" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_002">
+      <input id="InputClause_003" label="val">
+        <inputExpression id="LiteralExpression_010" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_002" label="toString(Object val)" name="" typeRef="string" />
+      <rule id="DecisionRule_008">
+        <inputEntry id="UnaryTests_015">
+          <text>val == null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_011">
+          <text>return "null";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_009">
+        <inputEntry id="UnaryTests_016">
+          <text>val != null &amp;&amp; val == Undefined.instance</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_012">
+          <text>return "undefined";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_010">
+        <inputEntry id="UnaryTests_017">
+          <text>val != null &amp;&amp; val != Undefined.instance &amp;&amp; val instanceof String</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_013">
+          <text>return (String)val;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_011">
+        <inputEntry id="UnaryTests_018">
+          <text>val != null &amp;&amp; val != Undefined.instance &amp;&amp; !(val instanceof String) &amp;&amp; val instanceof Number</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_014">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_012">
+        <inputEntry id="UnaryTests_019">
+          <text>val != null &amp;&amp; val != Undefined.instance &amp;&amp; !(val instanceof String) &amp;&amp; !(val instanceof Number) &amp;&amp; val instanceof Scriptable &amp;&amp; ((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_015">
+          <text>throw errorWithClassName("msg.primitive.expected", ((Scriptable)val).getDefaultValue(StringClass));</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_013">
+        <inputEntry id="UnaryTests_020">
+          <text>val != null &amp;&amp; val != Undefined.instance &amp;&amp; !(val instanceof String) &amp;&amp; !(val instanceof Number) &amp;&amp; !(val instanceof Scriptable)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_016">
+          <text>return val.toString();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_003" name="toString(Object[] args, int index)">
+    <informationRequirement id="InformationRequirement_005">
+      <requiredInput href="#InputData_004" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_006">
+      <requiredDecision href="#Decision_002" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_003">
+      <input id="InputClause_004" label="index, args">
+        <inputExpression id="LiteralExpression_017" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_003" label="toString(Object[] args, int index)" name="" typeRef="string" />
+      <rule id="DecisionRule_014">
+        <inputEntry id="UnaryTests_021">
+          <text>index &lt; args.length</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_018">
+          <text>toString(args[index])</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_015">
+        <inputEntry id="UnaryTests_022">
+          <text>!(index &lt; args.length)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_019">
+          <text>"undefined"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_001">
+      <dmndi:DMNShape id="DMNShape_001" dmnElementRef="InputData_001">
+        <dc:Bounds height="45" width="125" x="50" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_002" dmnElementRef="InputData_002">
+        <dc:Bounds height="45" width="125" x="200" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_003" dmnElementRef="InputData_003">
+        <dc:Bounds height="45" width="125" x="350" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_004" dmnElementRef="InputData_004">
+        <dc:Bounds height="45" width="125" x="500" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_005" dmnElementRef="Decision_001">
+        <dc:Bounds height="80" width="180" x="275" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_001" dmnElementRef="InformationRequirement_001">
+        <di:waypoint x="262" y="500" />
+        <di:waypoint x="365" y="430" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_002" dmnElementRef="InformationRequirement_002">
+        <di:waypoint x="412" y="500" />
+        <di:waypoint x="365" y="430" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_006" dmnElementRef="Decision_002">
+        <dc:Bounds height="80" width="180" x="150" y="200" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_003" dmnElementRef="InformationRequirement_003">
+        <di:waypoint x="112" y="500" />
+        <di:waypoint x="240" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_004" dmnElementRef="InformationRequirement_004">
+        <di:waypoint x="365" y="350" />
+        <di:waypoint x="240" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_007" dmnElementRef="Decision_003">
+        <dc:Bounds height="80" width="180" x="400" y="50" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_005" dmnElementRef="InformationRequirement_005">
+        <di:waypoint x="562" y="500" />
+        <di:waypoint x="490" y="130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_006" dmnElementRef="InformationRequirement_006">
+        <di:waypoint x="240" y="200" />
+        <di:waypoint x="490" y="130" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

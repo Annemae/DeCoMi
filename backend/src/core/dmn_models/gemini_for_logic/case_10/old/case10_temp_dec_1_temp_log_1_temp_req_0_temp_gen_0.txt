@@ -1,0 +1,18 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_empty01"
+             name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="dmn-js (https://demo.bpmn.io/dmn)"
+             exporterVersion="17.2.0">
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_empty01">
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

@@ -1,0 +1,50 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0w3s5g1" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_1x9y2z5" name="expression" />
+  <decision id="Decision_0p8o1i7" name="checkArgument(boolean expression)">
+    <informationRequirement id="InformationRequirement_1a2b3c4">
+      <requiredInput href="#InputData_1x9y2z5" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0q7r6s5">
+      <input id="input1" label="expression">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text />
+        </inputExpression>
+      </input>
+      <output id="output1" label="checkArgument(boolean expression)" name="" typeRef="string" />
+      <rule id="DecisionRule_1f5g6h2">
+        <inputEntry id="UnaryTests_0t9y8u1">
+          <text>!expression</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j3k4l5">
+          <text>throw new IllegalArgumentException();</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0v7b8n3">
+        <inputEntry id="UnaryTests_1c5x6z7">
+          <text>expression</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0m2n3b4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1g8h2j9">
+      <dmndi:DMNShape id="DMNShape_0k4l1m6" dmnElementRef="InputData_1x9y2z5">
+        <dc:Bounds height="45" width="125" x="177" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0z6x7c5" dmnElementRef="InformationRequirement_1a2b3c4">
+        <di:waypoint x="240" y="258" />
+        <di:waypoint x="240" y="220" />
+        <di:waypoint x="240" y="200" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1p7o3i8" dmnElementRef="Decision_0p8o1i7">
+        <dc:Bounds height="80" width="180" x="150" y="120" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

@@ -1,0 +1,82 @@
+A: <?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0000001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_1000001" name="project" />
+  <inputData id="InputData_1000002" name="thrownException" />
+  <decision id="Decision_2000001" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InformationRequirement_3000001">
+      <requiredInput href="#InputData_1000001" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_3000002">
+      <requiredInput href="#InputData_1000002" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_4000001">
+      <input id="InputClause_5000001" label="project">
+        <inputExpression id="LiteralExpression_6000001" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_5000002" label="thrownException">
+        <inputExpression id="LiteralExpression_6000002" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_7000001" label="executeTargets(Project project, String[] targetNames)" name="" typeRef="string" />
+      <rule id="DecisionRule_8000001">
+        <inputEntry id="UnaryTests_9000001">
+          <text>!project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_9000002">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_a000001">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_8000002">
+        <inputEntry id="UnaryTests_9000003">
+          <text>project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_9000004">
+          <text>thrownException != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_a000002">
+          <text>throw thrownException;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_8000003">
+        <inputEntry id="UnaryTests_9000005">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_9000006">
+          <text>!(thrownException != null)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_a000003">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_b000001">
+      <dmndi:DMNShape id="DMNShape_c000003" dmnElementRef="Decision_2000001">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_c000001" dmnElementRef="InputData_1000001">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_d000001" dmnElementRef="InformationRequirement_3000001">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_c000002" dmnElementRef="InputData_1000002">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_d000002" dmnElementRef="InformationRequirement_3000002">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,183 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_combined_123" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="manual-ai-model" exporterVersion="1.0.0">
+  <inputData id="InputData_neTargets" name="neTargets" />
+  <inputData id="InputData_neSources" name="neSources" />
+  <inputData id="InputData_oldestTarget_newestSource" name="oldestTarget, newestSource" />
+  <inputData id="InputData_basedirExists" name="basedirExists" />
+
+  <decision id="Decision_uptodate" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="InfoReq_uptodate_neTargets">
+      <requiredInput href="#InputData_neTargets" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_uptodate_neSources">
+      <requiredInput href="#InputData_neSources" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_uptodate_oldestTarget_newestSource">
+      <requiredInput href="#InputData_oldestTarget_newestSource" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_uptodate">
+      <input id="Input_uptodate_1" label="neTargets">
+        <inputExpression id="InputExpr_uptodate_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="Input_uptodate_2" label="neSources">
+        <inputExpression id="InputExpr_uptodate_2" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="Input_uptodate_3" label="oldestTarget, newestSource">
+        <inputExpression id="InputExpr_uptodate_3" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_uptodate_1" label="uptodate(ResourceCollection src, ResourceCollection target)" typeRef="string" />
+      <rule id="Rule_uptodate_1">
+        <inputEntry id="UnaryTest_uptodate_1_1">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_1_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_1_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_uptodate_1_1">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_uptodate_2">
+        <inputEntry id="UnaryTest_uptodate_2_1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_2_2">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_2_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_uptodate_2_1">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_uptodate_3">
+        <inputEntry id="UnaryTest_uptodate_3_1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_3_2">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_3_3">
+          <text>oldestTarget.getLastModified() &gt;= newestSource.getLastModified()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_uptodate_3_1">
+          <text>return true;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_uptodate_4">
+        <inputEntry id="UnaryTest_uptodate_4_1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_4_2">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTest_uptodate_4_3">
+          <text>!(oldestTarget.getLastModified() &gt;= newestSource.getLastModified())</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_uptodate_4_1">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <decision id="Decision_size" name="size()">
+    <informationRequirement id="InfoReq_size_basedirExists">
+      <requiredInput href="#InputData_basedirExists" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_size">
+      <input id="Input_size_1" label="basedirExists">
+        <inputExpression id="InputExpr_size_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_size_1" label="iterator()" typeRef="string" />
+      <output id="Output_size_2" label="size()" typeRef="string" />
+      <rule id="Rule_size_1">
+        <inputEntry id="UnaryTest_size_1_1">
+          <text>basedirExists()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_size_1_1">
+          <text>fs.iterator()</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpr_size_1_2">
+          <text>fs.size()</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_size_2">
+        <inputEntry id="UnaryTest_size_2_1">
+          <text>!(basedirExists())</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_size_2_1">
+          <text>Resources.EMPTY_ITERATOR</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpr_size_2_2">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">
+      <dmndi:DMNShape id="DMNShape_InputData_neTargets" dmnElementRef="InputData_neTargets">
+        <dc:Bounds height="45" width="125" x="50" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_neSources" dmnElementRef="InputData_neSources">
+        <dc:Bounds height="45" width="125" x="200" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_oldestTarget_newestSource" dmnElementRef="InputData_oldestTarget_newestSource">
+        <dc:Bounds height="45" width="125" x="350" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_basedirExists" dmnElementRef="InputData_basedirExists">
+        <dc:Bounds height="45" width="125" x="600" y="400" />
+      </dmndi:DMNShape>
+
+      <dmndi:DMNShape id="DMNShape_Decision_uptodate" dmnElementRef="Decision_uptodate">
+        <dc:Bounds height="80" width="180" x="180" y="200" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_InfoReq_uptodate_neTargets" dmnElementRef="InfoReq_uptodate_neTargets">
+        <di:waypoint x="112" y="400" />
+        <di:waypoint x="225" y="300" />
+        <di:waypoint x="225" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_InfoReq_uptodate_neSources" dmnElementRef="InfoReq_uptodate_neSources">
+        <di:waypoint x="262" y="400" />
+        <di:waypoint x="270" y="300" />
+        <di:waypoint x="270" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_InfoReq_uptodate_oldestTarget_newestSource" dmnElementRef="InfoReq_uptodate_oldestTarget_newestSource">
+        <di:waypoint x="412" y="400" />
+        <di:waypoint x="315" y="300" />
+        <di:waypoint x="315" y="280" />
+      </dmndi:DMNEdge>
+
+      <dmndi:DMNShape id="DMNShape_Decision_size" dmnElementRef="Decision_size">
+        <dc:Bounds height="80" width="180" x="550" y="200" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_InfoReq_size_basedirExists" dmnElementRef="InfoReq_size_basedirExists">
+        <di:waypoint x="662" y="400" />
+        <di:waypoint x="640" y="300" />
+        <di:waypoint x="640" y="280" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

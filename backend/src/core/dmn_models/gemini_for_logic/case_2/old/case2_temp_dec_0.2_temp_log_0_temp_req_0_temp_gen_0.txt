@@ -1,0 +1,96 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0x1y2z3" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_1a2b3c4" name="s" />
+  <inputData id="InputData_5d6e7f8" name="pageParts" />
+  <decision id="Decision_9g8h7i6" name="format(String s)">
+    <informationRequirement id="InformationRequirement_0j9k8l7">
+      <requiredInput href="#InputData_1a2b3c4" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1m2n3o4">
+      <requiredInput href="#InputData_5d6e7f8" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_5p6q7r8">
+      <input id="InputClause_9s0t1u2" label="s">
+        <inputExpression id="LiteralExpression_3v4w5x6" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_7y8z9a0" label="pageParts">
+        <inputExpression id="LiteralExpression_1b2c3d4" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_5e6f7g8" label="format(String s)" typeRef="string" />
+      <rule id="DecisionRule_9h0i1j2">
+        <inputEntry id="UnaryTests_3k4l5m6">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_7n8o9p0">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q2r3s4">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_5t6u7v8">
+        <inputEntry id="UnaryTests_9w0x1y2">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_3z4a5b6">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_7c8d9e0">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f2g3h4">
+        <inputEntry id="UnaryTests_5i6j7k8">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_9l0m1n2">
+          <text>!(pageParts.length == 2) &amp;&amp; pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_3o4p5q6">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_7r8s9t0">
+        <inputEntry id="UnaryTests_1u2v3w4">
+          <text>!(s == null)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_5x6y7z8">
+          <text>!(pageParts.length == 2) &amp;&amp; !(pageParts.length &gt;= 1)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_9a0b1c2">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_3d4e5f6">
+      <dmndi:DMNShape id="DMNShape_7g8h9i0" dmnElementRef="Decision_9g8h7i6">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1j2k3l4" dmnElementRef="InputData_1a2b3c4">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_5m6n7o8" dmnElementRef="InformationRequirement_0j9k8l7">
+        <di:waypoint x="219" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_9p0q1r2" dmnElementRef="InputData_5d6e7f8">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_3s4t5u6" dmnElementRef="InformationRequirement_1m2n3o4">
+        <di:waypoint x="400" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

@@ -1,0 +1,95 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_gen001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_s_gen002" name="s" />
+  <inputData id="InputData_pp_gen003" name="pageParts" />
+  <decision id="Decision_fmt_gen004" name="format(String s)">
+    <informationRequirement id="InfoReq_s_gen005">
+      <requiredInput href="#InputData_s_gen002" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_pp_gen006">
+      <requiredInput href="#InputData_pp_gen003" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_fmt_gen007">
+      <input id="Input_s_gen008" label="s">
+        <inputExpression id="InputExp_s_gen009" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="Input_pp_gen010" label="pageParts">
+        <inputExpression id="InputExp_pp_gen011" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_fmt_gen012" label="format(String s)" name="" typeRef="string" />
+      <rule id="Rule_1_gen013">
+        <inputEntry id="Unary_s_r1_gen014">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="Unary_pp_r1_gen015">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="Literal_fmt_r1_gen016">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_2_gen017">
+        <inputEntry id="Unary_s_r2_gen018">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="Unary_pp_r2_gen019">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="Literal_fmt_r2_gen020">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_3_gen021">
+        <inputEntry id="Unary_s_r3_gen022">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="Unary_pp_r3_gen023">
+          <text>pageParts.length != 2 &amp;&amp; pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="Literal_fmt_r3_gen024">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_4_gen025">
+        <inputEntry id="Unary_s_r4_gen026">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="Unary_pp_r4_gen027">
+          <text>pageParts.length != 2 &amp;&amp; pageParts.length &lt; 1</text>
+        </inputEntry>
+        <outputEntry id="Literal_fmt_r4_gen028">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_gen100">
+      <dmndi:DMNShape id="DMNShape_Dec_gen101" dmnElementRef="Decision_fmt_gen004">
+        <dc:Bounds height="80" width="180" x="260" y="120" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InS_gen102" dmnElementRef="InputData_s_gen002">
+        <dc:Bounds height="45" width="125" x="157" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_IRs_gen104" dmnElementRef="InfoReq_s_gen005">
+        <di:waypoint x="220" y="258" />
+        <di:waypoint x="305" y="200" />
+        <di:waypoint x="305" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InPP_gen103" dmnElementRef="InputData_pp_gen003">
+        <dc:Bounds height="45" width="125" x="357" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_IRpp_gen105" dmnElementRef="InfoReq_pp_gen006">
+        <di:waypoint x="420" y="258" />
+        <di:waypoint x="395" y="200" />
+        <di:waypoint x="395" y="120" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

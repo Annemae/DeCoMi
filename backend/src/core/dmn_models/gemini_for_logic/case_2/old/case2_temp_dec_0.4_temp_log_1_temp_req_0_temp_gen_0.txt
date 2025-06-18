@@ -1,0 +1,96 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_fmt123" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_s_001" name="s" />
+  <inputData id="InputData_pp_002" name="pageParts" />
+  <decision id="Decision_format_001" name="format(String s)">
+    <informationRequirement id="InfoReq_s_101">
+      <requiredInput href="#InputData_s_001" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_pp_102">
+      <requiredInput href="#InputData_pp_002" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_fmt_201">
+      <input id="InputClause_s_301" label="s">
+        <inputExpression id="LiteralExpr_s_302" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_pp_303" label="pageParts">
+        <inputExpression id="LiteralExpr_pp_304" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_fmt_401" label="format(String s)" name="" typeRef="string" />
+      <rule id="Rule_fmt_501">
+        <inputEntry id="UnaryTests_s_r1_601">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r1_602">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_out_r1_701">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_fmt_502">
+        <inputEntry id="UnaryTests_s_r2_603">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r2_604">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_out_r2_702">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_fmt_503">
+        <inputEntry id="UnaryTests_s_r3_605">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r3_606">
+          <text>(pageParts.length != 2) &amp;&amp; (pageParts.length &gt;= 1)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_out_r3_703">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_fmt_504">
+        <inputEntry id="UnaryTests_s_r4_607">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r4_608">
+          <text>(pageParts.length != 2) &amp;&amp; !(pageParts.length &gt;= 1)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpr_out_r4_704">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_fmt_801">
+      <dmndi:DMNShape id="DMNShape_Decision_fmt_901" dmnElementRef="Decision_format_001">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_Input_s_902" dmnElementRef="InputData_s_001">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_s_903" dmnElementRef="InfoReq_s_101">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_Input_pp_904" dmnElementRef="InputData_pp_002">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_pp_905" dmnElementRef="InfoReq_pp_102">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

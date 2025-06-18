@@ -1,0 +1,780 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
+
+A: Yes, I am able to recognize functions or components in source code that contain elements related to Decision Model and Notation (DMN), such as decision tables, business rules, and logic structures that align with the DMN standard. If you provide specific examples or code snippets, I can help identify DMN elements within them.
+
+Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
+
+Input: 
+/**
+ * Returns the next element in {@code iterator} or {@code defaultValue} if the iterator is empty.
+ * The {@link Iterables} analog to this method is {@link Iterables#getFirst}.
+ *
+ * @param defaultValue the default value to return if the iterator is empty
+ * @return the next element of {@code iterator} or the default value
+ * @since 7.0
+ */
+public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+}
+
+Expected JSON output: 
+{
+    "Decisions": [
+        {"Model": "model_1",
+        "FunctionName": "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)"}]
+}
+
+
+Input: 
+public static final BuildInfo BUILD_INFO = new BuildInfo();
+
+// Remote listener
+public static final RemoteListenerServerLifecycle REMOTE_LISTENER = new RemoteListenerServerLifecycle();
+
+public static final ImportFormatReader IMPORT_FORMAT_READER = new ImportFormatReader();
+public static final TaskExecutor TASK_EXECUTOR = new DefaultTaskExecutor();
+
+Expected JSON output: 
+{ }
+
+
+Input: 
+//-----------------------------------------------------------------------
+/**
+ * Validates an interval.
+ * 
+ * @param start  the start instant in milliseconds
+ * @param end  the end instant in milliseconds
+ * @throws IllegalArgumentException if the interval is invalid
+ */
+protected void checkInterval(long start, long end) {
+    if (end < start) {
+        throw new IllegalArgumentException("The end instant must be greater than the start instant");
+    }
+}
+
+Expected JSON output: 
+{
+    "Decisions": [
+        {"Model": "model_1",
+        "FunctionName": "checkInterval(long start, long end)"}]
+}
+
+
+Input: 
+public static String getVersion() {
+    return version;
+}
+
+Expected JSON output: 
+{ }
+
+
+Input: 
+/**
+ * Default {@link SchemePortResolver}.
+ *
+ * @since 4.3
+ */
+@Contract(threading = ThreadingBehavior.IMMUTABLE)
+public class DefaultSchemePortResolver implements SchemePortResolver {
+
+    public static final DefaultSchemePortResolver INSTANCE = new DefaultSchemePortResolver();
+
+    @Override
+    public int resolve(final HttpHost host) throws UnsupportedSchemeException {
+        Args.notNull(host, "HTTP host");
+        final int port = host.getPort();
+        if (port > 0) {
+            return port;
+        }
+        final String name = host.getSchemeName();
+        if (name.equalsIgnoreCase("http")) {
+            return 80;
+        } else if (name.equalsIgnoreCase("https")) {
+            return 443;
+        } else {
+            throw new UnsupportedSchemeException(name + " protocol is not supported");
+        }
+    }
+
+}
+
+Expected JSON output: 
+{
+    "Decisions": [
+        {"Model": "model_1",
+        "FunctionName": "resolve(final HttpHost host)"}]
+}
+
+
+Input: 
+public static void openWinConfigFileDialog() {
+  JFileChooser chooser = new JFileChooser(); 
+  chooser.setFileFilter(new FileNameExtensionFilter("WIN Config (.config)", "config")); 
+  chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text File (.txt)", "txt"));
+  chooser.setCurrentDirectory(new File(swarmConfig.lastPath));
+  chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+  chooser.setMultiSelectionEnabled(false); 
+  chooser.setDialogTitle("Select WIN configuration file..."); 
+  if (WinDataFile.configFile != null) { 
+    chooser.setSelectedFile(WinDataFile.configFile);
+  }
+  int result = chooser.showOpenDialog(applicationFrame);
+  if (result == JFileChooser.APPROVE_OPTION) { 
+    File f = chooser.getSelectedFile();
+    SwarmConfig.getInstance().lastPath = f.getParent(); 
+    WinDataFile.configFile = f; 
+  }
+}
+
+Expected JSON output: 
+{ }
+
+
+Given a Java source code file, your task is to identify all functions that include decision logic and group those that belong to the same DMN model. We will do this in two steps.
+
+Analyze the following source code: 
+/* $Id$
+ *****************************************************************************
+ * Copyright (c) 2009 Contributors - see below
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    mvw
+ *****************************************************************************
+ *
+ * Some portions of this file was previously release using the BSD License:
+ */
+
+// Copyright (c) 2008-2009 Tom Morris and other contributors. All
+// Rights Reserved. Permission to use, copy, modify, and distribute this
+// software and its documentation without fee, and without a written
+// agreement is hereby granted, provided that the above copyright notice
+// and this paragraph appear in all copies.  This software program and
+// documentation are copyrighted by The Contributors.
+// The software program and documentation are supplied "AS
+// IS", without any accompanying services from The Contributors. The 
+// Contributors do not warrant that the operation of the program will be
+// uninterrupted or error-free. The end-user understands that the program
+// was developed for research purposes and is advised not to rely
+// exclusively on the program for any reason.  IN NO EVENT SHALL THE
+// CONTRIBUTORS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,
+// SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS,
+// ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+// THE CONTRIBUTORS HAVE BEEN ADVISED OF THE POSSIBILITY OF
+// SUCH DAMAGE. THE CONTRIBUTORS SPECIFICALLY DISCLAIM ANY
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE
+// PROVIDED HEREUNDER IS ON AN "AS IS" BASIS, AND THE CONTRIBUTORS
+// HAVE NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
+// UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+
+package org.argouml.notation;
+
+import org.tigris.gef.undo.Memento;
+
+/**
+ * Notation settings value object. Stores settings which control how text is
+ * rendered on diagrams.
+ * <p>
+ * TODO: This needs to go on a diet. It's used everywhere, so is performance
+ * sensitive. The current set of settings is the union of all those found in the
+ * legacy code, but it's not clear that all of them are actually used.
+ * 
+ * @author Tom Morris <tfmorris@gmail.com>
+ */
+public class NotationSettings {
+
+    private static final NotationSettings DEFAULT_SETTINGS = 
+        initializeDefaultSettings();
+    
+    private NotationSettings parent;
+
+    private String notationLanguage;
+    
+    // No valid field for above notationLanguage.  It's valid if not null.
+    
+    private boolean showAssociationNames;
+
+    private boolean showAssociationNamesSet = false;
+
+    private boolean showVisibilities;
+
+    private boolean showVisibilitiesSet = false;
+
+    private boolean showPaths;
+
+    private boolean showPathsSet = false;
+
+    private boolean fullyHandleStereotypes;
+
+    private boolean fullyHandleStereotypesSet = false;
+
+    private boolean useGuillemets;
+
+    private boolean useGuillemetsSet = false;
+
+    private boolean showMultiplicities;
+
+    private boolean showMultiplicitiesSet = false;
+
+    private boolean showSingularMultiplicities;
+
+    private boolean showSingularMultiplicitiesSet = false;
+
+    // TODO: Do we need to control separately for attributes and operations?
+    private boolean showTypes;
+
+    private boolean showTypesSet = false;
+
+    private boolean showProperties;
+
+    private boolean showPropertiesSet = false;
+
+    private boolean showInitialValues;
+
+    private boolean showInitialValuesSet = false;
+
+    /**
+     * Create a notation settings value object with all default values.
+     * <p>
+     * TODO: This class only has partial Undo support (basically just those
+     * members that had it as part of a previous implementation).
+     */
+    public NotationSettings() {
+        super();
+        parent = getDefaultSettings();
+    }
+
+    /**
+     * Create a notation settings object which uses the given settings as its
+     * default values.  Note that there can be multiple levels of settings in
+     * the hierarchy.
+     */
+    public NotationSettings(NotationSettings parentSettings) {
+        this();
+        parent = parentSettings;
+    }
+
+    // TODO: These defaults need to be checked against historical ones
+    private static NotationSettings initializeDefaultSettings() {
+        NotationSettings settings = new NotationSettings();
+        settings.parent = null;
+        settings.setNotationLanguage(Notation.DEFAULT_NOTATION);
+        settings.setFullyHandleStereotypes(false);
+        settings.setShowAssociationNames(true);
+        settings.setShowInitialValues(false);
+        settings.setShowMultiplicities(false);
+        settings.setShowPaths(false);
+        settings.setShowProperties(false);
+        settings.setShowSingularMultiplicities(true);
+        settings.setShowTypes(true);
+        settings.setShowVisibilities(false);
+        settings.setUseGuillemets(false);
+        return settings;
+    }
+    
+    /**
+     * @return the default settings
+     */
+    public static NotationSettings getDefaultSettings() {
+        return DEFAULT_SETTINGS;
+    }
+    
+    /**
+     * @return Return the notation language.
+     */
+    public String getNotationLanguage() {
+        if (notationLanguage == null) {
+            if (parent != null) {
+                return parent.getNotationLanguage();
+            } else {
+                return Notation.DEFAULT_NOTATION;
+            }
+        }
+        return notationLanguage;
+    }
+
+
+    /**
+     * @param newLanguage the notation language.
+     * @return true if the notation is set - false if it does not exist
+     */
+    public boolean setNotationLanguage(final String newLanguage) {
+        if (notationLanguage != null 
+                && notationLanguage.equals(newLanguage)) {
+            return true;
+        }
+        
+        // TODO: Do we care?
+        if (Notation.findNotation(newLanguage) == null) {
+            /* This Notation is not available! */
+            return false;
+        }
+
+        final String oldLanguage = notationLanguage;
+
+        Memento memento = new Memento() {
+            public void redo() {
+                notationLanguage = newLanguage;
+                // TODO: We can't have a global "current" language
+                // NotationProviderFactory2.setCurrentLanguage(newLanguage);
+            }
+
+            public void undo() {
+                notationLanguage = oldLanguage;
+                // TODO: We can't have a global "current" language
+                // NotationProviderFactory2.setCurrentLanguage(oldLanguage);
+            }
+        };
+        doUndoable(memento);
+        return true;
+    }
+
+
+    /**
+     * @return Returns the fullyHandleStereotypes setting. If true, it will
+     *         cause notation providers to include the names of the stereotypes
+     *         for an element in the editable string presented to the user.
+     */
+    public boolean isFullyHandleStereotypes() {
+        if (fullyHandleStereotypesSet) {
+            return fullyHandleStereotypes;
+        } else {
+            if (parent != null) {
+                return parent.isFullyHandleStereotypes();
+            } else {
+                return getDefaultSettings().isFullyHandleStereotypes();
+            }
+        }
+    }
+
+    /**
+     * @param newValue The fullyHandleStereotypes to set. If true, it will cause
+     *            notation providers to include the names of the stereotypes for
+     *            an element in the editable string presented to the user.
+     */
+    public void setFullyHandleStereotypes(boolean newValue) {
+        fullyHandleStereotypes = newValue;
+        fullyHandleStereotypesSet = true;
+    }
+
+    /**
+     * @return Returns the showSingularMultiplicities.
+     */
+    public boolean isShowSingularMultiplicities() {
+        if (showSingularMultiplicitiesSet) {
+            return showSingularMultiplicities;
+        } else if (parent != null) {
+            return parent.isShowSingularMultiplicities();
+        }
+        return getDefaultSettings().isShowSingularMultiplicities();
+    }
+
+    /**
+     * @param showem <code>true</code> if "1" Multiplicities are to be shown.
+     */
+    public void setShowSingularMultiplicities(final boolean showem) {
+        if (showSingularMultiplicities == showem 
+                && showSingularMultiplicitiesSet) {
+            return;
+        }
+
+        final boolean oldValid = showSingularMultiplicitiesSet;
+        Memento memento = new Memento() {
+            public void redo() {
+                showSingularMultiplicities = showem;
+                showSingularMultiplicitiesSet = true;
+            }
+
+            public void undo() {
+                showSingularMultiplicities = !showem;
+                showSingularMultiplicitiesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+    }
+
+    /**
+     * @return Returns the useGuillemets.
+     */
+    public boolean isUseGuillemets() {
+        if (useGuillemetsSet) {
+            return useGuillemets;
+        } else if (parent != null) {
+            return parent.isUseGuillemets();
+        }
+        return getDefaultSettings().isUseGuillemets();
+    }
+
+    /**
+     * @param showem <code>true</code> if guillemets are to be shown.
+     */
+    public void setUseGuillemets(final boolean showem) {
+        if (useGuillemets == showem && useGuillemetsSet) {
+            return;
+        }
+
+        final boolean oldValid = useGuillemetsSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                useGuillemets = showem;
+                useGuillemetsSet = true;
+            }
+
+            public void undo() {
+                useGuillemets = !showem;
+                useGuillemetsSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+    }
+
+    /**
+     * @return Returns the showTypes.
+     */
+    public boolean isShowTypes() {
+        if (showTypesSet) {
+            return showTypes;
+        } else if (parent != null) {
+            return parent.isShowTypes();
+        }
+        return getDefaultSettings().isShowTypes();
+    }
+
+
+    /**
+     * @param showem <code>true</code> if types are to be shown.
+     */
+    public void setShowTypes(final boolean showem) {
+        if (showTypes == showem && showTypesSet) {
+            return;
+        }
+
+        final boolean oldValid = showTypesSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                showTypes = showem;
+                showTypesSet = true;
+            }
+
+            public void undo() {
+                showTypes = !showem;
+                showTypesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+
+    }
+
+    /**
+     * @return Returns the showProperties.
+     */
+    public boolean isShowProperties() {
+        if (showPropertiesSet) {
+            return showProperties;
+        } else if (parent != null) {
+            return parent.isShowProperties();
+        }
+        return getDefaultSettings().isShowProperties();
+    }
+
+    /**
+     * @param showem <code>true</code> if properties are to be shown.
+     */
+    public void setShowProperties(final boolean showem) {
+        if (showProperties == showem && showPropertiesSet) {
+            return;
+        }
+
+        final boolean oldValid = showPropertiesSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                showProperties = showem;
+                showPropertiesSet = true;
+            }
+
+            public void undo() {
+                showProperties = !showem;
+                showPropertiesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+
+    }
+
+    /**
+     * @return Returns the showInitialValues.
+     */
+    public boolean isShowInitialValues() {
+        if (showInitialValuesSet) {
+            return showInitialValues;
+        } else if (parent != null) {
+            return parent.isShowInitialValues();
+        }
+        return getDefaultSettings().isShowInitialValues();
+    }
+
+
+    /**
+     * @param showem <code>true</code> if initial values are to be shown.
+     */
+    public void setShowInitialValues(final boolean showem) {
+        if (showInitialValues == showem && showInitialValuesSet) {
+            return;
+        }
+
+        final boolean oldValid = showInitialValuesSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                showInitialValues = showem;
+                showInitialValuesSet = true;
+            }
+
+            public void undo() {
+                showInitialValues = !showem;
+                showInitialValuesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+
+    }
+
+    /**
+     * @return Returns the showMultiplicities.
+     */
+    public boolean isShowMultiplicities() {
+        if (showMultiplicitiesSet) {
+            return showMultiplicities;
+        } else if (parent != null) {
+            return parent.isShowMultiplicities();
+        }
+        return getDefaultSettings().isShowMultiplicities();
+    }
+
+    /**
+     * @param showem <code>true</code> if the multiplicity is to be shown.
+     */
+    public void setShowMultiplicities(final boolean showem) {
+        if (showMultiplicities == showem && showMultiplicitiesSet) {
+            return;
+        }
+
+        final boolean oldValid = showMultiplicitiesSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                showMultiplicities = showem;
+                showMultiplicitiesSet = true;
+            }
+
+            public void undo() {
+                showMultiplicities = !showem;
+                showMultiplicitiesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+    }
+
+
+
+    /**
+     * @return Returns the showAssociationNames.
+     */
+    public boolean isShowAssociationNames() {
+        if (showAssociationNamesSet) {
+            return showAssociationNames;
+        } else if (parent != null) {
+            return parent.isShowAssociationNames();
+        }
+        return getDefaultSettings().isShowAssociationNames();
+    }
+
+    /**
+     * @param showem <code>true</code> if association names are to be shown.
+     */
+    public void setShowAssociationNames(final boolean showem) {
+        if (showAssociationNames == showem && showAssociationNamesSet) {
+            return;
+        }
+
+        final boolean oldValid = showAssociationNamesSet;
+        
+        Memento memento = new Memento() {
+
+            public void redo() {
+                showAssociationNames = showem;
+                showAssociationNamesSet = true;
+            }
+
+            public void undo() {
+                showAssociationNames = !showem;
+                showAssociationNamesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+    }
+
+    /**
+     * @return Returns the showVisibilities.
+     */
+    public boolean isShowVisibilities() {
+        if (showVisibilitiesSet) {
+            return showVisibilities;
+        } else if (parent != null) {
+            return parent.isShowVisibilities();
+        }
+        return getDefaultSettings().isShowVisibilities();
+    }
+
+
+    /**
+     * @param showem <code>true</code> if visibilities are to be shown.
+     */
+    public void setShowVisibilities(final boolean showem) {
+        
+        if (showVisibilities == showem && showVisibilitiesSet) {
+            return;
+        }
+
+        final boolean oldValid = showVisibilitiesSet;
+        
+        Memento memento = new Memento() {
+            public void redo() {
+                showVisibilities = showem;
+                showVisibilitiesSet = true;
+            }
+
+            public void undo() {
+                showVisibilities = !showem;
+                showVisibilitiesSet = oldValid;
+            }
+        };
+        doUndoable(memento);
+    }
+
+    /**
+     * @return Returns the showPaths.
+     */
+    public boolean isShowPaths() {
+        if (showPathsSet) {
+            return showPaths;
+        } else if (parent != null) {
+            return parent.isShowPaths();
+        }
+        return getDefaultSettings().isShowPaths();
+    }
+
+
+    /**
+     * @param showPaths The showPaths to set.
+     */
+    public void setShowPaths(boolean showPaths) {
+        this.showPaths = showPaths;
+        showPathsSet = true;
+    }
+
+   
+    
+    private void doUndoable(Memento memento) {
+        // TODO: Undo should be managed externally or we should be given 
+        // an Undo manager to use (the project's) rather than using a global one
+//        if (DiagramUndoManager.getInstance().isGenerateMementos()) {
+//            DiagramUndoManager.getInstance().addMemento(memento);
+//        }
+        memento.redo();
+        // TODO: Mark diagram/project as dirty?
+    }
+
+}
+
+
+First, identify which functions contain decisions. If the file contains any such functions, provide a JSON object listing these functions with the `Model` entry containing an empty string ("") for each. We will assign the model number in the next step.
+             
+
+A: 
+{
+    "Decisions": [
+        {"Model": "", "FunctionName": "getNotationLanguage()"},
+        {"Model": "", "FunctionName": "setNotationLanguage(final String newLanguage)"},
+        {"Model": "", "FunctionName": "isFullyHandleStereotypes()"},
+        {"Model": "", "FunctionName": "isShowSingularMultiplicities()"},
+        {"Model": "", "FunctionName": "isUseGuillemets()"},
+        {"Model": "", "FunctionName": "isShowTypes()"},
+        {"Model": "", "FunctionName": "isShowProperties()"},
+        {"Model": "", "FunctionName": "isShowInitialValues()"},
+        {"Model": "", "FunctionName": "isShowMultiplicities()"},
+        {"Model": "", "FunctionName": "isShowAssociationNames()"},
+        {"Model": "", "FunctionName": "isShowVisibilities()"},
+        {"Model": "", "FunctionName": "isShowPaths()"}
+    ]
+}
+
+Q: Second, using the same Java source code and the list of functions identified in Step 1, analyze the source code to extract all function call relationships between these functions only. 
+
+Consider only those function calls where the called function influences the return value of the calling function (i.e., calls that affect the return statement directly or indirectly).
+
+Output only a JSON array where each element represents a call relationship with the following fields (do not repeat elements, only at them once):
+- "caller": the name of the calling function.
+- "callee": the name of the called function.
+             
+
+A: 
+[
+    {"caller": "getNotationLanguage()", "callee": "getNotationLanguage()"},
+    {"caller": "isFullyHandleStereotypes()", "callee": "isFullyHandleStereotypes()"},
+    {"caller": "isFullyHandleStereotypes()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowSingularMultiplicities()", "callee": "isShowSingularMultiplicities()"},
+    {"caller": "isShowSingularMultiplicities()", "callee": "getDefaultSettings()"},
+    {"caller": "isUseGuillemets()", "callee": "isUseGuillemets()"},
+    {"caller": "isUseGuillemets()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowTypes()", "callee": "isShowTypes()"},
+    {"caller": "isShowTypes()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowProperties()", "callee": "isShowProperties()"},
+    {"caller": "isShowProperties()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowInitialValues()", "callee": "isShowInitialValues()"},
+    {"caller": "isShowInitialValues()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowMultiplicities()", "callee": "isShowMultiplicities()"},
+    {"caller": "isShowMultiplicities()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowAssociationNames()", "callee": "isShowAssociationNames()"},
+    {"caller": "isShowAssociationNames()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowVisibilities()", "callee": "isShowVisibilities()"},
+    {"caller": "isShowVisibilities()", "callee": "getDefaultSettings()"},
+    {"caller": "isShowPaths()", "callee": "isShowPaths()"},
+    {"caller": "isShowPaths()", "callee": "getDefaultSettings()"}
+]
+
+Q: Third, using the list of functions identified in Step 1 and the call relationships extracted in Step 2, group the functions into DMN models.
+
+Assign the same model number to all functions that are connected by any call chain, meaning if one function calls another, directly or indirectly, they belong to the same model.
+
+Functions that do not call or are not called by any other function (i.e., isolated functions) should be assigned their own unique DMN model.
+
+Start model numbering from "model_1", then "model_2", and so on.
+
+Output only the JSON array with updated `Model` fields. Do not write anything else.
+             
+
+[
+    {"Model": "model_1", "FunctionName": "getNotationLanguage()"},
+    {"Model": "model_1", "FunctionName": "isFullyHandleStereotypes()"},
+    {"Model": "model_1", "FunctionName": "isShowSingularMultiplicities()"},
+    {"Model": "model_1", "FunctionName": "isUseGuillemets()"},
+    {"Model": "model_1", "FunctionName": "isShowTypes()"},
+    {"Model": "model_1", "FunctionName": "isShowProperties()"},
+    {"Model": "model_1", "FunctionName": "isShowInitialValues()"},
+    {"Model": "model_1", "FunctionName": "isShowMultiplicities()"},
+    {"Model": "model_1", "FunctionName": "isShowAssociationNames()"},
+    {"Model": "model_1", "FunctionName": "isShowVisibilities()"},
+    {"Model": "model_1", "FunctionName": "isShowPaths()"},
+    {"Model": "model_2", "FunctionName": "setNotationLanguage(final String newLanguage)"}
+]
+

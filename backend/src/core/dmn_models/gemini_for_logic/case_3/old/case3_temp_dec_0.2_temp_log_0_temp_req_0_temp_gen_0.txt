@@ -1,0 +1,204 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="id_0" name="definitions" namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="id_1" name="src" />
+  <inputData id="id_2" name="target" />
+  <decision id="id_3" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="id_4">
+      <requiredInput href="#id_1" />
+    </informationRequirement>
+    <informationRequirement id="id_5">
+      <requiredInput href="#id_2" />
+    </informationRequirement>
+    <decisionTable id="id_6">
+      <input id="id_7" label="neTargets">
+        <inputExpression id="id_8" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="id_9" label="neSources">
+        <inputExpression id="id_10" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="id_11" label="oldestTarget, newestSource">
+        <inputExpression id="id_12" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="id_13" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="string" />
+      <rule id="id_14">
+        <inputEntry id="id_15">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="id_16">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="id_17">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="id_18">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_19">
+        <inputEntry id="id_20">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="id_21">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="id_22">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="id_23">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_24">
+        <inputEntry id="id_25">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="id_26">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="id_27">
+          <text>oldestTarget.getLastModified() &gt;= newestSource.getLastModified()</text>
+        </inputEntry>
+        <outputEntry id="id_28">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_29">
+        <inputEntry id="id_30">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="id_31">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="id_32">
+          <text>!(oldestTarget.getLastModified() &gt;= newestSource.getLastModified())</text>
+        </inputEntry>
+        <outputEntry id="id_33">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="id_34" name="execute() throws BuildException">
+    <informationRequirement id="id_35">
+      <requiredDecision href="#id_3" />
+    </informationRequirement>
+    <decisionTable id="id_36">
+      <input id="id_37" label="sources_null_check">
+        <inputExpression id="id_38" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="id_39" label="targets_null_check">
+        <inputExpression id="id_40" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="id_41" label="delete_condition_check">
+        <inputExpression id="id_42" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="id_43" label="execute()" name="" typeRef="string" />
+      <rule id="id_44">
+        <inputEntry id="id_45">
+          <text>sources == null</text>
+        </inputEntry>
+        <inputEntry id="id_46">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="id_47">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="id_48">
+          <text>throw new BuildException("At least one set of source resources must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_49">
+        <inputEntry id="id_50">
+          <text>!(sources == null)</text>
+        </inputEntry>
+        <inputEntry id="id_51">
+          <text>targets == null</text>
+        </inputEntry>
+        <inputEntry id="id_52">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="id_53">
+          <text>throw new BuildException("At least one set of target files must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_54">
+        <inputEntry id="id_55">
+          <text>!(sources == null)</text>
+        </inputEntry>
+        <inputEntry id="id_56">
+          <text>!(targets == null)</text>
+        </inputEntry>
+        <inputEntry id="id_57">
+          <text>!sources.isEmpty() &amp;&amp; !targets.isEmpty() &amp;&amp; !uptodate(sources, targets)</text>
+        </inputEntry>
+        <outputEntry id="id_58">
+          <text>delete.perform();</text>
+        </outputEntry>
+      </rule>
+      <rule id="id_59">
+        <inputEntry id="id_60">
+          <text>!(sources == null)</text>
+        </inputEntry>
+        <inputEntry id="id_61">
+          <text>!(targets == null)</text>
+        </inputEntry>
+        <inputEntry id="id_62">
+          <text>!(!sources.isEmpty() &amp;&amp; !targets.isEmpty() &amp;&amp; !uptodate(sources, targets))</text>
+        </inputEntry>
+        <outputEntry id="id_63">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="id_64">
+      <dmndi:DMNShape id="id_65" dmnElementRef="id_1">
+        <dc:Bounds height="45" width="125" x="93" y="378" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="id_66" dmnElementRef="id_2">
+        <dc:Bounds height="45" width="125" x="293" y="378" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="id_67" dmnElementRef="id_3">
+        <dc:Bounds height="80" width="180" x="160" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="id_68" dmnElementRef="id_4">
+        <di:waypoint x="156" y="378" />
+        <di:waypoint x="156" y="310" />
+        <di:waypoint x="250" y="290" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="id_69" dmnElementRef="id_5">
+        <di:waypoint x="356" y="378" />
+        <di:waypoint x="356" y="310" />
+        <di:waypoint x="250" y="290" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="id_70" dmnElementRef="id_34">
+        <dc:Bounds height="80" width="180" x="160" y="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="id_71" dmnElementRef="id_35">
+        <di:waypoint x="250" y="210" />
+        <di:waypoint x="250" y="160" />
+        <di:waypoint x="250" y="140" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

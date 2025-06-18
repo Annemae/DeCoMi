@@ -1,0 +1,44 @@
+A: <?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_generated_q2"
+             name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="dmn-js (https://demo.bpmn.io/dmn)"
+             exporterVersion="17.2.0">
+  <inputData id="InputData_1" name="project" />
+  <inputData id="InputData_2" name="thrownException" />
+  <decision id="Decision_1" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InformationRequirement_1x0npcf">
+      <requiredInput href="#InputData_1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0m3p2qj">
+      <requiredInput href="#InputData_2" />
+    </informationRequirement>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">
+      <dmndi:DMNShape id="DMNShape_1" dmnElementRef="Decision_1">
+        <dc:Bounds height="80" width="180" x="123" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_2" dmnElementRef="InputData_1">
+        <dc:Bounds height="45" width="125" x="50" y="250" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_3" dmnElementRef="InputData_2">
+        <dc:Bounds height="45" width="125" x="250" y="250" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1" dmnElementRef="InformationRequirement_1x0npcf">
+        <di:waypoint x="113" y="250" />
+        <di:waypoint x="180" y="215" />
+        <di:waypoint x="180" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_2" dmnElementRef="InformationRequirement_0m3p2qj">
+        <di:waypoint x="313" y="250" />
+        <di:waypoint x="245" y="215" />
+        <di:waypoint x="245" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

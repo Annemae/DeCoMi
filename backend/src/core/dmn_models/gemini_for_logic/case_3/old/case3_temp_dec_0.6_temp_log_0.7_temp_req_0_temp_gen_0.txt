@@ -1,0 +1,97 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1a2b3c4" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_0neTa01" name="neTargets" />
+  <inputData id="InputData_0neSo02" name="neSources" />
+  <inputData id="InputData_0olTa03" name="oldestTarget, newestSource" />
+  <decision id="Decision_0x1y2z3" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="InformationRequirement_1irNeT1">
+      <requiredInput href="#InputData_0neTa01" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1irNeS2">
+      <requiredInput href="#InputData_0neSo02" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1irOlT3">
+      <requiredInput href="#InputData_0olTa03" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1p2q3r4">
+      <input id="InputClause_1inNeT1" label="neTargets">
+        <inputExpression id="LiteralExpression_1exNeT1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_2inNeS2" label="neSources">
+        <inputExpression id="LiteralExpression_2exNeS2" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_3out001" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="string" />
+      <rule id="DecisionRule_4ru001">
+        <inputEntry id="UnaryTests_4ut1N1">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_4ut1N2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_4oe001">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_5ru002">
+        <inputEntry id="UnaryTests_5ut2N1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_5ut2N2">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_5oe002">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_6ru003">
+        <inputEntry id="UnaryTests_6ut3N1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_6ut3N2">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_6oe003">
+          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_7dia001">
+      <dmndi:DMNShape id="DMNShape_7shDec1" dmnElementRef="Decision_0x1y2z3">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_7shIn1" dmnElementRef="InputData_0neTa01">
+        <dc:Bounds height="45" width="125" x="50" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_7edIr1" dmnElementRef="InformationRequirement_1irNeT1">
+        <di:waypoint x="112.5" y="210" />
+        <di:waypoint x="265" y="185" />
+        <di:waypoint x="265" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_7shIn2" dmnElementRef="InputData_0neSo02">
+        <dc:Bounds height="45" width="125" x="220" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_7edIr2" dmnElementRef="InformationRequirement_1irNeS2">
+        <di:waypoint x="282.5" y="210" />
+        <di:waypoint x="310" y="185" />
+        <di:waypoint x="310" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_7shIn3" dmnElementRef="InputData_0olTa03">
+        <dc:Bounds height="45" width="125" x="390" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_7edIr3" dmnElementRef="InformationRequirement_1irOlT3">
+        <di:waypoint x="452.5" y="210" />
+        <di:waypoint x="355" y="185" />
+        <di:waypoint x="355" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

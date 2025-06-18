@@ -1,0 +1,85 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_g3n3r8t" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_proj3ct" name="project" />
+  <inputData id="InputData_thrwn3x" name="thrownException" />
+  <decision id="Decision_d3c1s10n" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InformationRequirement_1nfrqp">
+      <requiredInput href="#InputData_proj3ct" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1nfrqt">
+      <requiredInput href="#InputData_thrwn3x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_tbl4nt">
+      <input id="InputClause_1nclpr" label="project">
+        <inputExpression id="LiteralExpression_ltexpr" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1nclth" label="thrownException">
+        <inputExpression id="LiteralExpression_ltexth" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0utclrs" label="executeTargets(Project project, String[] targetNames)" typeRef="string" />
+      <rule id="DecisionRule_rul3001">
+        <inputEntry id="UnaryTests_utst11">
+          <text>!project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_utst12">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_ltex11">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_rul3002">
+        <inputEntry id="UnaryTests_utst21">
+          <text>project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_utst22">
+          <text>thrownException != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_ltex21">
+          <text>throw thrownException;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_rul3003">
+        <inputEntry id="UnaryTests_utst31">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_utst32">
+          <text>thrownException == null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_ltex31">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_d14gr4m">
+      <dmndi:DMNShape id="DMNShape_shpd3c" dmnElementRef="Decision_d3c1s10n">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_shpinp" dmnElementRef="InputData_proj3ct">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_edg1rp" dmnElementRef="InformationRequirement_1nfrqp">
+        <di:waypoint x="219" y="218" />
+        <di:waypoint x="265" y="180" />
+        <di:waypoint x="265" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_shpint" dmnElementRef="InputData_thrwn3x">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_edg1rt" dmnElementRef="InformationRequirement_1nfrqt">
+        <di:waypoint x="400" y="219" />
+        <di:waypoint x="355" y="180" />
+        <di:waypoint x="355" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

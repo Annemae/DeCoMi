@@ -1,0 +1,258 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_1" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="Custom DMN Generator" exporterVersion="1.0.0">
+
+  <inputData id="inputData_1" name="sources" />
+  <inputData id="inputData_2" name="targets" />
+  <inputData id="inputData_3" name="verbose" />
+  <inputData id="inputData_4" name="neTargets" />
+  <inputData id="inputData_5" name="neSources" />
+  <inputData id="inputData_6" name="oldestTarget, newestSource" />
+
+  <decision id="decision_1" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="informationRequirement_1">
+      <requiredInput href="#inputData_4" />
+    </informationRequirement>
+    <informationRequirement id="informationRequirement_2">
+      <requiredInput href="#inputData_5" />
+    </informationRequirement>
+    <informationRequirement id="informationRequirement_3">
+      <requiredInput href="#inputData_6" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1">
+      <input id="inputClause_1" label="neTargets">
+        <inputExpression id="literalExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="inputClause_2" label="neSources">
+        <inputExpression id="literalExpression_2" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="outputClause_1" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="string" />
+      <rule id="rule_1">
+        <inputEntry id="unaryTests_1">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_3">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_2">
+        <inputEntry id="unaryTests_3">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_4">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_4">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_3">
+        <inputEntry id="unaryTests_5">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_6">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_5">
+          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <decision id="decision_2" name="execute() throws BuildException">
+    <informationRequirement id="informationRequirement_4">
+      <requiredInput href="#inputData_1" />
+    </informationRequirement>
+    <informationRequirement id="informationRequirement_5">
+      <requiredInput href="#inputData_2" />
+    </informationRequirement>
+    <informationRequirement id="informationRequirement_6">
+      <requiredInput href="#inputData_3" />
+    </informationRequirement>
+    <informationRequirement id="informationRequirement_7">
+      <requiredDecision href="#decision_1" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_2">
+      <input id="inputClause_3" label="sources">
+        <inputExpression id="literalExpression_6" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="inputClause_4" label="targets">
+        <inputExpression id="literalExpression_7" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="inputClause_5" label="uptodate(sources, targets)">
+        <inputExpression id="literalExpression_8" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="outputClause_2" label="execute()" name="" typeRef="string" />
+      <rule id="rule_4">
+        <inputEntry id="unaryTests_7">
+          <text>sources == null</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_9">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_9">
+          <text>throw new BuildException("At least one set of source resources must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_5">
+        <inputEntry id="unaryTests_10">
+          <text>!(sources == null)</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_11">
+          <text>targets == null</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_12">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_10">
+          <text>throw new BuildException("At least one set of target files must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_6">
+        <inputEntry id="unaryTests_13">
+          <text>!(sources == null) &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_14">
+          <text>!(targets == null) &amp;&amp; !targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_15">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_11">
+          <text>delete.perform();</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_7">
+        <inputEntry id="unaryTests_16">
+          <text>!(sources == null) &amp;&amp; sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_17">
+          <text>!(targets == null)</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_18">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_12">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_8">
+        <inputEntry id="unaryTests_19">
+          <text>!(sources == null) &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_20">
+          <text>!(targets == null) &amp;&amp; targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_21">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_13">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="rule_9">
+        <inputEntry id="unaryTests_22">
+          <text>!(sources == null) &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_23">
+          <text>!(targets == null) &amp;&amp; !targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="unaryTests_24">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="literalExpression_14">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="dmndiDiagram_1">
+      <dmndi:DMNShape id="dmnShape_1" dmnElementRef="decision_2">
+        <dc:Bounds height="80" width="180" x="300" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_2" dmnElementRef="decision_1">
+        <dc:Bounds height="80" width="180" x="300" y="250" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_3" dmnElementRef="inputData_1">
+        <dc:Bounds height="45" width="125" x="50" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_4" dmnElementRef="inputData_2">
+        <dc:Bounds height="45" width="125" x="200" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_5" dmnElementRef="inputData_3">
+        <dc:Bounds height="45" width="125" x="350" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_6" dmnElementRef="inputData_4">
+        <dc:Bounds height="45" width="125" x="50" y="520" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_7" dmnElementRef="inputData_5">
+        <dc:Bounds height="45" width="125" x="200" y="520" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnShape_8" dmnElementRef="inputData_6">
+        <dc:Bounds height="45" width="125" x="350" y="520" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnEdge_1" dmnElementRef="informationRequirement_7">
+        <di:waypoint x="390" y="250" />
+        <di:waypoint x="390" y="215" />
+        <di:waypoint x="390" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_2" dmnElementRef="informationRequirement_4">
+        <di:waypoint x="112" y="400" />
+        <di:waypoint x="112" y="180" />
+        <di:waypoint x="390" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_3" dmnElementRef="informationRequirement_5">
+        <di:waypoint x="262" y="400" />
+        <di:waypoint x="262" y="180" />
+        <di:waypoint x="390" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_4" dmnElementRef="informationRequirement_6">
+        <di:waypoint x="412" y="400" />
+        <di:waypoint x="412" y="180" />
+        <di:waypoint x="390" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_5" dmnElementRef="informationRequirement_1">
+        <di:waypoint x="112" y="520" />
+        <di:waypoint x="112" y="330" />
+        <di:waypoint x="390" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_6" dmnElementRef="informationRequirement_2">
+        <di:waypoint x="262" y="520" />
+        <di:waypoint x="262" y="330" />
+        <di:waypoint x="390" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnEdge_7" dmnElementRef="informationRequirement_3">
+        <di:waypoint x="412" y="520" />
+        <di:waypoint x="412" y="330" />
+        <di:waypoint x="390" y="330" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```
