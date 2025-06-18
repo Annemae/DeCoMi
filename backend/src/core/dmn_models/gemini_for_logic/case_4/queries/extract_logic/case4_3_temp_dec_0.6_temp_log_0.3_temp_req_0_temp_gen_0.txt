@@ -1,47 +1,47 @@
 Q: We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Below is a part of Java source code, between quotation marks. What does this code decide? 
 
-"""toString(double val) {
-        return numberToString(val, 10);
+"""numberToString(double d, int base) {
+        if (d != d)
+            return "NaN";
+        if (d == Double.POSITIVE_INFINITY)
+            return "Infinity";
+        if (d == Double.NEGATIVE_INFINITY)
+            return "-Infinity";
+        if (d == 0.0)
+            return "0";
+
+        if ((base < 2) || (base > 36)) {
+            throw Context.reportRuntimeError1(
+                "msg.bad.radix", Integer.toString(base));
+        }
+
+        if (base != 10) {
+            return DToA.JS_dtobasestr(base, d);
+        } else {
+            StringBuffer result = new StringBuffer();
+            DToA.JS_dtostr(result, DToA.DTOSTR_STANDARD, 0, d);
+            return result.toString();
+        }
+
     }""" 
 
-A: This code decides how to convert a double-precision floating-point number to its string representation in base 10.
+A: This code decides the string representation of a double-precision floating-point number, handling special cases like NaN, Infinity, and zero, and converting the number to a string in a specified numerical base (between 2 and 36 inclusive).
 
 Q: What does the function return? 
 
-A: The function returns the string representation of the input double-precision floating-point number in base 10.
+A: The function returns a string representation of the input double `d`.
 
 Q: What are the variables that influence this decision? 
 
-A: The variables that influence this decision are `val`, which is the double-precision floating-point number provided as input, and the numeral system base for the conversion, which is fixed at 10 in this code.
+A: The variables that influence this decision are the double-precision floating-point number `d` and the integer `base`.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A:
-Input:
-1.  `val`:
-    *   Data type: `double` (double-precision floating-point number).
-    *   Possible values: Any value representable by a `double` in Java, which includes positive and negative finite numbers, positive and negative zero, positive and negative infinity, and NaN (Not a Number). The range is approximately ±4.9e-324 to ±1.8e+308.
-
-Output:
-1.  Return value (the string representation):
-    *   Data type: `String`.
-    *   Possible values: A textual representation of the input `double` `val` in base 10. This can include digits '0' through '9', a decimal point '.', a minus sign '-' for negative numbers, and potentially an exponent indicator 'E' or 'e' for scientific notation (e.g., "1.23E4"). It can also be special strings like "NaN", "Infinity", or "-Infinity" for corresponding double values. The exact format is determined by the `numberToString` method.
+A: The first input variable, `d`, has a data type of `double`. Its possible values include any standard double-precision floating-point numbers, such as -1.5, 0.0, or 42.7, as well as special floating-point values like `NaN` (Not a Number), `Double.POSITIVE_INFINITY`, and `Double.NEGATIVE_INFINITY`. The second input variable, `base`, has a data type of `int`. While it can be any integer, the function is designed to work with `base` values from 2 to 36, inclusive; values outside this range will trigger a runtime error. The output of the function is a `String`. Possible string values include `"NaN"`, `"Infinity"`, `"-Infinity"`, and `"0"` for the corresponding special cases or value of `d`. For other finite values of `d` and a valid `base`, the output is a string representing the number `d` converted to that numerical base, such as a decimal string if `base` is 10, or a hexadecimal string if `base` is 16.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: The numerical variables that influence this decision are the input `val` and the numeral system base passed to the `numberToString` function.
-
-For the input variable `val` (a `double`):
-*   Special non-finite floating-point values are relevant, such as `Double.NaN` (Not a Number), `Double.POSITIVE_INFINITY`, and `Double.NEGATIVE_INFINITY`.
-*   Zero values are relevant, including `0.0` (positive zero) and `-0.0` (negative zero), as their representation might be specific (e.g., "0.0").
-*   For finite non-zero numbers, their absolute magnitude is a relevant factor as it often determines the formatting of the string representation (e.g., standard decimal notation versus scientific notation). Relevant categories and example values include:
-    *   Numbers with very small absolute magnitude (e.g., `1.23e-5`, `-4.56e-7`), which might be formatted in scientific notation.
-    *   Numbers with intermediate absolute magnitude (e.g., `0.01`, `1.0`, `123.45`, `-67.89`), which are often formatted in standard decimal notation.
-    *   Numbers with very large absolute magnitude (e.g., `1.23e10`, `-7.89e12`), which might also be formatted in scientific notation.
-    *   Extreme representable finite values such as `Double.MIN_VALUE` (the smallest positive non-zero value), `Double.MAX_VALUE` (the largest positive finite value), and `Double.MIN_NORMAL` (the smallest positive normal value).
-
-For the numeral system base (an `int`):
-*   In the context of this specific `toString(double val)` method, the value for the base is fixed at `10`. Therefore, `10` is the only relevant value for this numerical parameter as supplied by this method.
+A: For the numerical variable `d`, the relevant values are the special floating-point constants `NaN`, `Double.POSITIVE_INFINITY`, `Double.NEGATIVE_INFINITY`, and the value `0.0`. Additionally, all other finite double values (e.g., 1.0, -3.14) form a distinct category that is handled by the number-to-string conversion logic. For the numerical variable `base`, relevant values include integers less than 2 (e.g., 1, 0) and integers greater than 36 (e.g., 37, 100), as these define the boundaries for invalid base values leading to a runtime error. The specific integer value 10 is also relevant as it dictates a particular conversion method. Finally, integers from 2 to 36, inclusive, but not equal to 10 (e.g., 2, 8, 16, 32), form another category of relevant values for the base, utilizing a different conversion method.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -231,14 +231,83 @@ Create a decision table for the part of Java source code provided in the first q
  
 
 ```json
-{ }
+{
+    "Conditions": {
+        "d": {
+            "Type": "boolean"
+        },
+        "base": {
+            "Type": "boolean"
+        }
+    },
+    "Conclusions": {
+        "numberToString(double d, int base)": {
+            "Type": "string"
+        }
+    },
+    "DecisionRules": [
+        {
+            "d": "d != d",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"NaN\";"
+        },
+        {
+            "d": "!(d != d) && d == Double.POSITIVE_INFINITY",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"Infinity\";"
+        },
+        {
+            "d": "!(d != d) && !(d == Double.POSITIVE_INFINITY) && d == Double.NEGATIVE_INFINITY",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"-Infinity\";"
+        },
+        {
+            "d": "!(d != d) && !(d == Double.POSITIVE_INFINITY) && !(d == Double.NEGATIVE_INFINITY) && d == 0.0",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"0\";"
+        },
+        {
+            "d": "!(d != d) && !(d == Double.POSITIVE_INFINITY) && !(d == Double.NEGATIVE_INFINITY) && !(d == 0.0)",
+            "base": "(base < 2) || (base > 36)",
+            "numberToString(double d, int base)": "throw Context.reportRuntimeError1(\"msg.bad.radix\", Integer.toString(base));"
+        },
+        {
+            "d": "!(d != d) && !(d == Double.POSITIVE_INFINITY) && !(d == Double.NEGATIVE_INFINITY) && !(d == 0.0)",
+            "base": "!((base < 2) || (base > 36)) && base != 10",
+            "numberToString(double d, int base)": "return DToA.JS_dtobasestr(base, d);"
+        },
+        {
+            "d": "!(d != d) && !(d == Double.POSITIVE_INFINITY) && !(d == Double.NEGATIVE_INFINITY) && !(d == 0.0)",
+            "base": "!((base < 2) || (base > 36)) && !(base != 10)",
+            "numberToString(double d, int base)": "return result.toString();"
+        }
+    ]
+}
 ```
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: The table is incomplete. Since the JSON representation `{}` indicates an empty decision table with no rules, there is no applicable rule for any set of inputs. For example, if the input `val` is `0.0`, no rule in the empty table would be applicable.
+A: Yes, the table is complete. The decision rules are structured in a way that covers all possible combinations of input values for `d` and `base`.
+
+The conditions for the variable `d` are evaluated sequentially:
+1.  `d != d` (covers NaN).
+2.  If not NaN, `d == Double.POSITIVE_INFINITY` (covers positive infinity).
+3.  If not NaN and not positive infinity, `d == Double.NEGATIVE_INFINITY` (covers negative infinity).
+4.  If not NaN, not positive infinity, and not negative infinity, `d == 0.0` (covers zero).
+5.  If none of the above, `d` is a finite, non-zero number. This case is covered by the `d` condition `!(d != d) && !(d == Double.POSITIVE_INFINITY) && !(d == Double.NEGATIVE_INFINITY) && !(d == 0.0)` used in rules 5, 6, and 7.
+
+These five scenarios for `d` are mutually exclusive and collectively exhaustive, covering all possible values of a `double`.
+
+For the fifth scenario (where `d` is a finite, non-zero number), the conditions for the variable `base` are then evaluated:
+1.  `(base < 2) || (base > 36)` (invalid base).
+2.  If the base is not invalid, `base != 10` (valid base, not equal to 10).
+3.  If the base is not invalid and not `!= 10` (i.e., `base == 10`).
+
+These three scenarios for `base` (given `d` is finite and non-zero) are also mutually exclusive and collectively exhaustive for all integer values of `base`.
+
+Since the rules effectively mirror a nested if-else-if structure that covers all possibilities for `d`, and within the final `else` block for `d`, all possibilities for `base`, every possible pair of inputs (`d`, `base`) will match exactly one rule in the decision table. Therefore, there is an applicable rule for every set of inputs, and the table is complete.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 
-A: According to the provided empty table, no inputs are defined for the decision, as an empty JSON object `{}` does not contain a "Conditions" section where such inputs would be specified.
+A: According to the table, the inputs to the decision are `d` and `base`.
 

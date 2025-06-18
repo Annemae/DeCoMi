@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DRD? 
 
-A: Yes, I am familiar with Decision Model and Notation (DMN). While I cannot create a visual Decision Requirements Diagram (DRD) file in the same way a dedicated modeling tool would, I can describe its components, explain how to construct one, and generate a textual representation of a DRD based on provided requirements.
+A: Yes, I am familiar with Decision Model and Notation (DMN) and I can create a Decision Requirements Diagram (DRD).
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -152,6 +152,10 @@ toString(Object val) {
             return val.toString();
         }
     }
+toString(Object[] args, int index)
+    {
+        return (index < args.length) ? toString(args[index]) : "undefined";
+    }
 numberToString(double d, int base) {
         if (d != d)
             return "NaN";
@@ -175,24 +179,34 @@ numberToString(double d, int base) {
             return result.toString();
         }
 
-    }
-toString(Object[] args, int index)
-    {
-        return (index < args.length) ? toString(args[index]) : "undefined";
     } 
 
 {
     "Decisions": {
         "toString(Object val)": {
-            "Input": ["val", "numberToString(double d, int base)"]
-        },
-        "numberToString(double d, int base)": {
-            "Input": ["d", "base"]
+            "Input": [
+                "val",
+                "numberToString(double d, int base)"
+            ]
         },
         "toString(Object[] args, int index)": {
-            "Input": ["index, args", "toString(Object val)"]
+            "Input": [
+                "args, index",
+                "toString(Object val)"
+            ]
+        },
+        "numberToString(double d, int base)": {
+            "Input": [
+                "d",
+                "base"
+            ]
         }
     },
-    "InputData": ["val", "d", "base", "index, args"]
+    "InputData": [
+        "val",
+        "args, index",
+        "d",
+        "base"
+    ]
 }
 

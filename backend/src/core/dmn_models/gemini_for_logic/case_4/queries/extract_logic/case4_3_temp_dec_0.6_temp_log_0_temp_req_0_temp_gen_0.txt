@@ -1,43 +1,78 @@
 Q: We will ask you a series of questions on Decision Model and Notation tables. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Below is a part of Java source code, between quotation marks. What does this code decide? 
 
-"""toString(Object[] args, int index)
-    {
-        return (index < args.length) ? toString(args[index]) : "undefined";
+"""numberToString(double d, int base) {
+        if (d != d)
+            return "NaN";
+        if (d == Double.POSITIVE_INFINITY)
+            return "Infinity";
+        if (d == Double.NEGATIVE_INFINITY)
+            return "-Infinity";
+        if (d == 0.0)
+            return "0";
+
+        if ((base < 2) || (base > 36)) {
+            throw Context.reportRuntimeError1(
+                "msg.bad.radix", Integer.toString(base));
+        }
+
+        if (base != 10) {
+            return DToA.JS_dtobasestr(base, d);
+        } else {
+            StringBuffer result = new StringBuffer();
+            DToA.JS_dtostr(result, DToA.DTOSTR_STANDARD, 0, d);
+            return result.toString();
+        }
+
     }""" 
 
-A: This code decides which string to return: the string representation of an array element at a given index, or the string "undefined", depending on whether the index is less than the array's length.
+A: This code decides the string representation of a double-precision floating-point number, considering special values like NaN and Infinity, and a specified numeric base for the conversion.
 
 Q: What does the function return? 
 
-A: The function returns the string representation of the element from the `args` array at the specified `index`, if that `index` is less than the array's length. Otherwise, it returns the string "undefined".
+A: The function returns a string.
 
 Q: What are the variables that influence this decision? 
 
-A: The variables that influence this decision are `args` (specifically its length) and `index`.
+A: The variables that influence this decision are the double-precision floating-point number `d` and the integer `base`.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A: For the input `args`, its data type is an array of `Object` (denoted as `Object[]`). Possible values for `args` include `null`, an empty array (e.g., `new Object[0]`), or a non-empty array where each element can be any `Object` instance or `null`.
-For the input `index`, its data type is `int`. Possible values for `index` include any integer that can be represented by Java's `int` type.
-For the output of the function, which is its return value, the data type is `String`. The function can return the literal string "undefined"; this occurs if the input array `args` is not `null` and the input `index` is greater than or equal to the length of `args`. Alternatively, the function can return a string representation of the element `args[index]`; this occurs if `args` is not `null` and `index` is a valid, non-negative position within the array (specifically, `0 <= index < args.length`). The actual content of this latter string is determined by an assumed helper method `toString(Object)` (not shown in the provided snippet) that converts the element `args[index]` to a string. In other scenarios, such as `args` being `null`, or `index` being negative when an array access `args[index]` is attempted (which happens if `index < args.length` is true for a negative `index`), the function would typically throw an exception instead of returning a string value.
+A:
+Input `d`:
+*   Data Type: `double` (double-precision floating-point number).
+*   Possible Values: Any valid double value, including special values like `NaN` (Not a Number), `Double.POSITIVE_INFINITY`, `Double.NEGATIVE_INFINITY`, zero (`0.0`), and any other finite positive or negative floating-point number.
+
+Input `base`:
+*   Data Type: `int` (integer).
+*   Possible Values: Any integer. However, the function's logic specifically handles values between 2 and 36 (inclusive) for conversion. If `base` is less than 2 or greater than 36, the function throws a runtime error.
+
+Output (Return Value):
+*   Data Type: `String`.
+*   Possible Values:
+    *   `"NaN"` if the input `d` is `NaN`.
+    *   `"Infinity"` if the input `d` is `Double.POSITIVE_INFINITY`.
+    *   `"-Infinity"` if the input `d` is `Double.NEGATIVE_INFINITY`.
+    *   `"0"` if the input `d` is `0.0`.
+    *   A string representation of the number `d` in the specified `base` (if `base` is valid, i.e., between 2 and 36 inclusive, and `d` is a finite non-zero number).
+    *   Note: If `base` is outside the range [2, 36], the function throws a `RuntimeException` instead of returning a string.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: The numerical variables that influence the decision are `index` and the length of the `args` array. Assuming `args` is not `null`, its length is a non-negative integer. Let's call this `arrayLength`.
+A: The relevant values of the numerical variables are as follows:
 
-Relevant values for `arrayLength` include:
-*   `0`, representing an empty array. In this scenario, the condition `index < arrayLength` is only true if `index` is negative.
-*   `1`, representing an array with a single element. Here, `index = 0` is the only value for which `0 <= index < arrayLength` holds.
-*   A positive integer greater than `1` (e.g., `5`), representing an array with multiple elements. This allows for distinct first, middle, and last valid indices.
+For the input variable `d` (double):
+*   The special floating-point value `NaN` (Not a Number), as it is explicitly checked and results in the string "NaN".
+*   The special floating-point value `Double.POSITIVE_INFINITY`, as it is explicitly checked and results in the string "Infinity".
+*   The special floating-point value `Double.NEGATIVE_INFINITY`, as it is explicitly checked and results in the string "-Infinity".
+*   The floating-point value `0.0`, as it is explicitly checked and results in the string "0".
+*   Other finite, non-zero double values (both positive and negative), as these values proceed to the base-dependent conversion logic.
 
-Relevant values for `index`, especially in relation to `arrayLength`, include:
-*   A negative integer (e.g., `-1`). If `index < arrayLength` is true (which it would be if `arrayLength >= 0`), the code attempts to access `args[index]`, which typically causes an `ArrayIndexOutOfBoundsException`.
-*   `0`. This is the first potential in-bounds index if `arrayLength > 0`. If `arrayLength` is `0`, then `index = 0` makes the condition `index < arrayLength` false.
-*   `arrayLength - 1`. If `arrayLength > 0`, this represents the last potential in-bounds index for which `index < arrayLength` is true.
-*   `arrayLength`. This is a critical boundary value. For `index = arrayLength`, the condition `index < arrayLength` becomes false, leading to the return of "undefined".
-*   An integer greater than `arrayLength` (e.g., `arrayLength + 1`). For such values, the condition `index < arrayLength` is also false.
-
-These values are relevant because they define the boundaries and distinct regions for the decision logic `index < arrayLength` and for the validity of the array access `args[index]`.
+For the input variable `base` (int):
+*   Integer values less than 2 (e.g., 1, 0, -1), as these values cause the function to throw a runtime error.
+*   Integer values greater than 36 (e.g., 37, 40, 100), as these values also cause the function to throw a runtime error.
+*   The integer value `10`, which is a valid base and uses a specific conversion method (`DToA.JS_dtostr`) if `d` is a finite, non-zero number.
+*   Integer values in the range [2, 9] inclusive, which are valid bases and use the `DToA.JS_dtobasestr` conversion method if `d` is a finite, non-zero number.
+*   Integer values in the range [11, 36] inclusive, which are also valid bases and use the `DToA.JS_dtobasestr` conversion method if `d` is a finite, non-zero number.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -228,24 +263,54 @@ Create a decision table for the part of Java source code provided in the first q
 
 ```json
 {
-    "Conditions" : {
-        "index, args" : {
-            "Type" : "boolean"
+    "Conditions": {
+        "d": {
+            "Type": "double"
+        },
+        "base": {
+            "Type": "int"
         }
     },
-    "Conclusions" : {
-        "toString(Object[] args, int index)" : {
-            "Type" : "string"
+    "Conclusions": {
+        "numberToString(double d, int base)": {
+            "Type": "string"
         }
     },
-    "DecisionRules" : [
+    "DecisionRules": [
         {
-            "index, args" : "index < args.length",
-            "toString(Object[] args, int index)" : "toString(args[index])"
+            "d": "d != d",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"NaN\";"
         },
         {
-            "index, args" : "!(index < args.length)",
-            "toString(Object[] args, int index)" : "\"undefined\""
+            "d": "d == Double.POSITIVE_INFINITY",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"Infinity\";"
+        },
+        {
+            "d": "d == Double.NEGATIVE_INFINITY",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"-Infinity\";"
+        },
+        {
+            "d": "d == 0.0",
+            "base": "-",
+            "numberToString(double d, int base)": "return \"0\";"
+        },
+        {
+            "d": "(d == d) && (d != Double.POSITIVE_INFINITY) && (d != Double.NEGATIVE_INFINITY) && (d != 0.0)",
+            "base": "(base < 2) || (base > 36)",
+            "numberToString(double d, int base)": "throw Context.reportRuntimeError1(\"msg.bad.radix\", Integer.toString(base));"
+        },
+        {
+            "d": "(d == d) && (d != Double.POSITIVE_INFINITY) && (d != Double.NEGATIVE_INFINITY) && (d != 0.0)",
+            "base": "!((base < 2) || (base > 36)) && (base != 10)",
+            "numberToString(double d, int base)": "return DToA.JS_dtobasestr(base, d);"
+        },
+        {
+            "d": "(d == d) && (d != Double.POSITIVE_INFINITY) && (d != Double.NEGATIVE_INFINITY) && (d != 0.0)",
+            "base": "!((base < 2) || (base > 36)) && !(base != 10)",
+            "numberToString(double d, int base)": "return result.toString();"
         }
     ]
 }
@@ -253,20 +318,9 @@ Create a decision table for the part of Java source code provided in the first q
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: The table is not complete. There are sets of inputs for which no rule would be applicable because the condition evaluation itself would lead to an error, preventing either rule's condition from being met.
-
-An example for which no rule would be applicable is when the input `args` is `null`.
-Let's take `args = null` and `index = 0`.
-
-In the Java code, the expression `index < args.length` would be evaluated. If `args` is `null`, attempting to access `args.length` results in a `NullPointerException`. This exception occurs during the evaluation of the condition itself.
-
-In the DMN table:
-1.  The first rule has the condition `index < args.length`. If `args` is `null`, evaluating `args.length` would cause an error (analogous to the `NullPointerException`). Thus, the expression `index < args.length` does not evaluate to `true`. So, Rule 1 is not applicable.
-2.  The second rule has the condition `!(index < args.length)`. This condition also depends on evaluating `args.length`. Since `args.length` causes an error when `args` is `null`, this expression also does not evaluate to `true`. So, Rule 2 is not applicable.
-
-Since neither rule's condition can be satisfied when `args` is `null` (due to an error in evaluating `args.length`), no rule is applicable for such inputs. Therefore, the decision table is incomplete for the input case where `args` is `null`.
+A: Yes, the table is complete. The conditions for the input variable `d` across rules 1, 2, 3, 4, and the shared condition for rules 5, 6, 7 (`(d == d) && (d != Double.POSITIVE_INFINITY) && (d != Double.NEGATIVE_INFINITY) && (d != 0.0)`) are mutually exclusive and collectively cover all possible values of a double-precision floating-point number. If `d` is NaN, positive infinity, negative infinity, or zero, rules 1, 2, 3, or 4 apply respectively, regardless of the `base` value (as indicated by `base: "-"`). If `d` is a finite, non-zero number, then one of rules 5, 6, or 7 will apply based on the value of `base`. The conditions for `base` in these three rules (`(base < 2) || (base > 36)`, `!((base < 2) || (base > 36)) && (base != 10)`, and `!((base < 2) || (base > 36)) && !(base != 10)`) are also mutually exclusive and cover all possible integer values for `base`. Therefore, for any given set of inputs for `d` and `base`, exactly one rule in the decision table will be applicable.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 
-A: According to the table, the input to the decision is a single condition named "index, args".
+A: The inputs to the decision are `d` and `base`.
 

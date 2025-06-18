@@ -1,0 +1,742 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DMN XML? 
+
+A: Yes, I am familiar with Decision Model and Notation.
+
+Q: Consider the following examples (3 examples): 
+
+  
+
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "iterator" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "iterator" : "iterator.hasNext()",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "iterator.next()"
+        },
+        {
+            "iterator" : "!(iterator.hasNext())",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "defaultValue"
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Input" : ["iterator"]
+        }
+    },
+    "InputData" : ["iterator"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_08em653" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_05mgc6n" name="iterator" />
+  <decision id="Decision_1pocaxa" name="getNext(Iterator&#60;? extends T&#62; iterator, @Nullable T defaultValue)">
+    <informationRequirement id="InformationRequirement_1g2xc78">
+      <requiredInput href="#InputData_05mgc6n" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0izbi3j">
+      <input id="InputClause_1s1rlxb" label="iterator">
+        <inputExpression id="LiteralExpression_0mwc8gu" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_0h2gn4j" label="getNext(Iterator&#60;? extends T&#62; iterator, @Nullable T defaultValue)" typeRef="string" />
+      <rule id="DecisionRule_1b22qw5">
+        <inputEntry id="UnaryTests_1128jj0">
+          <text>iterator.hasNext()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14bqw98">
+          <text>iterator.next()</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rzdr3u">
+        <inputEntry id="UnaryTests_1qgxg8r">
+          <text>!(iterator.hasNext())</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c0zqqe">
+          <text>defaultValue</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_088hwua">
+      <dmndi:DMNShape id="DMNShape_0vq1aiw" dmnElementRef="InputData_05mgc6n">
+        <dc:Bounds height="45" width="125" x="177" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_06c9zcq" dmnElementRef="InformationRequirement_1g2xc78">
+        <di:waypoint x="240" y="258" />
+        <di:waypoint x="240" y="220" />
+        <di:waypoint x="240" y="200" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_11s6k8p" dmnElementRef="Decision_1pocaxa">
+        <dc:Bounds height="80" width="180" x="150" y="120" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "start, end" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkInterval(long start, long end)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "start, end" : "end < start",
+            "checkInterval(long start, long end)" : "throw new IllegalArgumentException("The end instant must be greater than the start instant");"
+        },
+        {
+            "start, end" : "end >= start",
+            "checkInterval(long start, long end)" : null
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "checkInterval(long start, long end)" : {
+            "Input" : ["start, end"]
+        }
+    },
+    "InputData" : ["start, end"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_00gpcft" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_0iygfo0" name="checkInterval(long start, long end)">
+    <informationRequirement id="InformationRequirement_0hhzr6i">
+      <requiredInput href="#InputData_0enwjwx" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0n05uj7">
+      <input id="input1" label="start, end">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="checkInterval(long start, long end)" name="" typeRef="string" />
+      <rule id="DecisionRule_00anz39">
+        <inputEntry id="UnaryTests_1iqx1ms">
+          <text>end &lt; start</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ji4wn3">
+          <text>throw new IllegalArgumentException("The end instant must be greater than the start instant");</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zq27lu">
+        <inputEntry id="UnaryTests_09is226">
+          <text>end &gt;= start</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0559wuy">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0enwjwx" name="start, end" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0e8pnjw">
+      <dmndi:DMNShape id="DMNShape_0ytr1p2" dmnElementRef="decision_0iygfo0">
+        <dc:Bounds height="80" width="180" x="160" y="110" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0nqt3kg" dmnElementRef="InputData_0enwjwx">
+        <dc:Bounds height="45" width="125" x="187" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1srdu7x" dmnElementRef="InformationRequirement_0hhzr6i">
+        <di:waypoint x="250" y="237" />
+        <di:waypoint x="250" y="210" />
+        <di:waypoint x="250" y="190" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "port" : {
+            "Type" : "boolean"
+        },
+        "name" : {
+            "Type" : "string"
+        }
+    },
+    "Conclusions" : {
+        "resolve(final HttpHost host)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "port" : "port > 0",
+            "name" : "-",
+            "resolve(final HttpHost host)" : "return port;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("http")",
+            "resolve(final HttpHost host)" : "return 80;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("https")",
+            "resolve(final HttpHost host)" : "return 443;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "!(name.equalsIgnoreCase("http")) && !(name.equalsIgnoreCase("https"))",
+            "resolve(final HttpHost host)" : "throw new UnsupportedSchemeException(name + " protocol is not supported");"
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "resolve(final HttpHost host)" : {
+            "Input" : ["port", "name"]
+        }
+    },
+    "InputData" : ["port", "name"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1khyx15" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_08mi2kh" name="resolve(final HttpHost host)">
+    <informationRequirement id="InformationRequirement_11zq33g">
+      <requiredInput href="#InputData_1yd1o35" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_10edaps">
+      <requiredInput href="#InputData_1gapmsp" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0fn2rr7">
+      <input id="InputClause_1m3q0rl" label="port">
+        <inputExpression id="LiteralExpression_1mibefk" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input1" label="name">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="resolve(final HttpHost host)" name="" typeRef="string" />
+      <rule id="DecisionRule_152edol">
+        <inputEntry id="UnaryTests_1n1yrsc">
+          <text>port &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k0wvh4">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rssu1i">
+          <text>return port;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kluoj5">
+        <inputEntry id="UnaryTests_11n73o7">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mtb96b">
+          <text>name.equalsIgnoreCase("http")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10proya">
+          <text>return 80;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01m4cqv">
+        <inputEntry id="UnaryTests_0yqqqf1">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dleyfy">
+          <text>name.equalsIgnoreCase("https")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09hc5el">
+          <text>return 443;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zxf3ra">
+        <inputEntry id="UnaryTests_0n5agrw">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j6q8qw">
+          <text>!(name.equalsIgnoreCase("http")) &amp;&amp; !(name.equalsIgnoreCase("https"))</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nhkia1">
+          <text>throw new UnsupportedSchemeException(name + " protocol is not supported");</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1yd1o35" name="port" />
+  <inputData id="InputData_1gapmsp" name="name" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0l8iwsm">
+      <dmndi:DMNShape id="DMNShape_1djzll4" dmnElementRef="decision_08mi2kh">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1mjduok" dmnElementRef="InputData_1yd1o35">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0pi63kv" dmnElementRef="InformationRequirement_11zq33g">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0q08g0q" dmnElementRef="InputData_1gapmsp">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1yb2q7y" dmnElementRef="InformationRequirement_10edaps">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+Given multiple structured JSON objects, you are expected to generate a corresponding DMN XML file based on these JSON objects. Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {
+    "Decisions": {
+        "toString(Object val)": {
+            "Input": ["val", "numberToString(double d, int base)"]
+        },
+        "numberToString(double d, int base)": {
+            "Input": ["d", "base"]
+        },
+        "toString(Object[] args, int index)": {
+            "Input": ["index, args", "toString(Object val)"]
+        }
+    },
+    "InputData": ["val", "d", "base", "index, args"]
+}```json
+{
+    "Conditions": {
+        "c1_val_eq_null": {
+            "Type": "boolean"
+        },
+        "c2_val_eq_undefined": {
+            "Type": "boolean"
+        },
+        "c3_val_is_string": {
+            "Type": "boolean"
+        },
+        "c4_val_is_number": {
+            "Type": "boolean"
+        },
+        "c5_val_is_scriptable": {
+            "Type": "boolean"
+        },
+        "c6_default_from_scriptable_is_scriptable": {
+            "Type": "boolean"
+        }
+    },
+    "Conclusions": {
+        "toString(Object val)": {
+            "Type": "string"
+        }
+    },
+    "DecisionRules": [
+        {
+            "c1_val_eq_null": "val == null",
+            "c2_val_eq_undefined": "-",
+            "c3_val_is_string": "-",
+            "c4_val_is_number": "-",
+            "c5_val_is_scriptable": "-",
+            "c6_default_from_scriptable_is_scriptable": "-",
+            "toString(Object val)": "return \"null\";"
+        },
+        {
+            "c1_val_eq_null": "val != null",
+            "c2_val_eq_undefined": "val == Undefined.instance",
+            "c3_val_is_string": "-",
+            "c4_val_is_number": "-",
+            "c5_val_is_scriptable": "-",
+            "c6_default_from_scriptable_is_scriptable": "-",
+            "toString(Object val)": "return \"undefined\";"
+        },
+        {
+            "c1_val_eq_null": "val != null",
+            "c2_val_eq_undefined": "val != Undefined.instance",
+            "c3_val_is_string": "val instanceof String",
+            "c4_val_is_number": "-",
+            "c5_val_is_scriptable": "-",
+            "c6_default_from_scriptable_is_scriptable": "-",
+            "toString(Object val)": "return (String)val;"
+        },
+        {
+            "c1_val_eq_null": "val != null",
+            "c2_val_eq_undefined": "val != Undefined.instance",
+            "c3_val_is_string": "!(val instanceof String)",
+            "c4_val_is_number": "val instanceof Number",
+            "c5_val_is_scriptable": "-",
+            "c6_default_from_scriptable_is_scriptable": "-",
+            "toString(Object val)": "return numberToString(((Number)val).doubleValue(), 10);"
+        },
+        {
+            "c1_val_eq_null": "val != null",
+            "c2_val_eq_undefined": "val != Undefined.instance",
+            "c3_val_is_string": "!(val instanceof String)",
+            "c4_val_is_number": "!(val instanceof Number)",
+            "c5_val_is_scriptable": "val instanceof Scriptable",
+            "c6_default_from_scriptable_is_scriptable": "((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable",
+            "toString(Object val)": "throw errorWithClassName(\"msg.primitive.expected\", ((Scriptable)val).getDefaultValue(StringClass));"
+        },
+        {
+            "c1_val_eq_null": "val != null",
+            "c2_val_eq_undefined": "val != Undefined.instance",
+            "c3_val_is_string": "!(val instanceof String)",
+            "c4_val_is_number": "!(val instanceof Number)",
+            "c5_val_is_scriptable": "!(val instanceof Scriptable)",
+            "c6_default_from_scriptable_is_scriptable": "-",
+            "toString(Object val)": "return val.toString();"
+        }
+    ]
+}
+``````json
+{
+    "Conditions" : {
+        "d" : {
+            "Type" : "boolean"
+        },
+        "base" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "numberToString(double d, int base)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "d" : "d != d",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"NaN\";"
+        },
+        {
+            "d" : "d == Double.POSITIVE_INFINITY",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"Infinity\";"
+        },
+        {
+            "d" : "d == Double.NEGATIVE_INFINITY",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"-Infinity\";"
+        },
+        {
+            "d" : "d == 0.0",
+            "base" : "-",
+            "numberToString(double d, int base)" : "return \"0\";"
+        },
+        {
+            "d" : "-",
+            "base" : "(base < 2) || (base > 36)",
+            "numberToString(double d, int base)" : "throw Context.reportRuntimeError1(\"msg.bad.radix\", Integer.toString(base));"
+        },
+        {
+            "d" : "-",
+            "base" : "!((base < 2) || (base > 36)) && (base != 10)",
+            "numberToString(double d, int base)" : "return DToA.JS_dtobasestr(base, d);"
+        },
+        {
+            "d" : "-",
+            "base" : "!((base < 2) || (base > 36)) && !(base != 10)",
+            "numberToString(double d, int base)" : "return result.toString();"
+        }
+    ]
+}
+``````json
+{
+    "Conditions" : {
+        "index, args" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "toString(Object[] args, int index)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "index, args" : "index < args.length",
+            "toString(Object[] args, int index)" : "toString(args[index])"
+        },
+        {
+            "index, args" : "!(index < args.length)",
+            "toString(Object[] args, int index)" : "\"undefined\""
+        }
+    ]
+}
+``` 
+
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_01" name="definitions" namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="Generated" exporterVersion="1.0">
+
+  <!-- InputData Elements -->
+  <inputData id="id_val" name="val" />
+  <inputData id="id_d" name="d" />
+  <inputData id="id_base" name="base" />
+  <inputData id="id_idxargs" name="index, args" />
+
+  <!-- Decision: numberToString(double d, int base) -->
+  <decision id="dec_numtostr" name="numberToString(double d, int base)">
+    <informationRequirement id="ir_numtostr_d">
+      <requiredInput href="#id_d" />
+    </informationRequirement>
+    <informationRequirement id="ir_numtostr_base">
+      <requiredInput href="#id_base" />
+    </informationRequirement>
+    <decisionTable id="dt_numtostr">
+      <input id="input_numtostr_1" label="d">
+        <inputExpression id="expr_numtostr_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input_numtostr_2" label="base">
+        <inputExpression id="expr_numtostr_2" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_numtostr_1" label="numberToString(double d, int base)" typeRef="string" />
+      <rule id="rule_numtostr_1">
+        <inputEntry id="entry_numtostr_1_1"><text>d != d</text></inputEntry>
+        <inputEntry id="entry_numtostr_1_2"><text>-</text></inputEntry>
+        <outputEntry id="outentry_numtostr_1_1"><text>return "NaN";</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_2">
+        <inputEntry id="entry_numtostr_2_1"><text>d == Double.POSITIVE_INFINITY</text></inputEntry>
+        <inputEntry id="entry_numtostr_2_2"><text>-</text></inputEntry>
+        <outputEntry id="outentry_numtostr_2_1"><text>return "Infinity";</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_3">
+        <inputEntry id="entry_numtostr_3_1"><text>d == Double.NEGATIVE_INFINITY</text></inputEntry>
+        <inputEntry id="entry_numtostr_3_2"><text>-</text></inputEntry>
+        <outputEntry id="outentry_numtostr_3_1"><text>return "-Infinity";</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_4">
+        <inputEntry id="entry_numtostr_4_1"><text>d == 0.0</text></inputEntry>
+        <inputEntry id="entry_numtostr_4_2"><text>-</text></inputEntry>
+        <outputEntry id="outentry_numtostr_4_1"><text>return "0";</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_5">
+        <inputEntry id="entry_numtostr_5_1"><text>-</text></inputEntry>
+        <inputEntry id="entry_numtostr_5_2"><text>(base &lt; 2) || (base &gt; 36)</text></inputEntry>
+        <outputEntry id="outentry_numtostr_5_1"><text>throw Context.reportRuntimeError1("msg.bad.radix", Integer.toString(base));</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_6">
+        <inputEntry id="entry_numtostr_6_1"><text>-</text></inputEntry>
+        <inputEntry id="entry_numtostr_6_2"><text>!((base &lt; 2) || (base &gt; 36)) &amp;&amp; (base != 10)</text></inputEntry>
+        <outputEntry id="outentry_numtostr_6_1"><text>return DToA.JS_dtobasestr(base, d);</text></outputEntry>
+      </rule>
+      <rule id="rule_numtostr_7">
+        <inputEntry id="entry_numtostr_7_1"><text>-</text></inputEntry>
+        <inputEntry id="entry_numtostr_7_2"><text>!((base &lt; 2) || (base &gt; 36)) &amp;&amp; !(base != 10)</text></inputEntry>
+        <outputEntry id="outentry_numtostr_7_1"><text>return result.toString();</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <!-- Decision: toString(Object val) -->
+  <decision id="dec_tostrval" name="toString(Object val)">
+    <informationRequirement id="ir_tostrval_val">
+      <requiredInput href="#id_val" />
+    </informationRequirement>
+    <informationRequirement id="ir_tostrval_numtostr">
+      <requiredDecision href="#dec_numtostr" />
+    </informationRequirement>
+    <decisionTable id="dt_tostrval">
+      <input id="input_tostrval_1" label="c1_val_eq_null">
+        <inputExpression id="expr_tostrval_1" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <input id="input_tostrval_2" label="c2_val_eq_undefined">
+        <inputExpression id="expr_tostrval_2" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <input id="input_tostrval_3" label="c3_val_is_string">
+        <inputExpression id="expr_tostrval_3" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <input id="input_tostrval_4" label="c4_val_is_number">
+        <inputExpression id="expr_tostrval_4" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <input id="input_tostrval_5" label="c5_val_is_scriptable">
+        <inputExpression id="expr_tostrval_5" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <input id="input_tostrval_6" label="c6_default_from_scriptable_is_scriptable">
+        <inputExpression id="expr_tostrval_6" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <output id="output_tostrval_1" label="toString(Object val)" typeRef="string" />
+      <rule id="rule_tostrval_1">
+        <inputEntry id="entry_tostrval_1_1"><text>val == null</text></inputEntry>
+        <inputEntry id="entry_tostrval_1_2"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_1_3"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_1_4"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_1_5"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_1_6"><text>-</text></inputEntry>
+        <outputEntry id="outentry_tostrval_1_1"><text>return "null";</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrval_2">
+        <inputEntry id="entry_tostrval_2_1"><text>val != null</text></inputEntry>
+        <inputEntry id="entry_tostrval_2_2"><text>val == Undefined.instance</text></inputEntry>
+        <inputEntry id="entry_tostrval_2_3"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_2_4"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_2_5"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_2_6"><text>-</text></inputEntry>
+        <outputEntry id="outentry_tostrval_2_1"><text>return "undefined";</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrval_3">
+        <inputEntry id="entry_tostrval_3_1"><text>val != null</text></inputEntry>
+        <inputEntry id="entry_tostrval_3_2"><text>val != Undefined.instance</text></inputEntry>
+        <inputEntry id="entry_tostrval_3_3"><text>val instanceof String</text></inputEntry>
+        <inputEntry id="entry_tostrval_3_4"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_3_5"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_3_6"><text>-</text></inputEntry>
+        <outputEntry id="outentry_tostrval_3_1"><text>return (String)val;</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrval_4">
+        <inputEntry id="entry_tostrval_4_1"><text>val != null</text></inputEntry>
+        <inputEntry id="entry_tostrval_4_2"><text>val != Undefined.instance</text></inputEntry>
+        <inputEntry id="entry_tostrval_4_3"><text>!(val instanceof String)</text></inputEntry>
+        <inputEntry id="entry_tostrval_4_4"><text>val instanceof Number</text></inputEntry>
+        <inputEntry id="entry_tostrval_4_5"><text>-</text></inputEntry>
+        <inputEntry id="entry_tostrval_4_6"><text>-</text></inputEntry>
+        <outputEntry id="outentry_tostrval_4_1"><text>return numberToString(((Number)val).doubleValue(), 10);</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrval_5">
+        <inputEntry id="entry_tostrval_5_1"><text>val != null</text></inputEntry>
+        <inputEntry id="entry_tostrval_5_2"><text>val != Undefined.instance</text></inputEntry>
+        <inputEntry id="entry_tostrval_5_3"><text>!(val instanceof String)</text></inputEntry>
+        <inputEntry id="entry_tostrval_5_4"><text>!(val instanceof Number)</text></inputEntry>
+        <inputEntry id="entry_tostrval_5_5"><text>val instanceof Scriptable</text></inputEntry>
+        <inputEntry id="entry_tostrval_5_6"><text>((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable</text></inputEntry>
+        <outputEntry id="outentry_tostrval_5_1"><text>throw errorWithClassName("msg.primitive.expected", ((Scriptable)val).getDefaultValue(StringClass));</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrval_6">
+        <inputEntry id="entry_tostrval_6_1"><text>val != null</text></inputEntry>
+        <inputEntry id="entry_tostrval_6_2"><text>val != Undefined.instance</text></inputEntry>
+        <inputEntry id="entry_tostrval_6_3"><text>!(val instanceof String)</text></inputEntry>
+        <inputEntry id="entry_tostrval_6_4"><text>!(val instanceof Number)</text></inputEntry>
+        <inputEntry id="entry_tostrval_6_5"><text>!(val instanceof Scriptable)</text></inputEntry>
+        <inputEntry id="entry_tostrval_6_6"><text>-</text></inputEntry>
+        <outputEntry id="outentry_tostrval_6_1"><text>return val.toString();</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <!-- Decision: toString(Object[] args, int index) -->
+  <decision id="dec_tostrargs" name="toString(Object[] args, int index)">
+    <informationRequirement id="ir_tostrargs_idxargs">
+      <requiredInput href="#id_idxargs" />
+    </informationRequirement>
+    <informationRequirement id="ir_tostrargs_tostrval">
+      <requiredDecision href="#dec_tostrval" />
+    </informationRequirement>
+    <decisionTable id="dt_tostrargs">
+      <input id="input_tostrargs_1" label="index, args">
+        <inputExpression id="expr_tostrargs_1" typeRef="boolean"><text></text></inputExpression>
+      </input>
+      <output id="output_tostrargs_1" label="toString(Object[] args, int index)" typeRef="string" />
+      <rule id="rule_tostrargs_1">
+        <inputEntry id="entry_tostrargs_1_1"><text>index &lt; args.length</text></inputEntry>
+        <outputEntry id="outentry_tostrargs_1_1"><text>toString(args[index])</text></outputEntry>
+      </rule>
+      <rule id="rule_tostrargs_2">
+        <inputEntry id="entry_tostrargs_2_1"><text>!(index &lt; args.length)</text></inputEntry>
+        <outputEntry id="outentry_tostrargs_2_1"><text>"undefined"</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_01">
+      <!-- Shapes for InputData -->
+      <dmndi:DMNShape id="DMNShape_id_val" dmnElementRef="id_val">
+        <dc:Bounds height="45" width="125" x="350" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_id_d" dmnElementRef="id_d">
+        <dc:Bounds height="45" width="125" x="50" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_id_base" dmnElementRef="id_base">
+        <dc:Bounds height="45" width="125" x="200" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_id_idxargs" dmnElementRef="id_idxargs">
+        <dc:Bounds height="45" width="125" x="500" y="500" />
+      </dmndi:DMNShape>
+
+      <!-- Shapes for Decisions -->
+      <dmndi:DMNShape id="DMNShape_dec_numtostr" dmnElementRef="dec_numtostr">
+        <dc:Bounds height="80" width="180" x="100" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_dec_tostrval" dmnElementRef="dec_tostrval">
+        <dc:Bounds height="80" width="180" x="250" y="200" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_dec_tostrargs" dmnElementRef="dec_tostrargs">
+        <dc:Bounds height="80" width="180" x="400" y="50" />
+      </dmndi:DMNShape>
+
+      <!-- Edges for InformationRequirements -->
+      <dmndi:DMNEdge id="DMNEdge_ir_numtostr_d" dmnElementRef="ir_numtostr_d">
+        <di:waypoint x="112.5" y="500" />
+        <di:waypoint x="112.5" y="465" />
+        <di:waypoint x="190" y="430" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_numtostr_base" dmnElementRef="ir_numtostr_base">
+        <di:waypoint x="262.5" y="500" />
+        <di:waypoint x="262.5" y="465" />
+        <di:waypoint x="190" y="430" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_tostrval_val" dmnElementRef="ir_tostrval_val">
+        <di:waypoint x="412.5" y="500" />
+        <di:waypoint x="412.5" y="390" />
+        <di:waypoint x="340" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_tostrval_numtostr" dmnElementRef="ir_tostrval_numtostr">
+        <di:waypoint x="190" y="350" />
+        <di:waypoint x="190" y="315" />
+        <di:waypoint x="340" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_tostrargs_idxargs" dmnElementRef="ir_tostrargs_idxargs">
+        <di:waypoint x="562.5" y="500" />
+        <di:waypoint x="562.5" y="315" />
+        <di:waypoint x="490" y="130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_tostrargs_tostrval" dmnElementRef="ir_tostrargs_tostrval">
+        <di:waypoint x="340" y="200" />
+        <di:waypoint x="340" y="165" />
+        <di:waypoint x="490" y="130" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```
+

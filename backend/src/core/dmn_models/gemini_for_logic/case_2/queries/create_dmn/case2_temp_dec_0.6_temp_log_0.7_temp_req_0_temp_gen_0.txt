@@ -322,10 +322,16 @@ Decision Requirement Level:
 Given multiple structured JSON objects, you are expected to generate a corresponding DMN XML file based on these JSON objects. Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {
     "Decisions": {
         "format(String s)": {
-            "Input": ["s", "pageParts"]
+            "Input": [
+                "s",
+                "pageParts"
+            ]
         }
     },
-    "InputData": ["s", "pageParts"]
+    "InputData": [
+        "s",
+        "pageParts"
+    ]
 }```json
 {
     "Conditions": {
@@ -359,7 +365,7 @@ Given multiple structured JSON objects, you are expected to generate a correspon
         },
         {
             "s": "!(s == null)",
-            "pageParts": "pageParts.length != 2 && !(pageParts.length >= 1)",
+            "pageParts": "pageParts.length != 2 && pageParts.length < 1",
             "format(String s)": "return \"\";"
         }
     ]
@@ -369,91 +375,91 @@ Given multiple structured JSON objects, you are expected to generate a correspon
 A:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_g3n3r4t" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
-  <inputData id="InputData_1sabcde" name="s" />
-  <inputData id="InputData_2pqrst" name="pageParts" />
-  <decision id="Decision_0frm4t0" name="format(String s)">
-    <informationRequirement id="InformationRequirement_1reqs00">
-      <requiredInput href="#InputData_1sabcde" />
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_fmt001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_s_fmt" name="s" />
+  <inputData id="InputData_pp_fmt" name="pageParts" />
+  <decision id="Decision_format_001" name="format(String s)">
+    <informationRequirement id="InformationRequirement_s_to_fmt">
+      <requiredInput href="#InputData_s_fmt" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_2reqp00">
-      <requiredInput href="#InputData_2pqrst" />
+    <informationRequirement id="InformationRequirement_pp_to_fmt">
+      <requiredInput href="#InputData_pp_fmt" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_0dtbl00">
-      <input id="InputClause_1clss00" label="s">
-        <inputExpression id="LiteralExpression_1exps00" typeRef="boolean">
+    <decisionTable id="DecisionTable_format_dt">
+      <input id="InputClause_s_cond" label="s">
+        <inputExpression id="LiteralExpression_s_type" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <input id="InputClause_2clsp00" label="pageParts">
-        <inputExpression id="LiteralExpression_2expp00" typeRef="boolean">
+      <input id="InputClause_pp_cond" label="pageParts">
+        <inputExpression id="LiteralExpression_pp_type" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <output id="OutputClause_0out000" label="format(String s)" name="" typeRef="string" />
-      <rule id="DecisionRule_0r00001">
-        <inputEntry id="UnaryTests_1uts001">
+      <output id="OutputClause_format_res" label="format(String s)" typeRef="string" />
+      <rule id="DecisionRule_fmt_r1">
+        <inputEntry id="UnaryTests_s_r1">
           <text>s == null</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_1utp001">
+        <inputEntry id="UnaryTests_pp_r1">
           <text>-</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_1ote001">
+        <outputEntry id="LiteralExpression_out_r1">
           <text>return "";</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_0r00002">
-        <inputEntry id="UnaryTests_2uts002">
+      <rule id="DecisionRule_fmt_r2">
+        <inputEntry id="UnaryTests_s_r2">
           <text>!(s == null)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_2utp002">
+        <inputEntry id="UnaryTests_pp_r2">
           <text>pageParts.length == 2</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_2ote002">
+        <outputEntry id="LiteralExpression_out_r2">
           <text>return pageParts[1];</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_0r00003">
-        <inputEntry id="UnaryTests_3uts003">
+      <rule id="DecisionRule_fmt_r3">
+        <inputEntry id="UnaryTests_s_r3">
           <text>!(s == null)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_3utp003">
+        <inputEntry id="UnaryTests_pp_r3">
           <text>pageParts.length != 2 &amp;&amp; pageParts.length &gt;= 1</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_3ote003">
+        <outputEntry id="LiteralExpression_out_r3">
           <text>return pageParts[0];</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_0r00004">
-        <inputEntry id="UnaryTests_4uts004">
+      <rule id="DecisionRule_fmt_r4">
+        <inputEntry id="UnaryTests_s_r4">
           <text>!(s == null)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_4utp004">
-          <text>pageParts.length != 2 &amp;&amp; !(pageParts.length &gt;= 1)</text>
+        <inputEntry id="UnaryTests_pp_r4">
+          <text>pageParts.length != 2 &amp;&amp; pageParts.length &lt; 1</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_4ote004">
+        <outputEntry id="LiteralExpression_out_r4">
           <text>return "";</text>
         </outputEntry>
       </rule>
     </decisionTable>
   </decision>
   <dmndi:DMNDI>
-    <dmndi:DMNDiagram id="DMNDiagram_0dgm000">
-      <dmndi:DMNShape id="DMNShape_0decshp" dmnElementRef="Decision_0frm4t0">
+    <dmndi:DMNDiagram id="DMNDiagram_fmt_dia">
+      <dmndi:DMNShape id="DMNShape_Decision_fmt" dmnElementRef="Decision_format_001">
         <dc:Bounds height="80" width="180" x="220" y="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="DMNShape_1inpshp" dmnElementRef="InputData_1sabcde">
+      <dmndi:DMNShape id="DMNShape_InputData_s" dmnElementRef="InputData_s_fmt">
         <dc:Bounds height="45" width="125" x="157" y="218" />
       </dmndi:DMNShape>
-      <dmndi:DMNEdge id="DMNEdge_1edgs00" dmnElementRef="InformationRequirement_1reqs00">
+      <dmndi:DMNEdge id="DMNEdge_s_to_decision" dmnElementRef="InformationRequirement_s_to_fmt">
         <di:waypoint x="220" y="218" />
         <di:waypoint x="280" y="180" />
         <di:waypoint x="280" y="160" />
       </dmndi:DMNEdge>
-      <dmndi:DMNShape id="DMNShape_2inpshp" dmnElementRef="InputData_2pqrst">
+      <dmndi:DMNShape id="DMNShape_InputData_pp" dmnElementRef="InputData_pp_fmt">
         <dc:Bounds height="45" width="125" x="338" y="219" />
       </dmndi:DMNShape>
-      <dmndi:DMNEdge id="DMNEdge_2edgp00" dmnElementRef="InformationRequirement_2reqp00">
+      <dmndi:DMNEdge id="DMNEdge_pp_to_decision" dmnElementRef="InformationRequirement_pp_to_fmt">
         <di:waypoint x="401" y="219" />
         <di:waypoint x="340" y="180" />
         <di:waypoint x="340" y="160" />

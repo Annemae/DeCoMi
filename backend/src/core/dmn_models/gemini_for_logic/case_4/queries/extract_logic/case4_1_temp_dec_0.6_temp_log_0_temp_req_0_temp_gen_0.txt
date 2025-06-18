@@ -31,21 +31,23 @@ A: This code decides the string representation of an input object by applying ty
 
 Q: What does the function return? 
 
-A: The function returns a string representation of the input object.
+A: The function returns a String, which represents the input object `val`. Specifically, it returns "null" for a null input, "undefined" for an `Undefined` instance, the input String itself if `val` is a String, a formatted numeric string if `val` is a Number, and the result of `val.toString()` for other types. For `Scriptable` objects, it first attempts to convert them to a default string value, which is then processed by the same logic; if this conversion to a non-Scriptable primitive fails, an error is thrown instead of a string being returned.
 
 Q: What are the variables that influence this decision? 
 
-A: The variables that influence this decision are the input object `val`, its runtime type, and its specific value (for example, whether it is `null` or `Undefined.instance`). Additionally, if `val` is a `Scriptable` object, the value returned by its `getDefaultValue` method also influences the decision, as `val` is updated with this new value for subsequent iterations within the loop.
+A: The variables that influence this decision are the input object `val` and, if `val` is a `Scriptable` object, the intermediate value obtained from its `getDefaultValue(StringClass)` method. This intermediate value is critical because `val` is reassigned to it, and the decision logic is then re-applied to this new state of `val` within a loop.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A: The function has one primary input, `val`. The data type of `val` is `Object`. This means `val` can be the `null` reference, the specific object `Undefined.instance`, an instance of `String`, an instance of any subclass of `Number` (such as `Integer` or `Double`), an instance of an object implementing the `Scriptable` interface, or an instance of any other Java class. During the processing of a `Scriptable` object, the `val` variable is updated with the result of its `getDefaultValue` method, and this new value (which could be a `String`, `Number`, `null`, `Undefined.instance`, or another object type) is then processed in a subsequent iteration of the loop.
+A: For the input, the function `toString(Object val)` accepts one argument.
+This input argument is named `val`. Its data type is `Object`, meaning it can be any Java object or the special `null` reference. The possible values for `val` include `null` itself; a specific singleton object `Undefined.instance`; any instance of `String`, representing textual data; any instance of `Number`, such as `Integer` or `Double`, which can represent various numerical values including special cases like `NaN` (Not a Number) or `Infinity`; any instance of an object that implements the `Scriptable` interface, which has a mechanism to be converted to a default primitive value; or an instance of any other Java class.
 
-The function's output is a `String`. The possible values for this returned string depend on the input `val`: it can be the literal string `"null"` if `val` was `null`; it can be the literal string `"undefined"` if `val` was `Undefined.instance`; if `val` was a `String`, the output is that same string; if `val` was a `Number`, the output is its string representation (e.g., `"123.45"`). If `val` was initially a `Scriptable` object, its `getDefaultValue` method is called; if this returns a non-`Scriptable` value, that value is then converted to a string according to these rules in a new iteration. For any other type of object not covered by these specific checks (or resulting from the `Scriptable` object's `getDefaultValue` call), the output is the string returned by that object's `toString()` method.
+For the output, the function returns a value.
+This output is a `String` that represents the input object `val` (or a value derived from it if `val` is `Scriptable`). The data type of the returned value is always `String`. Possible values for this output string include: the literal string `"null"` if the object being converted is `null`; the literal string `"undefined"` if the object is `Undefined.instance`; the original string itself if the object is already a `String`; a string representation of a number (such as `"42"`, `"3.14159"`, `"NaN"`, or `"Infinity"`) if the object is a `Number`; or the string result of calling the object's own `toString()` method if it does not fall into one of the previously mentioned categories. In the case of a `Scriptable` object, it is first asked for its default string value, which is then processed according to these same rules.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: The primary numerical variable whose values are relevant is the input `val`, specifically when `val` is an instance of `Number`. The relevant values in this case are the actual numerical data held by the `Number` object, which is processed as a `double`. Thus, any value that can be represented by a `double` type is a relevant numerical value for `val` in this context; this includes the full range of floating-point numbers such as `0.0`, `3.14`, `-2.71`, as well as special values like `Double.NaN`, `Double.POSITIVE_INFINITY`, and `Double.NEGATIVE_INFINITY`. Although not a variable, the integer literal `10` is also a relevant numerical value, as it dictates that the number-to-string conversion should be performed in base 10.
+A: The relevant numerical values that influence this decision primarily appear when the input `val` is an instance of `Number`. Firstly, the integer literal `10` is a significant numerical value, as it is passed as the radix to the `numberToString` method, dictating that the number should be converted to its decimal (base 10) string representation. Secondly, the specific `double` value resulting from `((Number)val).doubleValue()` is crucial. The relevance of this `double` value encompasses its entire possible range, including standard finite numbers (such as 0.0, -1.23, or 4.56e78), as well as special floating-point constants like `Double.NaN` (Not a Number), `Double.POSITIVE_INFINITY`, and `Double.NEGATIVE_INFINITY`. These special constants, along with potentially distinct positive and negative zero values, often have unique string representations (e.g., "NaN", "Infinity") determined by the `numberToString` method.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -238,7 +240,7 @@ Create a decision table for the part of Java source code provided in the first q
 {
     "Conditions": {
         "val": {
-            "Type": "boolean"
+            "Type": "Object"
         }
     },
     "Conclusions": {
@@ -268,6 +270,10 @@ Create a decision table for the part of Java source code provided in the first q
             "toString(Object val)": "throw errorWithClassName(\"msg.primitive.expected\", ((Scriptable)val).getDefaultValue(StringClass));"
         },
         {
+            "val": "val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && val instanceof Scriptable && !(((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable)",
+            "toString(Object val)": "continue;"
+        },
+        {
             "val": "val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && !(val instanceof Scriptable)",
             "toString(Object val)": "return val.toString();"
         }
@@ -277,21 +283,9 @@ Create a decision table for the part of Java source code provided in the first q
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: No, the table is not complete. There are sets of inputs for which no rule would be applicable.
-
-An example for which no rule would be applicable is when the input `val` is an instance of `Scriptable`, and the method call `((Scriptable)val).getDefaultValue(StringClass)` returns a value that is *not* an instance of `Scriptable`. For instance, if `val` is a `Scriptable` object and `((Scriptable)val).getDefaultValue(StringClass)` returns a `String` object (e.g., "hello"), a `Number` object, `null`, or `Undefined.instance`.
-
-In such a scenario:
-1.  `val == null` would be false.
-2.  `val == Undefined.instance` would be false.
-3.  `val instanceof String` would be false.
-4.  `val instanceof Number` would be false.
-5.  The condition for the fifth rule is `val instanceof Scriptable && ((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable`. While `val instanceof Scriptable` would be true, `((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable` would be false (as it returned a non-`Scriptable` type). Thus, the overall condition for this rule would be false.
-6.  The condition for the sixth rule includes `!(val instanceof Scriptable)`, which would be false because `val` is `Scriptable`.
-
-Since none of the conditions for the existing rules would be met for this initial `val`, no rule would be applicable. The Java code would execute the `continue` statement, and the loop would restart with the new, non-`Scriptable` value of `val`, which would then likely match one of the other rules in a subsequent iteration. However, the DMN table aims to map the initial input `val` to a final outcome, and for this specific case, it fails to provide a direct rule.
+A: Yes, the table is complete. According to the provided definition of completeness (i.e., there is an applicable rule for each set of inputs), this decision table fulfills the criterion. The conditions for `val` (being null, `Undefined.instance`, `String`, `Number`, `Scriptable`, or another type) and the further condition on the result of `getDefaultValue(StringClass)` for `Scriptable` objects are structured in such a way that they cover all possible scenarios for the input object `val`. Therefore, for any given `val`, one of the seven rules will have its conditions satisfied and will be applicable.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 
-A: According to the table, the input to the decision is `val`.
+A: According to the table, the input to the decision is the variable `val`.
 

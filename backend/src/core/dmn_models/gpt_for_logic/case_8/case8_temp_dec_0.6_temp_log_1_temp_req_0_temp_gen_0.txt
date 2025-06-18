@@ -1,0 +1,54 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_g7h2k1s" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_proj001" name="project" />
+  <inputData id="InputData_excp001" name="thrownException" />
+  <decision id="Decision_execT01" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InfoReq_projLink_s8j3k2">
+      <requiredInput href="#InputData_proj001" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_excpLink_p4m1n0">
+      <requiredInput href="#InputData_excp001" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_mainDT_x9f5g1">
+      <input id="InputClause_cond01_q2w3e4" label="project, ex">
+        <inputExpression id="LiteralExp_in01_a1s2d3" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_res01_z7x8c9" label="throw ex" typeRef="string" />
+      <rule id="DecisionRule_rule01_k5l6p7">
+        <inputEntry id="UnaryTests_cond01_r01_v6b7n8">
+          <text>!project.isKeepGoingMode() &amp;&amp; ex != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExp_out01_r01_m0n9b8">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_diag01_f4g5h6">
+      <dmndi:DMNShape id="DMNShape_dec01_j3k2l1" dmnElementRef="Decision_execT01">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_id_proj_c1v2b3" dmnElementRef="InputData_proj001">
+        <dc:Bounds height="45" width="125" x="100" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_id_excp_n7m8k9" dmnElementRef="InputData_excp001">
+        <dc:Bounds height="45" width="125" x="340" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_ir_proj_l0p9o8" dmnElementRef="InfoReq_projLink_s8j3k2">
+        <di:waypoint x="163" y="220" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_ir_excp_i7u6y5" dmnElementRef="InfoReq_excpLink_p4m1n0">
+        <di:waypoint x="403" y="220" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

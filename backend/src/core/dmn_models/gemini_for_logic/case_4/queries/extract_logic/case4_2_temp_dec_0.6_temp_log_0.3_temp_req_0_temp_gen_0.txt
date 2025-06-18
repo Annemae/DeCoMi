@@ -5,23 +5,23 @@ Q: We will ask you a series of questions on Decision Model and Notation tables. 
         return (index < args.length) ? toString(args[index]) : "undefined";
     }""" 
 
-A: This code decides the string representation of an indexed array element, handling out-of-bounds access by returning "undefined".
+A: This code decides the string representation of an element at a given index within an array of objects; if the index is within the bounds of the array, it converts the element at that index to a string, otherwise, it returns the string "undefined".
 
 Q: What does the function return? 
 
-A: The function returns a string. If the provided index is within the bounds of the array, it returns the string representation of the element at that index; otherwise, it returns the string "undefined".
+A: The function returns a string.
 
 Q: What are the variables that influence this decision? 
 
-A: The variables that influence this decision are the input array `args` (specifically its length) and the integer `index`.
+A: The variables that influence this decision are the array of objects `args` (specifically, its length) and the integer `index`.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A: Input `args` has a data type of `Object[]` (an array of Objects). Its possible values include `null` (which would lead to a `NullPointerException` when its length is accessed) or a non-null array. A non-null array can be empty or contain `Object` elements (which themselves can be `null`), and its length is a significant factor in the decision. Input `index` has a data type of `int` (integer) and can be any integer value; its value is important relative to the length of the `args` array. The output of the function is of data type `String`. Its possible values are the literal string `"undefined"`, or, if the `index` is valid for a non-null `args` array, the string representation of the element `args[index]` as produced by the `toString(Object)` helper method.
+A: The input `args` is an array of Objects, with the data type `Object[]`. For the depicted decision logic to execute, `args` is expected to be a non-null array, which can be an empty array or an array containing `Object` instances; these instances themselves can be `null`. The input `index` is an integer, data type `int`, and its possible values include any integer (negative, zero, or positive). The function returns an output of data type `String`. The possible values for this returned string are either the literal `"undefined"` or the string representation of the object `args[index]`, which is obtained by a call to another `toString` method designed to convert an `Object` to a `String`.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: For the numerical variable `index`, relevant values are integers that characterize its relationship to `args.length`. These include negative integers (e.g., -1), zero (0), positive integers that are less than `args.length` (such as `args.length - 1`, if `args.length` is positive, representing valid indices), integers equal to `args.length` (representing the first out-of-bounds index from the lower side), and integers greater than `args.length`. For the numerical property `args.length`, which is a non-negative integer representing the array's length, relevant values include zero (0), indicating an empty array, and positive integers (such as 1 or 5), indicating non-empty arrays, as these establish the boundary for the comparison with `index`.
+A: For the numerical variable `index`, the relevant values are those less than zero, those greater than or equal to zero but less than `args.length`, and those greater than or equal to `args.length`. For the numerical property `args.length` (derived from the `args` array), its relevant values are zero (representing an empty array) and positive integers (representing a non-empty array), as these values establish the boundaries for `index` and affect the outcome of the decision.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -228,7 +228,7 @@ Create a decision table for the part of Java source code provided in the first q
             "toString(Object[] args, int index)" : "toString(args[index])"
         },
         {
-            "index, args" : "index >= args.length",
+            "index, args" : "!(index < args.length)",
             "toString(Object[] args, int index)" : "\"undefined\""
         }
     ]
@@ -237,9 +237,9 @@ Create a decision table for the part of Java source code provided in the first q
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: The table is incomplete. For example, if the input `args` is `null` (e.g., `args = null` and `index = 0`), the condition `index < args.length` (and its negation `index >= args.length`) used in the decision rules cannot be evaluated as defined. In the Java code, attempting to access `args.length` when `args` is `null` would result in a `NullPointerException`. The provided DMN table does not have a rule that describes this outcome for such an input set, meaning no rule would be applicable to model the function's actual behavior in this scenario.
+A: Yes, the table is complete. Assuming `args` is a non-null array (so that `args.length` can be evaluated, as was implied by a previous answer stating `args` is expected to be non-null for the logic to execute), the condition `index < args.length` will always evaluate to either true or false. The first rule in the `DecisionRules` array applies when `index < args.length` is true, and the second rule applies when `!(index < args.length)` (i.e., `index < args.length` is false). Since these two rules cover all possible boolean outcomes of the condition, an applicable rule exists for every set of inputs `index` and `args` where `args` is non-null.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 
-A: According to the table, the inputs to the decision are `index` and `args`.
+A: According to the table, the input to the decision is "index, args".
 

@@ -1,0 +1,812 @@
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_w4j9zay" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="PythonDMNGenerator" exporterVersion="1.0">
+  <inputData id="InputData_qg0wz7x" name="MSJVM_BUG_WORKAROUNDS" />
+  <inputData id="InputData_zcn7qgt" name="args" />
+  <inputData id="InputData_0xskn0x" name="bit" />
+  <inputData id="InputData_0zpcq1n" name="bit53" />
+  <inputData id="InputData_07z6n0u" name="bit54" />
+  <inputData id="InputData_0q8x8u1" name="bitShiftInChar" />
+  <inputData id="InputData_0w1wz7x" name="c" />
+  <inputData id="InputData_0n6wz7x" name="c1" />
+  <inputData id="InputData_0j0wz7x" name="c2" />
+  <inputData id="InputData_0g4wz7x" name="digit" />
+  <inputData id="InputData_0d8wz7x" name="digitMax" />
+  <inputData id="InputData_0a2wz7x" name="end" />
+  <inputData id="InputData_076wz7x" name="endChar" />
+  <inputData id="InputData_040wz7x" name="exactBitsLimit" />
+  <inputData id="InputData_014wz7x" name="index" />
+  <inputData id="InputData_1y8wz7x" name="len" />
+  <inputData id="InputData_1v2wz7x" name="lowerCaseBound" />
+  <inputData id="InputData_1s6wz7x" name="radix" />
+  <inputData id="InputData_1p0wz7x" name="s" />
+  <inputData id="InputData_1m4wz7x" name="start" />
+  <inputData id="InputData_1j8wz7x" name="startChar" />
+  <inputData id="InputData_1g2wz7x" name="state" />
+  <inputData id="InputData_1d6wz7x" name="sum" />
+  <inputData id="InputData_1a0wz7x" name="upperCaseBound" />
+  <inputData id="InputData_174wz7x" name="val" />
+  <decision id="Decision_0n0wz7x" name="stringToNumber(String s, int start, int radix)">
+    <informationRequirement id="InformationRequirement_0k4wz7x">
+      <requiredInput href="#InputData_0xskn0x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0h8wz7x">
+      <requiredInput href="#InputData_0zpcq1n" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0e2wz7x">
+      <requiredInput href="#InputData_07z6n0u" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0b6wz7x">
+      <requiredInput href="#InputData_0q8x8u1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1z0wz7x">
+      <requiredInput href="#InputData_0w1wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1w4wz7x">
+      <requiredInput href="#InputData_0g4wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1t8wz7x">
+      <requiredInput href="#InputData_0d8wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1q2wz7x">
+      <requiredInput href="#InputData_0a2wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1n6wz7x">
+      <requiredInput href="#InputData_040wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1k0wz7x">
+      <requiredInput href="#InputData_1y8wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1h4wz7x">
+      <requiredInput href="#InputData_1v2wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1e8wz7x">
+      <requiredInput href="#InputData_1s6wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1b2wz7x">
+      <requiredInput href="#InputData_1m4wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_186wz7x">
+      <requiredInput href="#InputData_1g2wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_150wz7x">
+      <requiredInput href="#InputData_1d6wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_124wz7x">
+      <requiredInput href="#InputData_1a0wz7x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0i8wz7x">
+      <input id="InputClause_0f2wz7x" label="start, end">
+        <inputExpression id="LiteralExpression_0c6wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1z4wz7x" label="sum, radix">
+        <inputExpression id="LiteralExpression_1w8wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1t2wz7x" label="stringToNumber(String s, int start, int radix)" typeRef="string" />
+      <rule id="DecisionRule_1q6wz7x">
+        <inputEntry id="UnaryTests_1n0wz7x">
+          <text>start == end</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k4wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h8wz7x">
+          <text>return NaN;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1e2wz7x">
+        <inputEntry id="UnaryTests_1b6wz7x">
+          <text>start != end</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_180wz7x">
+          <text>sum &gt;= 9007199254740992.0 &amp;&amp; radix == 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_154wz7x">
+          <text>return Double.valueOf(s.substring(start, end)).doubleValue();</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_128wz7x">
+        <inputEntry id="UnaryTests_0z2wz7x">
+          <text>start != end</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w6wz7x">
+          <text>sum &gt;= 9007199254740992.0 &amp;&amp; (radix == 2 || radix == 4 || radix == 8 || radix == 16 || radix == 32)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0t0wz7x">
+          <text>// special rounding logic for sum; see code</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0q4wz7x">
+        <inputEntry id="UnaryTests_0n8wz7x">
+          <text>start != end</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k2wz7x">
+          <text>!(sum &gt;= 9007199254740992.0 &amp;&amp; (radix == 10 || radix == 2 || radix == 4 || radix == 8 || radix == 16 || radix == 32))</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h6wz7x">
+          <text>return sum;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_0e6wz7x" name="toNumber(Object val)">
+    <informationRequirement id="InformationRequirement_0b0wz7x">
+      <requiredDecision href="#Decision_080wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1y4wz7x">
+      <requiredInput href="#InputData_174wz7x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_084wz7x">
+      <input id="InputClause_058wz7x" label="val">
+        <inputExpression id="LiteralExpression_022wz7x" typeRef="object">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1v8wz7x" label="toNumber(Object val)" typeRef="string" />
+      <rule id="DecisionRule_1s2wz7x">
+        <inputEntry id="UnaryTests_1p6wz7x">
+          <text>val instanceof Number</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m0wz7x">
+          <text>return ((Number) val).doubleValue();</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1j4wz7x">
+        <inputEntry id="UnaryTests_1g8wz7x">
+          <text>val == null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d2wz7x">
+          <text>return +0.0;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1a6wz7x">
+        <inputEntry id="UnaryTests_170wz7x">
+          <text>val == Undefined.instance</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_144wz7x">
+          <text>return NaN;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_118wz7x">
+        <inputEntry id="UnaryTests_0y2wz7x">
+          <text>val instanceof String</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v6wz7x">
+          <text>return toNumber((String) val);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0s0wz7x">
+        <inputEntry id="UnaryTests_0p4wz7x">
+          <text>val instanceof Boolean</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0m8wz7x">
+          <text>return ((Boolean) val).booleanValue() ? 1 : +0.0;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0j2wz7x">
+        <inputEntry id="UnaryTests_0g6wz7x">
+          <text>val instanceof Scriptable</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0d0wz7x">
+          <text>val = ((Scriptable) val).getDefaultValue(NumberClass); if (val instanceof Scriptable) throw errorWithClassName(&quot;msg.primitive.expected&quot;, val); continue;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0a4wz7x">
+        <inputEntry id="UnaryTests_078wz7x">
+          <text>otherwise</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_042wz7x">
+          <text>warnAboutNonJSObject(val); return NaN;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_018wz7x" name="toNumber(Object[] args, int index)">
+    <informationRequirement id="InformationRequirement_1x8wz7x">
+      <requiredDecision href="#Decision_0e6wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1u2wz7x">
+      <requiredInput href="#InputData_zcn7qgt" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1r6wz7x">
+      <requiredInput href="#InputData_014wz7x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0y6wz7x">
+      <input id="InputClause_0v0wz7x" label="index, args">
+        <inputExpression id="LiteralExpression_0s4wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0p8wz7x" label="toNumber(Object[] args, int index)" typeRef="string" />
+      <rule id="DecisionRule_0m2wz7x">
+        <inputEntry id="UnaryTests_0j6wz7x">
+          <text>index &lt; args.length</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0g0wz7x">
+          <text>toNumber(args[index])</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d4wz7x">
+        <inputEntry id="UnaryTests_0a8wz7x">
+          <text>index &gt;= args.length</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_072wz7x">
+          <text>NaN</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_080wz7x" name="toNumber(String s)">
+    <informationRequirement id="InformationRequirement_046wz7x">
+      <requiredDecision href="#Decision_0n0wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_000wz7x">
+      <requiredInput href="#InputData_qg0wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1x2wz7x">
+      <requiredInput href="#InputData_0w1wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1u6wz7x">
+      <requiredInput href="#InputData_0n6wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1r0wz7x">
+      <requiredInput href="#InputData_0j0wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1o4wz7x">
+      <requiredInput href="#InputData_0a2wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1l8wz7x">
+      <requiredInput href="#InputData_076wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1i2wz7x">
+      <requiredInput href="#InputData_1y8wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1f6wz7x">
+      <requiredInput href="#InputData_1p0wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1c0wz7x">
+      <requiredInput href="#InputData_1m4wz7x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_194wz7x">
+      <requiredInput href="#InputData_1j8wz7x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1z8wz7x">
+      <input id="InputClause_1w2wz7x" label="start == len">
+        <inputExpression id="LiteralExpression_1t6wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1q0wz7x" label="startChar == '0' &amp;&amp; (start + 2 &lt; len) &amp;&amp; (c1 == 'x' || c1 == 'X')">
+        <inputExpression id="LiteralExpression_1n4wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1k8wz7x" label="startChar == '+' || startChar == '-'">
+        <inputExpression id="LiteralExpression_1h2wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1e6wz7x" label="start + 3 &lt; len &amp;&amp; s.charAt(start + 1) == '0' &amp;&amp; (c2 == 'x' || c2 == 'X')">
+        <inputExpression id="LiteralExpression_1b0wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_184wz7x" label="Character.isWhitespace(endChar)">
+        <inputExpression id="LiteralExpression_158wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_122wz7x" label="endChar == 'y'">
+        <inputExpression id="LiteralExpression_0z6wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0w0wz7x" label="start + 7 == end &amp;&amp; s.regionMatches(start, &quot;Infinity&quot;, 0, 8)">
+        <inputExpression id="LiteralExpression_0t4wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0q8wz7x" label="MSJVM_BUG_WORKAROUNDS">
+        <inputExpression id="LiteralExpression_0n2wz7x" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0k6wz7x" label="toNumber(String s)" typeRef="string" />
+      <rule id="DecisionRule_0h0wz7x">
+        <inputEntry id="UnaryTests_0e4wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b8wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_082wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_056wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_020wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1p7wz7x">
+          <text>return +0.0;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1m1wz7x">
+        <inputEntry id="UnaryTests_1j5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g9wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_171wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_145wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_119wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v7wz7x">
+          <text>return stringToNumber(s, start + 2, 16);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0s1wz7x">
+        <inputEntry id="UnaryTests_0p5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j3wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g7wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_079wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_043wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_017wz7x">
+          <text>double val = stringToNumber(s, start + 3, 16); return startChar == '-' ? -val : val;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1y9wz7x">
+        <inputEntry id="UnaryTests_1v3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j9wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_175wz7x">
+          <text>end--;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_149wz7x">
+        <inputEntry id="UnaryTests_113wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v1wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0s5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m3wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j7wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0d5wz7x">
+          <text>return startChar == '-' ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0a9wz7x">
+        <inputEntry id="UnaryTests_073wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_047wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_011wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s5wz7x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j7wz7x">
+          <text>return NaN;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g1wz7x">
+        <inputEntry id="UnaryTests_1d5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_173wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_147wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_111wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0s3wz7x">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0p7wz7x">
+          <text>for (int i=sub.length()-1; i &gt;= 0; i--) { char c = sub.charAt(i); if (('0' &lt;= c &amp;&amp; c &lt;= '9') || c == '.' || c == 'e' || c == 'E' || c == '+' || c == '-') continue; return NaN; }</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0m1wz7x">
+        <inputEntry id="UnaryTests_0j5wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g9wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d3wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a7wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_071wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_045wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_019wz7x">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y1wz7x">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1v5wz7x">
+          <text>try { return Double.valueOf(sub).doubleValue(); } catch (NumberFormatException ex) { return NaN; }</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1s9wz7x">
+      <dmndi:DMNShape id="DMNShape_1p3wz7x" dmnElementRef="Decision_0n0wz7x">
+        <dc:Bounds height="80" width="180" x="100" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1m7wz7x" dmnElementRef="Decision_0e6wz7x">
+        <dc:Bounds height="80" width="180" x="330" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1j1wz7x" dmnElementRef="Decision_018wz7x">
+        <dc:Bounds height="80" width="180" x="560" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1g5wz7x" dmnElementRef="Decision_080wz7x">
+        <dc:Bounds height="80" width="180" x="790" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1d9wz7x" dmnElementRef="InputData_qg0wz7x">
+        <dc:Bounds height="45" width="201" x="100" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1a3wz7x" dmnElementRef="InputData_zcn7qgt">
+        <dc:Bounds height="45" width="125" x="331" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_177wz7x" dmnElementRef="InputData_0xskn0x">
+        <dc:Bounds height="45" width="125" x="486" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_141wz7x" dmnElementRef="InputData_0zpcq1n">
+        <dc:Bounds height="45" width="125" x="641" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_115wz7x" dmnElementRef="InputData_07z6n0u">
+        <dc:Bounds height="45" width="125" x="796" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0y9wz7x" dmnElementRef="InputData_0q8x8u1">
+        <dc:Bounds height="45" width="155" x="951" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0v3wz7x" dmnElementRef="InputData_0w1wz7x">
+        <dc:Bounds height="45" width="125" x="1136" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0s7wz7x" dmnElementRef="InputData_0n6wz7x">
+        <dc:Bounds height="45" width="125" x="1291" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0p1wz7x" dmnElementRef="InputData_0j0wz7x">
+        <dc:Bounds height="45" width="125" x="1446" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0m5wz7x" dmnElementRef="InputData_0g4wz7x">
+        <dc:Bounds height="45" width="125" x="1601" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0j9wz7x" dmnElementRef="InputData_0d8wz7x">
+        <dc:Bounds height="45" width="125" x="1756" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0g3wz7x" dmnElementRef="InputData_0a2wz7x">
+        <dc:Bounds height="45" width="125" x="1911" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0d7wz7x" dmnElementRef="InputData_076wz7x">
+        <dc:Bounds height="45" width="125" x="2066" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0a1wz7x" dmnElementRef="InputData_040wz7x">
+        <dc:Bounds height="45" width="155" x="2221" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_075wz7x" dmnElementRef="InputData_014wz7x">
+        <dc:Bounds height="45" width="125" x="2406" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_049wz7x" dmnElementRef="InputData_1y8wz7x">
+        <dc:Bounds height="45" width="125" x="2561" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_013wz7x" dmnElementRef="InputData_1v2wz7x">
+        <dc:Bounds height="45" width="161" x="2716" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1y7wz7x" dmnElementRef="InputData_1s6wz7x">
+        <dc:Bounds height="45" width="125" x="2907" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1v1wz7x" dmnElementRef="InputData_1p0wz7x">
+        <dc:Bounds height="45" width="125" x="3062" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1s5wz7x" dmnElementRef="InputData_1m4wz7x">
+        <dc:Bounds height="45" width="125" x="3217" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1p9wz7x" dmnElementRef="InputData_1j8wz7x">
+        <dc:Bounds height="45" width="125" x="3372" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1m3wz7x" dmnElementRef="InputData_1g2wz7x">
+        <dc:Bounds height="45" width="125" x="3527" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1j7wz7x" dmnElementRef="InputData_1d6wz7x">
+        <dc:Bounds height="45" width="125" x="3682" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1g1wz7x" dmnElementRef="InputData_1a0wz7x">
+        <dc:Bounds height="45" width="167" x="3837" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1d5wz7x" dmnElementRef="InputData_174wz7x">
+        <dc:Bounds height="45" width="125" x="4034" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1a9wz7x" dmnElementRef="InformationRequirement_0k4wz7x">
+        <di:waypoint x="548" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_173wz7x" dmnElementRef="InformationRequirement_0h8wz7x">
+        <di:waypoint x="703" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_147wz7x" dmnElementRef="InformationRequirement_0e2wz7x">
+        <di:waypoint x="858" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_111wz7x" dmnElementRef="InformationRequirement_0b6wz7x">
+        <di:waypoint x="1028" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0y5wz7x" dmnElementRef="InformationRequirement_1z0wz7x">
+        <di:waypoint x="1198" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0v9wz7x" dmnElementRef="InformationRequirement_1w4wz7x">
+        <di:waypoint x="1663" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0s3wz7x" dmnElementRef="InformationRequirement_1t8wz7x">
+        <di:waypoint x="1818" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0p7wz7x" dmnElementRef="InformationRequirement_1q2wz7x">
+        <di:waypoint x="1973" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0m1wz7x" dmnElementRef="InformationRequirement_1n6wz7x">
+        <di:waypoint x="2298" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0j5wz7x" dmnElementRef="InformationRequirement_1k0wz7x">
+        <di:waypoint x="2623" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0g9wz7x" dmnElementRef="InformationRequirement_1h4wz7x">
+        <di:waypoint x="2796" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0d3wz7x" dmnElementRef="InformationRequirement_1e8wz7x">
+        <di:waypoint x="2969" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0a7wz7x" dmnElementRef="InformationRequirement_1b2wz7x">
+        <di:waypoint x="3279" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_071wz7x" dmnElementRef="InformationRequirement_186wz7x">
+        <di:waypoint x="3589" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_045wz7x" dmnElementRef="InformationRequirement_150wz7x">
+        <di:waypoint x="3744" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_019wz7x" dmnElementRef="InformationRequirement_124wz7x">
+        <di:waypoint x="3920" y="350" />
+        <di:waypoint x="190" y="265" />
+        <di:waypoint x="190" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1y1wz7x" dmnElementRef="InformationRequirement_0b0wz7x">
+        <di:waypoint x="880" y="100" />
+        <di:waypoint x="420" y="265" />
+        <di:waypoint x="420" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1v5wz7x" dmnElementRef="InformationRequirement_1y4wz7x">
+        <di:waypoint x="4096" y="350" />
+        <di:waypoint x="420" y="265" />
+        <di:waypoint x="420" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1s9wz7x" dmnElementRef="InformationRequirement_1x8wz7x">
+        <di:waypoint x="420" y="100" />
+        <di:waypoint x="650" y="265" />
+        <di:waypoint x="650" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1p3wz7x" dmnElementRef="InformationRequirement_1u2wz7x">
+        <di:waypoint x="393" y="350" />
+        <di:waypoint x="650" y="265" />
+        <di:waypoint x="650" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1m7wz7x" dmnElementRef="InformationRequirement_1r6wz7x">
+        <di:waypoint x="2468" y="350" />
+        <di:waypoint x="650" y="265" />
+        <di:waypoint x="650" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1j1wz7x" dmnElementRef="InformationRequirement_046wz7x">
+        <di:waypoint x="190" y="100" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1g5wz7x" dmnElementRef="InformationRequirement_000wz7x">
+        <di:waypoint x="200" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1d9wz7x" dmnElementRef="InformationRequirement_1x2wz7x">
+        <di:waypoint x="1198" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1a3wz7x" dmnElementRef="InformationRequirement_1u6wz7x">
+        <di:waypoint x="1353" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_177wz7x" dmnElementRef="InformationRequirement_1r0wz7x">
+        <di:waypoint x="1508" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_141wz7x" dmnElementRef="InformationRequirement_1o4wz7x">
+        <di:waypoint x="1973" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_115wz7x" dmnElementRef="InformationRequirement_1l8wz7x">
+        <di:waypoint x="2128" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0y9wz7x" dmnElementRef="InformationRequirement_1i2wz7x">
+        <di:waypoint x="2623" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0v3wz7x" dmnElementRef="InformationRequirement_1f6wz7x">
+        <di:waypoint x="3124" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0s7wz7x" dmnElementRef="InformationRequirement_1c0wz7x">
+        <di:waypoint x="3279" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0p1wz7x" dmnElementRef="InformationRequirement_194wz7x">
+        <di:waypoint x="3434" y="350" />
+        <di:waypoint x="880" y="265" />
+        <di:waypoint x="880" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

@@ -1,0 +1,84 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_antTask" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_project" name="project" />
+  <inputData id="InputData_thrownException" name="thrownException" />
+  <decision id="Decision_executeTargets" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InformationRequirement_project_to_executeTargets">
+      <requiredInput href="#InputData_project" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_thrownException_to_executeTargets">
+      <requiredInput href="#InputData_thrownException" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_executeTargets">
+      <input id="InputClause_project_condition" label="project">
+        <inputExpression id="LiteralExpression_project_type" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_thrownException_condition" label="thrownException">
+        <inputExpression id="LiteralExpression_thrownException_type" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_executeTargets_result" label="executeTargets(Project project, String[] targetNames)" name="" typeRef="string" />
+      <rule id="DecisionRule_001">
+        <inputEntry id="UnaryTests_001_01">
+          <text>!(project.isKeepGoingMode())</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_001_02">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_001_01">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_002">
+        <inputEntry id="UnaryTests_002_01">
+          <text>project.isKeepGoingMode()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_002_02">
+          <text>thrownException != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_002_01">
+          <text>throw thrownException;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_003">
+        <inputEntry id="UnaryTests_003_01">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_003_02">
+          <text>!(thrownException != null)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_003_01">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_antTask">
+      <dmndi:DMNShape id="DMNShape_Decision_executeTargets" dmnElementRef="Decision_executeTargets">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_project" dmnElementRef="InputData_project">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_project_to_executeTargets" dmnElementRef="InformationRequirement_project_to_executeTargets">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="265" y="189" />
+        <di:waypoint x="265" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_thrownException" dmnElementRef="InputData_thrownException">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_thrownException_to_executeTargets" dmnElementRef="InformationRequirement_thrownException_to_executeTargets">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="355" y="190" />
+        <di:waypoint x="355" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I am able to recognize elements and concepts from Decision Model and Notation (DMN) in source code, such as decision tables, input data, business knowledge models, and decision requirements graphs, when they are implemented or represented in programming logic.
+A: Yes, I am able to recognize functions or code segments that contain Decision Model and Notation (DMN) elements, such as decision tables, decision requirements diagrams, and business rules, when they are represented or referenced in the source code.
 
 Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
 
@@ -449,6 +449,7 @@ Output only a JSON array where each element represents a call relationship with 
 - "callee": the name of the called function.
              
 
+A: 
 [
     {
         "caller": "execute()",

@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I am able to recognize elements and constructs related to Decision Model and Notation (DMN) in source code, such as decision tables, business rules, and logic that follows DMN standards. If you provide source code, I can identify and explain which parts are associated with DMN.
+A: Yes, I am able to recognize functions that contain Decision Model and Notation (DMN) elements in source code, especially if the code uses standard DMN constructs such as decision tables, DRDs (Decision Requirements Diagrams), or expressions that follow DMN syntax and conventions. If you provide code samples, I can help identify DMN-related elements within them.
 
 Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
 
@@ -432,6 +432,7 @@ public class DependSet extends MatchingTask {
 First, identify which functions contain decisions. If the file contains any such functions, provide a JSON object listing these functions with the `Model` entry containing an empty string ("") for each. We will assign the model number in the next step.
              
 
+A: 
 {
     "Decisions": [
         {"Model": "", "FunctionName": "execute()"},
@@ -448,7 +449,10 @@ Output only a JSON array where each element represents a call relationship with 
 - "callee": the name of the called function.
              
 
-[]
+A: 
+[
+    {"caller": "execute()", "callee": "uptodate(ResourceCollection src, ResourceCollection target)"}
+]
 
 Q: Third, using the list of functions identified in Step 1 and the call relationships extracted in Step 2, group the functions into DMN models.
 
@@ -463,6 +467,6 @@ Output only the JSON array with updated `Model` fields. Do not write anything el
 
 [
     {"Model": "model_1", "FunctionName": "execute()"},
-    {"Model": "model_2", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"}
+    {"Model": "model_1", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"}
 ]
 

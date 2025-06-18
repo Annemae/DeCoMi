@@ -27,7 +27,7 @@ Q: We will ask you a series of questions on Decision Model and Notation tables. 
         }
     }""" 
 
-A: This code decides the string representation of an input object by applying a sequence of type-specific conversion rules, including iterative refinement for Scriptable objects and a default `toString()` method for other types.
+A: This code decides a specific string representation of an input object.
 
 Q: What does the function return? 
 
@@ -35,19 +35,39 @@ A: The function returns a string representation of the input object.
 
 Q: What are the variables that influence this decision? 
 
-A: The variables that influence this decision include the specific value of the input object `val` (e.g., whether it is `null` or `Undefined.instance`), its runtime type (e.g., `String`, `Number`, `Scriptable`), and, if `val` is a `Scriptable` object, the new value obtained from its `getDefaultValue` method, which is then re-evaluated.
+A: The decision is influenced by the input object `val`, the `Undefined.instance` object, and the `StringClass` object.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A: For the input:
-The input variable is `val`. Its data type is `java.lang.Object`. Possible values for `val` include `null`, the specific `Undefined.instance` object, any `String` object (representing textual data), any `Number` object (such as integers or floating-point numbers), any `Scriptable` object (which can provide a default primitive value), or any other Java object.
+A: The inputs that influence the decision and their characteristics are:
+1.  `val`:
+    *   Data Type: `Object`. This is the primary object whose string representation is to be determined.
+    *   Possible Values: It can be `null`; the special singleton object `Undefined.instance`; an instance of `java.lang.String` (e.g., "example"); an instance of `java.lang.Number` (e.g., an integer like 100, or a double like 3.14); an instance of a `Scriptable` object (which can be resolved to a different default value within the function); or any other Java object that possesses a `toString()` method.
+2.  `Undefined.instance`:
+    *   Data Type: The type of the `Undefined` class (a custom class in this environment).
+    *   Possible Values: This is a specific singleton object representing an "undefined" state or value.
+3.  `StringClass`:
+    *   Data Type: `java.lang.Class` or a similar type descriptor.
+    *   Possible Values: It typically represents the `String` class (e.g., `String.class`) and is used as a hint when trying to get a default string value from a `Scriptable` object.
 
-For the output:
-The output of the function is a `java.lang.String`. Possible values for this returned string include: the literal string `"null"` (if the input `val` was `null`); the literal string `"undefined"` (if `val` was `Undefined.instance`); the original string itself (if `val` was already a `String`); a textual representation of the number, typically in base 10 (e.g., "123.0", "3.14"), if `val` was a `Number`; or the string resulting from calling the `toString()` method on the input object (or on its default value if the input `val` was a `Scriptable` object that was successfully converted to a non-`Scriptable` type through its `getDefaultValue` method).
+The output of the function and its characteristics are:
+1.  Return value:
+    *   Data Type: `String`.
+    *   Possible Values:
+        *   The literal string `"null"`, if the effective input object is `null`.
+        *   The literal string `"undefined"`, if the effective input object is `Undefined.instance`.
+        *   The original string itself, if the effective input object is an instance of `String`.
+        *   A string representation of a number in base 10 (e.g., `"123"`, `"3.14"`, `"NaN"`, `"Infinity"`), if the effective input object is an instance of `Number`.
+        *   A string obtained by calling the `toString()` method on the effective input object, if it does not match any of the preceding specific types. The "effective input object" here refers to the initial `val` or the value it resolves to after a `Scriptable` object's `getDefaultValue` method is called.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: The relevant numerical values influencing the decision include the `double` representation of the `val` object when it is determined to be an instance of `Number`, and the fixed integer `10`. Specifically, if `val` (either the original input or a value derived from a `Scriptable` object's `getDefaultValue` method) is an instance of `Number`, its `doubleValue()` is used. This numerical value can be any from the entire range of Java `double` types, including special values like `NaN` or `Infinity`. Additionally, the integer `10` is a relevant numerical value as it is used as the fixed radix for converting such numbers to their string form.
+A: The relevant values of the numerical variables that influence this decision are:
+1.  Regarding the input `val` when it is an instance of `Number`: Its `doubleValue()` is effectively a numerical variable in this context. Relevant values for this `doubleValue()` include:
+    *   Finite floating-point numbers, such as `0.0` (which might also be represented as `-0.0`), `1.0`, `3.14`, or `-273.15`. These are converted to their standard decimal string representations.
+    *   Special floating-point values: `NaN` (Not a Number), `Infinity`, and `-Infinity`. These have specific string representations (e.g., "NaN", "Infinity").
+2.  Regarding the base (radix) used for the number-to-string conversion within the `numberToString` method call:
+    *   The relevant value for this radix is the integer `10`. This value is hardcoded in the expression `numberToString(((Number)val).doubleValue(), 10)`, and it dictates that the numerical string representation will be in the decimal system.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -238,40 +258,40 @@ Create a decision table for the part of Java source code provided in the first q
 
 ```json
 {
-    "Conditions" : {
-        "val" : {
-            "Type" : "boolean"
+    "Conditions": {
+        "val": {
+            "Type": "string"
         }
     },
-    "Conclusions" : {
-        "toString(Object val)" : {
-            "Type" : "string"
+    "Conclusions": {
+        "toString(Object val)": {
+            "Type": "string"
         }
     },
-    "DecisionRules" : [
+    "DecisionRules": [
         {
-            "val" : "val == null",
-            "toString(Object val)" : "return \"null\";"
+            "val": "val == null",
+            "toString(Object val)": "return \"null\";"
         },
         {
-            "val" : "val == Undefined.instance",
-            "toString(Object val)" : "return \"undefined\";"
+            "val": "val != null && val == Undefined.instance",
+            "toString(Object val)": "return \"undefined\";"
         },
         {
-            "val" : "val instanceof String",
-            "toString(Object val)" : "return (String)val;"
+            "val": "val != null && val != Undefined.instance && val instanceof String",
+            "toString(Object val)": "return (String)val;"
         },
         {
-            "val" : "val instanceof Number",
-            "toString(Object val)" : "return numberToString(((Number)val).doubleValue(), 10);"
+            "val": "val != null && val != Undefined.instance && !(val instanceof String) && val instanceof Number",
+            "toString(Object val)": "return numberToString(((Number)val).doubleValue(), 10);"
         },
         {
-            "val" : "val instanceof Scriptable && ((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable",
-            "toString(Object val)" : "throw errorWithClassName(\"msg.primitive.expected\", val);"
+            "val": "val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && val instanceof Scriptable && ((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable",
+            "toString(Object val)": "throw errorWithClassName(\"msg.primitive.expected\", ((Scriptable)val).getDefaultValue(StringClass));"
         },
         {
-            "val" : "val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && !(val instanceof Scriptable)",
-            "toString(Object val)" : "return val.toString();"
+            "val": "val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && !(val instanceof Scriptable)",
+            "toString(Object val)": "return val.toString();"
         }
     ]
 }
@@ -279,36 +299,7 @@ Create a decision table for the part of Java source code provided in the first q
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: No, the table is not complete. There are input values for which the function produces a result, but no rule in the provided DMN table would be applicable to the initial input `val`.
-
-An example for which no rule in the DMN table would be applicable to the initial input is:
-An input `val` that is an instance of `Scriptable`, and for which the method call `((Scriptable) val).getDefaultValue(StringClass)` returns a value that is *not* an instance of `Scriptable` (for example, it returns a `String` object).
-
-Let's trace this:
-Suppose `val` is a `Scriptable` object `s1`, and `((Scriptable)s1).getDefaultValue(StringClass)` returns the string `"default"`.
-1.  The condition `val == null` (Rule 1) is false.
-2.  The condition `val == Undefined.instance` (Rule 2) is false.
-3.  The condition `val instanceof String` (Rule 3) is false.
-4.  The condition `val instanceof Number` (Rule 4) is false.
-5.  For Rule 5, the condition is `val instanceof Scriptable && ((Scriptable)val).getDefaultValue(StringClass) instanceof Scriptable`.
-    *   `val instanceof Scriptable` (i.e. `s1 instanceof Scriptable`) is true.
-    *   `((Scriptable)val).getDefaultValue(StringClass)` evaluates to `"default"`.
-    *   `"default" instanceof Scriptable` is false.
-    *   So, the combined condition for Rule 5 (`true && false`) is false.
-6.  For Rule 6, the condition is `val != null && val != Undefined.instance && !(val instanceof String) && !(val instanceof Number) && !(val instanceof Scriptable)`.
-    *   Since `val instanceof Scriptable` is true, `!(val instanceof Scriptable)` is false.
-    *   Thus, the entire AND condition for Rule 6 is false.
-
-In this scenario, none of the DMN rules apply to the initial `val` (`s1`).
-However, the Java code would proceed as follows:
-*   `val instanceof Scriptable` is true.
-*   `val` is reassigned to the result of `((Scriptable) val).getDefaultValue(StringClass)`, so `val` becomes `"default"`.
-*   The inner `if (val instanceof Scriptable)` (i.e., `"default" instanceof Scriptable`) is false.
-*   The `continue` statement is executed.
-*   The loop restarts with `val` being `"default"`.
-*   Now, `val instanceof String` (Rule 3's condition, effectively) becomes true, and the function would return `"default"`.
-
-The DMN table does not capture this path where the initial `Scriptable` input leads to a `continue` and then a subsequent resolution based on the new value of `val`. The table only models direct exits (`return` or `throw`) from the conditions explicitly listed.
+A: The table is incomplete. An example for which no rule would be applicable is when the input `val` is an instance of `Scriptable`, and the result of calling `((Scriptable) val).getDefaultValue(StringClass)` is a value that is not an instance of `Scriptable`. For instance, if `val` is a `Scriptable` object `s`, and `s.getDefaultValue(StringClass)` returns a `String` object, then none of the provided rules would apply to the initial `val = s`. In the code, this scenario leads to a `continue` statement, and the loop re-evaluates with the new string value, eventually returning that string. However, the DMN table does not have a rule that maps this initial state of `val` (being Scriptable and its default value being non-Scriptable) to this final outcome.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 

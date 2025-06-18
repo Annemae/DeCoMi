@@ -184,30 +184,30 @@ uptodate(ResourceCollection src, ResourceCollection target) {
     } 
 
 {
-    "Decisions": {
-        "execute() throws BuildException": {
-            "Input": [
-                "sources",
-                "targets",
-                "verbose",
-                "uptodate(ResourceCollection src, ResourceCollection target)"
-            ]
-        },
-        "uptodate(ResourceCollection src, ResourceCollection target)": {
-            "Input": [
-                "neTargets",
-                "neSources",
-                "oldestTarget, newestSource"
-            ]
-        }
-    },
-    "InputData": [
+  "Decisions": {
+    "execute()": {
+      "Input": [
         "sources",
         "targets",
         "verbose",
+        "uptodate(ResourceCollection src, ResourceCollection target)"
+      ]
+    },
+    "uptodate(ResourceCollection src, ResourceCollection target)": {
+      "Input": [
         "neTargets",
         "neSources",
         "oldestTarget, newestSource"
-    ]
+      ]
+    }
+  },
+  "InputData": [
+    "sources",
+    "targets",
+    "verbose",
+    "neTargets",
+    "neSources",
+    "oldestTarget, newestSource"
+  ]
 }
 

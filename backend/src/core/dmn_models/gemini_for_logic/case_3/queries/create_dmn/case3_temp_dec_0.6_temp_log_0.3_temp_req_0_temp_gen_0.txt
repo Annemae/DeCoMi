@@ -320,118 +320,118 @@ Decision Requirement Level:
 </definitions>
  
 Given multiple structured JSON objects, you are expected to generate a corresponding DMN XML file based on these JSON objects. Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {
-    "Decisions": {
-        "execute() throws BuildException": {
-            "Input": [
-                "sources",
-                "targets",
-                "verbose",
-                "uptodate(ResourceCollection src, ResourceCollection target)"
-            ]
-        },
-        "uptodate(ResourceCollection src, ResourceCollection target)": {
-            "Input": [
-                "neTargets",
-                "neSources",
-                "oldestTarget, newestSource"
-            ]
-        }
-    },
-    "InputData": [
+  "Decisions": {
+    "execute()": {
+      "Input": [
         "sources",
         "targets",
         "verbose",
+        "uptodate(ResourceCollection src, ResourceCollection target)"
+      ]
+    },
+    "uptodate(ResourceCollection src, ResourceCollection target)": {
+      "Input": [
         "neTargets",
         "neSources",
         "oldestTarget, newestSource"
-    ]
+      ]
+    }
+  },
+  "InputData": [
+    "sources",
+    "targets",
+    "verbose",
+    "neTargets",
+    "neSources",
+    "oldestTarget, newestSource"
+  ]
 }```json
 {
-    "Conditions" : {
-        "sources" : {
-            "Type" : "boolean"
-        },
-        "targets" : {
-            "Type" : "boolean"
-        },
-        "sources_targets_uptodate" : {
-            "Type" : "boolean"
-        }
-    },
-    "Conclusions" : {
-        "execute()" : {
-            "Type" : "string"
-        }
-    },
-    "DecisionRules" : [
-        {
-            "sources" : "sources == null",
-            "targets" : "-",
-            "sources_targets_uptodate" : "-",
-            "execute()" : "throw new BuildException(\"At least one set of source resources must be specified\");"
-        },
-        {
-            "sources" : "!(sources == null)",
-            "targets" : "targets == null",
-            "sources_targets_uptodate" : "-",
-            "execute()" : "throw new BuildException(\"At least one set of target files must be specified\");"
-        },
-        {
-            "sources" : "!(sources == null)",
-            "targets" : "!(targets == null)",
-            "sources_targets_uptodate" : "!sources.isEmpty() && !targets.isEmpty() && !uptodate(sources, targets)",
-            "execute()" : "delete.perform();"
-        },
-        {
-            "sources" : "!(sources == null)",
-            "targets" : "!(targets == null)",
-            "sources_targets_uptodate" : "!(!sources.isEmpty() && !targets.isEmpty() && !uptodate(sources, targets))",
-            "execute()" : null
-        }
-    ]
-}
-``````json
-{
     "Conditions": {
-        "neTargets": {
+        "sources": {
             "Type": "boolean"
         },
-        "neSources": {
+        "targets": {
             "Type": "boolean"
         },
-        "oldestTarget, newestSource": {
+        "sources, targets": {
             "Type": "boolean"
         }
     },
     "Conclusions": {
-        "uptodate(ResourceCollection src, ResourceCollection target)": {
+        "execute()": {
             "Type": "string"
         }
     },
     "DecisionRules": [
         {
-            "neTargets": "neTargets > 0",
-            "neSources": "-",
-            "oldestTarget, newestSource": "-",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return false;"
+            "sources": "sources == null",
+            "targets": "-",
+            "sources, targets": "-",
+            "execute()": "throw new BuildException(\"At least one set of source resources must be specified\");"
         },
         {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "neSources > 0",
-            "oldestTarget, newestSource": "-",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return false;"
+            "sources": "sources != null",
+            "targets": "targets == null",
+            "sources, targets": "-",
+            "execute()": "throw new BuildException(\"At least one set of target files must be specified\");"
         },
         {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "!(neSources > 0)",
-            "oldestTarget, newestSource": "oldestTarget.getLastModified() >= newestSource.getLastModified()",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
+            "sources": "sources != null && !sources.isEmpty()",
+            "targets": "targets != null && !targets.isEmpty()",
+            "sources, targets": "!uptodate(sources, targets)",
+            "execute()": "delete.perform();"
         },
         {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "!(neSources > 0)",
-            "oldestTarget, newestSource": "!(oldestTarget.getLastModified() >= newestSource.getLastModified())",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
+            "sources": "sources != null && sources.isEmpty()",
+            "targets": "targets != null",
+            "sources, targets": "-",
+            "execute()": null
+        },
+        {
+            "sources": "sources != null && !sources.isEmpty()",
+            "targets": "targets != null && targets.isEmpty()",
+            "sources, targets": "-",
+            "execute()": null
+        },
+        {
+            "sources": "sources != null && !sources.isEmpty()",
+            "targets": "targets != null && !targets.isEmpty()",
+            "sources, targets": "uptodate(sources, targets)",
+            "execute()": null
+        }
+    ]
+}
+``````json
+{
+    "Conditions" : {
+        "neTargets" : {
+            "Type" : "boolean"
+        },
+        "neSources" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "uptodate(ResourceCollection src, ResourceCollection target)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "neTargets" : "neTargets > 0",
+            "neSources" : "-",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
+        },
+        {
+            "neTargets" : "!(neTargets > 0)",
+            "neSources" : "neSources > 0",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
+        },
+        {
+            "neTargets" : "!(neTargets > 0)",
+            "neSources" : "!(neSources > 0)",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
         }
     ]
 }
@@ -439,258 +439,246 @@ Given multiple structured JSON objects, you are expected to generate a correspon
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
-             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
-             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
-             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
-             id="definitions_generated_01" name="definitions"
-             namespace="http://camunda.org/schema/1.0/dmn"
-             exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0x1y2z" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
   <inputData id="InputData_sources" name="sources" />
   <inputData id="InputData_targets" name="targets" />
   <inputData id="InputData_verbose" name="verbose" />
   <inputData id="InputData_neTargets" name="neTargets" />
   <inputData id="InputData_neSources" name="neSources" />
   <inputData id="InputData_oldestTarget_newestSource" name="oldestTarget, newestSource" />
-
   <decision id="Decision_uptodate" name="uptodate(ResourceCollection src, ResourceCollection target)">
-    <informationRequirement id="InformationRequirement_uptodate_neTargets">
+    <informationRequirement id="IR_upt_neTargets">
       <requiredInput href="#InputData_neTargets" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_uptodate_neSources">
+    <informationRequirement id="IR_upt_neSources">
       <requiredInput href="#InputData_neSources" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_uptodate_oldestTarget_newestSource">
+    <informationRequirement id="IR_upt_oldestTarget_newestSource">
       <requiredInput href="#InputData_oldestTarget_newestSource" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_uptodate">
-      <input id="InputClause_uptodate_1" label="neTargets">
-        <inputExpression id="LiteralExpression_uptodate_IE1" typeRef="boolean">
+    <decisionTable id="DT_uptodate">
+      <input id="IC_upt_neTargets" label="neTargets">
+        <inputExpression id="IE_upt_neTargets" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <input id="InputClause_uptodate_2" label="neSources">
-        <inputExpression id="LiteralExpression_uptodate_IE2" typeRef="boolean">
+      <input id="IC_upt_neSources" label="neSources">
+        <inputExpression id="IE_upt_neSources" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <input id="InputClause_uptodate_3" label="oldestTarget, newestSource">
-        <inputExpression id="LiteralExpression_uptodate_IE3" typeRef="boolean">
-          <text></text>
-        </inputExpression>
-      </input>
-      <output id="OutputClause_uptodate_1" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="string" />
-      <rule id="DecisionRule_uptodate_1">
-        <inputEntry id="UnaryTests_uptodate_R1_C1">
+      <output id="OC_upt" label="uptodate(ResourceCollection src, ResourceCollection target)" typeRef="string" />
+      <rule id="Rule_upt_1">
+        <inputEntry id="UE_upt_1_1">
           <text>neTargets &gt; 0</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R1_C2">
+        <inputEntry id="UE_upt_1_2">
           <text>-</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R1_C3">
-          <text>-</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_uptodate_R1_O1">
+        <outputEntry id="LE_upt_1_out">
           <text>return false;</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_uptodate_2">
-        <inputEntry id="UnaryTests_uptodate_R2_C1">
+      <rule id="Rule_upt_2">
+        <inputEntry id="UE_upt_2_1">
           <text>!(neTargets &gt; 0)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R2_C2">
+        <inputEntry id="UE_upt_2_2">
           <text>neSources &gt; 0</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R2_C3">
-          <text>-</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_uptodate_R2_O1">
+        <outputEntry id="LE_upt_2_out">
           <text>return false;</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_uptodate_3">
-        <inputEntry id="UnaryTests_uptodate_R3_C1">
+      <rule id="Rule_upt_3">
+        <inputEntry id="UE_upt_3_1">
           <text>!(neTargets &gt; 0)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R3_C2">
+        <inputEntry id="UE_upt_3_2">
           <text>!(neSources &gt; 0)</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R3_C3">
-          <text>oldestTarget.getLastModified() &gt;= newestSource.getLastModified()</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_uptodate_R3_O1">
-          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
-        </outputEntry>
-      </rule>
-      <rule id="DecisionRule_uptodate_4">
-        <inputEntry id="UnaryTests_uptodate_R4_C1">
-          <text>!(neTargets &gt; 0)</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R4_C2">
-          <text>!(neSources &gt; 0)</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_uptodate_R4_C3">
-          <text>!(oldestTarget.getLastModified() &gt;= newestSource.getLastModified())</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_uptodate_R4_O1">
+        <outputEntry id="LE_upt_3_out">
           <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
         </outputEntry>
       </rule>
     </decisionTable>
   </decision>
-
-  <decision id="Decision_execute" name="execute() throws BuildException">
-    <informationRequirement id="InformationRequirement_execute_sources">
+  <decision id="Decision_execute" name="execute()">
+    <informationRequirement id="IR_exec_sources">
       <requiredInput href="#InputData_sources" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_execute_targets">
+    <informationRequirement id="IR_exec_targets">
       <requiredInput href="#InputData_targets" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_execute_verbose">
+    <informationRequirement id="IR_exec_verbose">
       <requiredInput href="#InputData_verbose" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_execute_uptodateDecision">
+    <informationRequirement id="IR_exec_uptodate">
       <requiredDecision href="#Decision_uptodate" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_execute">
-      <input id="InputClause_execute_1" label="sources">
-        <inputExpression id="LiteralExpression_execute_IE1" typeRef="boolean">
+    <decisionTable id="DT_execute">
+      <input id="IC_exec_sources" label="sources">
+        <inputExpression id="IE_exec_sources" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <input id="InputClause_execute_2" label="targets">
-        <inputExpression id="LiteralExpression_execute_IE2" typeRef="boolean">
+      <input id="IC_exec_targets" label="targets">
+        <inputExpression id="IE_exec_targets" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <input id="InputClause_execute_3" label="sources_targets_uptodate">
-        <inputExpression id="LiteralExpression_execute_IE3" typeRef="boolean">
+      <input id="IC_exec_sources_targets" label="sources, targets">
+        <inputExpression id="IE_exec_sources_targets" typeRef="boolean">
           <text></text>
         </inputExpression>
       </input>
-      <output id="OutputClause_execute_1" label="execute()" name="" typeRef="string" />
-      <rule id="DecisionRule_execute_1">
-        <inputEntry id="UnaryTests_execute_R1_C1">
+      <output id="OC_exec" label="execute()" typeRef="string" />
+      <rule id="Rule_exec_1">
+        <inputEntry id="UE_exec_1_1">
           <text>sources == null</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R1_C2">
+        <inputEntry id="UE_exec_1_2">
           <text>-</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R1_C3">
+        <inputEntry id="UE_exec_1_3">
           <text>-</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_execute_R1_O1">
+        <outputEntry id="LE_exec_1_out">
           <text>throw new BuildException("At least one set of source resources must be specified");</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_execute_2">
-        <inputEntry id="UnaryTests_execute_R2_C1">
-          <text>!(sources == null)</text>
+      <rule id="Rule_exec_2">
+        <inputEntry id="UE_exec_2_1">
+          <text>sources != null</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R2_C2">
+        <inputEntry id="UE_exec_2_2">
           <text>targets == null</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R2_C3">
+        <inputEntry id="UE_exec_2_3">
           <text>-</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_execute_R2_O1">
+        <outputEntry id="LE_exec_2_out">
           <text>throw new BuildException("At least one set of target files must be specified");</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_execute_3">
-        <inputEntry id="UnaryTests_execute_R3_C1">
-          <text>!(sources == null)</text>
+      <rule id="Rule_exec_3">
+        <inputEntry id="UE_exec_3_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R3_C2">
-          <text>!(targets == null)</text>
+        <inputEntry id="UE_exec_3_2">
+          <text>targets != null &amp;&amp; !targets.isEmpty()</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R3_C3">
-          <text>!sources.isEmpty() &amp;&amp; !targets.isEmpty() &amp;&amp; !uptodate(sources, targets)</text>
+        <inputEntry id="UE_exec_3_3">
+          <text>!uptodate(sources, targets)</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_execute_R3_O1">
+        <outputEntry id="LE_exec_3_out">
           <text>delete.perform();</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_execute_4">
-        <inputEntry id="UnaryTests_execute_R4_C1">
-          <text>!(sources == null)</text>
+      <rule id="Rule_exec_4">
+        <inputEntry id="UE_exec_4_1">
+          <text>sources != null &amp;&amp; sources.isEmpty()</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R4_C2">
-          <text>!(targets == null)</text>
+        <inputEntry id="UE_exec_4_2">
+          <text>targets != null</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_execute_R4_C3">
-          <text>!(!sources.isEmpty() &amp;&amp; !targets.isEmpty() &amp;&amp; !uptodate(sources, targets))</text>
+        <inputEntry id="UE_exec_4_3">
+          <text>-</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_execute_R4_O1">
+        <outputEntry id="LE_exec_4_out">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_5">
+        <inputEntry id="UE_exec_5_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_5_2">
+          <text>targets != null &amp;&amp; targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_5_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_5_out">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_6">
+        <inputEntry id="UE_exec_6_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_6_2">
+          <text>targets != null &amp;&amp; !targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_6_3">
+          <text>uptodate(sources, targets)</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_6_out">
           <text>null</text>
         </outputEntry>
       </rule>
     </decisionTable>
   </decision>
-
   <dmndi:DMNDI>
-    <dmndi:DMNDiagram id="DMNDiagram_generated_01">
+    <dmndi:DMNDiagram id="DMNDiagram_000">
       <dmndi:DMNShape id="DMNShape_InputData_sources" dmnElementRef="InputData_sources">
-        <dc:Bounds height="45" width="125" x="50" y="400" />
+        <dc:Bounds height="45" width="125" x="100" y="400" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_InputData_targets" dmnElementRef="InputData_targets">
-        <dc:Bounds height="45" width="125" x="190" y="400" />
+        <dc:Bounds height="45" width="125" x="250" y="400" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_InputData_verbose" dmnElementRef="InputData_verbose">
-        <dc:Bounds height="45" width="125" x="330" y="400" />
+        <dc:Bounds height="45" width="125" x="400" y="400" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_InputData_neTargets" dmnElementRef="InputData_neTargets">
-        <dc:Bounds height="45" width="125" x="470" y="400" />
+        <dc:Bounds height="45" width="125" x="100" y="500" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_InputData_neSources" dmnElementRef="InputData_neSources">
-        <dc:Bounds height="45" width="125" x="610" y="400" />
+        <dc:Bounds height="45" width="125" x="250" y="500" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_InputData_oldestTarget_newestSource" dmnElementRef="InputData_oldestTarget_newestSource">
-        <dc:Bounds height="45" width="125" x="750" y="400" />
+        <dc:Bounds height="45" width="125" x="400" y="500" />
       </dmndi:DMNShape>
-
       <dmndi:DMNShape id="DMNShape_Decision_uptodate" dmnElementRef="Decision_uptodate">
-        <dc:Bounds height="80" width="180" x="540" y="250" />
+        <dc:Bounds height="80" width="180" x="225" y="250" />
       </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_neTargets" dmnElementRef="IR_upt_neTargets">
+        <di:waypoint x="162" y="500" />
+        <di:waypoint x="260" y="350" />
+        <di:waypoint x="260" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_neSources" dmnElementRef="IR_upt_neSources">
+        <di:waypoint x="312" y="500" />
+        <di:waypoint x="315" y="350" />
+        <di:waypoint x="315" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_oldestTarget_newestSource" dmnElementRef="IR_upt_oldestTarget_newestSource">
+        <di:waypoint x="462" y="500" />
+        <di:waypoint x="370" y="350" />
+        <di:waypoint x="370" y="330" />
+      </dmndi:DMNEdge>
       <dmndi:DMNShape id="DMNShape_Decision_execute" dmnElementRef="Decision_execute">
-        <dc:Bounds height="80" width="180" x="200" y="100" />
+        <dc:Bounds height="80" width="180" x="225" y="100" />
       </dmndi:DMNShape>
-
-      <dmndi:DMNEdge id="DMNEdge_uptodate_neTargets" dmnElementRef="InformationRequirement_uptodate_neTargets">
-        <di:waypoint x="532" y="400" />
-        <di:waypoint x="532" y="330" />
-        <di:waypoint x="630" y="330" />
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_sources" dmnElementRef="IR_exec_sources">
+        <di:waypoint x="162" y="400" />
+        <di:waypoint x="260" y="200" />
+        <di:waypoint x="260" y="180" />
       </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="DMNEdge_uptodate_neSources" dmnElementRef="InformationRequirement_uptodate_neSources">
-        <di:waypoint x="672" y="400" />
-        <di:waypoint x="672" y="330" />
-        <di:waypoint x="630" y="330" />
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_targets" dmnElementRef="IR_exec_targets">
+        <di:waypoint x="312" y="400" />
+        <di:waypoint x="315" y="200" />
+        <di:waypoint x="315" y="180" />
       </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="DMNEdge_uptodate_oldestTarget_newestSource" dmnElementRef="InformationRequirement_uptodate_oldestTarget_newestSource">
-        <di:waypoint x="812" y="400" />
-        <di:waypoint x="812" y="330" />
-        <di:waypoint x="630" y="330" />
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_verbose" dmnElementRef="IR_exec_verbose">
+        <di:waypoint x="462" y="400" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="370" y="180" />
       </dmndi:DMNEdge>
-
-      <dmndi:DMNEdge id="DMNEdge_execute_sources" dmnElementRef="InformationRequirement_execute_sources">
-        <di:waypoint x="112" y="400" />
-        <di:waypoint x="112" y="180" />
-        <di:waypoint x="290" y="180" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="DMNEdge_execute_targets" dmnElementRef="InformationRequirement_execute_targets">
-        <di:waypoint x="252" y="400" />
-        <di:waypoint x="252" y="180" />
-        <di:waypoint x="290" y="180" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="DMNEdge_execute_verbose" dmnElementRef="InformationRequirement_execute_verbose">
-        <di:waypoint x="392" y="400" />
-        <di:waypoint x="392" y="180" />
-        <di:waypoint x="290" y="180" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="DMNEdge_execute_uptodateDecision" dmnElementRef="InformationRequirement_execute_uptodateDecision">
-        <di:waypoint x="630" y="250" />
-        <di:waypoint x="630" y="180" />
-        <di:waypoint x="290" y="180" />
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_uptodate" dmnElementRef="IR_exec_uptodate">
+        <di:waypoint x="315" y="250" />
+        <di:waypoint x="315" y="200" />
+        <di:waypoint x="315" y="180" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>

@@ -1,0 +1,247 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0x1y2z" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_sources" name="sources" />
+  <inputData id="InputData_targets" name="targets" />
+  <inputData id="InputData_verbose" name="verbose" />
+  <inputData id="InputData_neTargets" name="neTargets" />
+  <inputData id="InputData_neSources" name="neSources" />
+  <inputData id="InputData_oldestTarget_newestSource" name="oldestTarget, newestSource" />
+  <decision id="Decision_uptodate" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="IR_upt_neTargets">
+      <requiredInput href="#InputData_neTargets" />
+    </informationRequirement>
+    <informationRequirement id="IR_upt_neSources">
+      <requiredInput href="#InputData_neSources" />
+    </informationRequirement>
+    <informationRequirement id="IR_upt_oldestTarget_newestSource">
+      <requiredInput href="#InputData_oldestTarget_newestSource" />
+    </informationRequirement>
+    <decisionTable id="DT_uptodate">
+      <input id="IC_upt_neTargets" label="neTargets">
+        <inputExpression id="IE_upt_neTargets" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="IC_upt_neSources" label="neSources">
+        <inputExpression id="IE_upt_neSources" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OC_upt" label="uptodate(ResourceCollection src, ResourceCollection target)" typeRef="string" />
+      <rule id="Rule_upt_1">
+        <inputEntry id="UE_upt_1_1">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UE_upt_1_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_upt_1_out">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_upt_2">
+        <inputEntry id="UE_upt_2_1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UE_upt_2_2">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <outputEntry id="LE_upt_2_out">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_upt_3">
+        <inputEntry id="UE_upt_3_1">
+          <text>!(neTargets &gt; 0)</text>
+        </inputEntry>
+        <inputEntry id="UE_upt_3_2">
+          <text>!(neSources &gt; 0)</text>
+        </inputEntry>
+        <outputEntry id="LE_upt_3_out">
+          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_execute" name="execute()">
+    <informationRequirement id="IR_exec_sources">
+      <requiredInput href="#InputData_sources" />
+    </informationRequirement>
+    <informationRequirement id="IR_exec_targets">
+      <requiredInput href="#InputData_targets" />
+    </informationRequirement>
+    <informationRequirement id="IR_exec_verbose">
+      <requiredInput href="#InputData_verbose" />
+    </informationRequirement>
+    <informationRequirement id="IR_exec_uptodate">
+      <requiredDecision href="#Decision_uptodate" />
+    </informationRequirement>
+    <decisionTable id="DT_execute">
+      <input id="IC_exec_sources" label="sources">
+        <inputExpression id="IE_exec_sources" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="IC_exec_targets" label="targets">
+        <inputExpression id="IE_exec_targets" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="IC_exec_sources_targets" label="sources, targets">
+        <inputExpression id="IE_exec_sources_targets" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OC_exec" label="execute()" typeRef="string" />
+      <rule id="Rule_exec_1">
+        <inputEntry id="UE_exec_1_1">
+          <text>sources == null</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_1_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_1_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_1_out">
+          <text>throw new BuildException("At least one set of source resources must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_2">
+        <inputEntry id="UE_exec_2_1">
+          <text>sources != null</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_2_2">
+          <text>targets == null</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_2_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_2_out">
+          <text>throw new BuildException("At least one set of target files must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_3">
+        <inputEntry id="UE_exec_3_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_3_2">
+          <text>targets != null &amp;&amp; !targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_3_3">
+          <text>!uptodate(sources, targets)</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_3_out">
+          <text>delete.perform();</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_4">
+        <inputEntry id="UE_exec_4_1">
+          <text>sources != null &amp;&amp; sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_4_2">
+          <text>targets != null</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_4_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_4_out">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_5">
+        <inputEntry id="UE_exec_5_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_5_2">
+          <text>targets != null &amp;&amp; targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_5_3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_5_out">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="Rule_exec_6">
+        <inputEntry id="UE_exec_6_1">
+          <text>sources != null &amp;&amp; !sources.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_6_2">
+          <text>targets != null &amp;&amp; !targets.isEmpty()</text>
+        </inputEntry>
+        <inputEntry id="UE_exec_6_3">
+          <text>uptodate(sources, targets)</text>
+        </inputEntry>
+        <outputEntry id="LE_exec_6_out">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_000">
+      <dmndi:DMNShape id="DMNShape_InputData_sources" dmnElementRef="InputData_sources">
+        <dc:Bounds height="45" width="125" x="100" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_targets" dmnElementRef="InputData_targets">
+        <dc:Bounds height="45" width="125" x="250" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_verbose" dmnElementRef="InputData_verbose">
+        <dc:Bounds height="45" width="125" x="400" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_neTargets" dmnElementRef="InputData_neTargets">
+        <dc:Bounds height="45" width="125" x="100" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_neSources" dmnElementRef="InputData_neSources">
+        <dc:Bounds height="45" width="125" x="250" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_oldestTarget_newestSource" dmnElementRef="InputData_oldestTarget_newestSource">
+        <dc:Bounds height="45" width="125" x="400" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_Decision_uptodate" dmnElementRef="Decision_uptodate">
+        <dc:Bounds height="80" width="180" x="225" y="250" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_neTargets" dmnElementRef="IR_upt_neTargets">
+        <di:waypoint x="162" y="500" />
+        <di:waypoint x="260" y="350" />
+        <di:waypoint x="260" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_neSources" dmnElementRef="IR_upt_neSources">
+        <di:waypoint x="312" y="500" />
+        <di:waypoint x="315" y="350" />
+        <di:waypoint x="315" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_upt_oldestTarget_newestSource" dmnElementRef="IR_upt_oldestTarget_newestSource">
+        <di:waypoint x="462" y="500" />
+        <di:waypoint x="370" y="350" />
+        <di:waypoint x="370" y="330" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_Decision_execute" dmnElementRef="Decision_execute">
+        <dc:Bounds height="80" width="180" x="225" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_sources" dmnElementRef="IR_exec_sources">
+        <di:waypoint x="162" y="400" />
+        <di:waypoint x="260" y="200" />
+        <di:waypoint x="260" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_targets" dmnElementRef="IR_exec_targets">
+        <di:waypoint x="312" y="400" />
+        <di:waypoint x="315" y="200" />
+        <di:waypoint x="315" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_verbose" dmnElementRef="IR_exec_verbose">
+        <di:waypoint x="462" y="400" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="370" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_IR_exec_uptodate" dmnElementRef="IR_exec_uptodate">
+        <di:waypoint x="315" y="250" />
+        <di:waypoint x="315" y="200" />
+        <di:waypoint x="315" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```

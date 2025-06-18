@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I am able to recognize functions or code segments that contain elements related to Decision Model and Notation (DMN), such as decision tables, input data, business knowledge models, and other DMN constructs, if they are present or referenced in the source code.
+A: Yes, I am able to recognize which functions contain Decision Model and Notation (DMN) elements in source code, especially if the code includes references to DMN concepts such as decision tables, input data, business knowledge models, or uses libraries and APIs specifically designed for DMN processing. If you provide source code, I can help identify the parts that relate to DMN.
 
 Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
 
@@ -200,6 +200,7 @@ public class DefaultExecutor implements Executor {
 First, identify which functions contain decisions. If the file contains any such functions, provide a JSON object listing these functions with the `Model` entry containing an empty string ("") for each. We will assign the model number in the next step.
              
 
+A: 
 {
     "Decisions": [
         {
@@ -218,6 +219,7 @@ Output only a JSON array where each element represents a call relationship with 
 - "callee": the name of the called function.
              
 
+A: 
 []
 
 Q: Third, using the list of functions identified in Step 1 and the call relationships extracted in Step 2, group the functions into DMN models.

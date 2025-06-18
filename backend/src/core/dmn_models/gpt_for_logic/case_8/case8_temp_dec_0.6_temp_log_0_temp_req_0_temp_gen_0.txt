@@ -1,0 +1,99 @@
+A: <?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+             id="definitions_generated_01" name="definitions"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="manual-generation" exporterVersion="1.0.0">
+
+  <inputData id="InputData_project_ref" name="project" />
+  <inputData id="InputData_thrownEx_ref" name="thrownException" />
+
+  <decision id="Decision_execTargets_main" name="executeTargets(Project project, String[] targetNames)">
+    <informationRequirement id="InfoReq_project_to_decision">
+      <requiredInput href="#InputData_project_ref" />
+    </informationRequirement>
+    <informationRequirement id="InfoReq_thrownEx_to_decision">
+      <requiredInput href="#InputData_thrownEx_ref" />
+    </informationRequirement>
+
+    <decisionTable id="DecisionTable_for_execTargets">
+      <input id="InputClause_1" label="project, ex">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_2" label="thrownException">
+        <inputExpression id="InputExpression_2" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+
+      <output id="OutputClause_1" label="executeTargets(Project project, String[] targetNames)" typeRef="string" />
+
+      <rule id="DecisionRule_001">
+        <inputEntry id="UnaryTests_Rule1_Input1">
+          <text>project.isKeepGoingMode() &amp;&amp; ex != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule1_Input2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule1_Output1">
+          <text>thrownException = ex;</text>
+        </outputEntry>
+      </rule>
+
+      <rule id="DecisionRule_002">
+        <inputEntry id="UnaryTests_Rule2_Input1">
+          <text>!project.isKeepGoingMode() &amp;&amp; ex != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule2_Input2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule2_Output1">
+          <text>throw ex;</text>
+        </outputEntry>
+      </rule>
+
+      <rule id="DecisionRule_003">
+        <inputEntry id="UnaryTests_Rule3_Input1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_Rule3_Input2">
+          <text>thrownException != null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_Rule3_Output1">
+          <text>throw thrownException;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">
+      <dmndi:DMNShape id="DMNShape_InputData_project" dmnElementRef="InputData_project_ref">
+        <dc:Bounds height="45" width="125" x="150" y="280" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_thrownEx" dmnElementRef="InputData_thrownEx_ref">
+        <dc:Bounds height="45" width="125" x="350" y="280" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_Decision_execTargets" dmnElementRef="Decision_execTargets_main">
+        <dc:Bounds height="80" width="180" x="230" y="150" />
+      </dmndi:DMNShape>
+
+      <dmndi:DMNEdge id="DMNEdge_from_project" dmnElementRef="InfoReq_project_to_decision">
+        <di:waypoint x="212" y="280" />
+        <di:waypoint x="212" y="255" />
+        <di:waypoint x="270" y="255" />
+        <di:waypoint x="270" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_from_thrownEx" dmnElementRef="InfoReq_thrownEx_to_decision">
+        <di:waypoint x="412" y="280" />
+        <di:waypoint x="412" y="255" />
+        <di:waypoint x="370" y="255" />
+        <di:waypoint x="370" y="230" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

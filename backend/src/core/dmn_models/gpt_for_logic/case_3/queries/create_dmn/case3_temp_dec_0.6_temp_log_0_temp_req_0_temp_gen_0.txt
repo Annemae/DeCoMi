@@ -1,0 +1,657 @@
+Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Do you know Decision Model and Notation and can you create a DMN XML? 
+
+A: Yes, I am familiar with Decision Model and Notation (DMN).
+
+Q: Consider the following examples (3 examples): 
+
+  
+
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "iterator" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "iterator" : "iterator.hasNext()",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "iterator.next()"
+        },
+        {
+            "iterator" : "!(iterator.hasNext())",
+            "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : "defaultValue"
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "getNext(Iterator<? extends T> iterator, @Nullable T defaultValue)" : {
+            "Input" : ["iterator"]
+        }
+    },
+    "InputData" : ["iterator"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_08em653" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_05mgc6n" name="iterator" />
+  <decision id="Decision_1pocaxa" name="getNext(Iterator&#60;? extends T&#62; iterator, @Nullable T defaultValue)">
+    <informationRequirement id="InformationRequirement_1g2xc78">
+      <requiredInput href="#InputData_05mgc6n" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0izbi3j">
+      <input id="InputClause_1s1rlxb" label="iterator">
+        <inputExpression id="LiteralExpression_0mwc8gu" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_0h2gn4j" label="getNext(Iterator&#60;? extends T&#62; iterator, @Nullable T defaultValue)" typeRef="string" />
+      <rule id="DecisionRule_1b22qw5">
+        <inputEntry id="UnaryTests_1128jj0">
+          <text>iterator.hasNext()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14bqw98">
+          <text>iterator.next()</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rzdr3u">
+        <inputEntry id="UnaryTests_1qgxg8r">
+          <text>!(iterator.hasNext())</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c0zqqe">
+          <text>defaultValue</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_088hwua">
+      <dmndi:DMNShape id="DMNShape_0vq1aiw" dmnElementRef="InputData_05mgc6n">
+        <dc:Bounds height="45" width="125" x="177" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_06c9zcq" dmnElementRef="InformationRequirement_1g2xc78">
+        <di:waypoint x="240" y="258" />
+        <di:waypoint x="240" y="220" />
+        <di:waypoint x="240" y="200" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_11s6k8p" dmnElementRef="Decision_1pocaxa">
+        <dc:Bounds height="80" width="180" x="150" y="120" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "start, end" : {
+            "Type" : "boolean"
+        }
+    },
+    "Conclusions" : {
+        "checkInterval(long start, long end)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "start, end" : "end < start",
+            "checkInterval(long start, long end)" : "throw new IllegalArgumentException("The end instant must be greater than the start instant");"
+        },
+        {
+            "start, end" : "end >= start",
+            "checkInterval(long start, long end)" : null
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "checkInterval(long start, long end)" : {
+            "Input" : ["start, end"]
+        }
+    },
+    "InputData" : ["start, end"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_00gpcft" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_0iygfo0" name="checkInterval(long start, long end)">
+    <informationRequirement id="InformationRequirement_0hhzr6i">
+      <requiredInput href="#InputData_0enwjwx" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0n05uj7">
+      <input id="input1" label="start, end">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="checkInterval(long start, long end)" name="" typeRef="string" />
+      <rule id="DecisionRule_00anz39">
+        <inputEntry id="UnaryTests_1iqx1ms">
+          <text>end &lt; start</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ji4wn3">
+          <text>throw new IllegalArgumentException("The end instant must be greater than the start instant");</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zq27lu">
+        <inputEntry id="UnaryTests_09is226">
+          <text>end &gt;= start</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0559wuy">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0enwjwx" name="start, end" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0e8pnjw">
+      <dmndi:DMNShape id="DMNShape_0ytr1p2" dmnElementRef="decision_0iygfo0">
+        <dc:Bounds height="80" width="180" x="160" y="110" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0nqt3kg" dmnElementRef="InputData_0enwjwx">
+        <dc:Bounds height="45" width="125" x="187" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1srdu7x" dmnElementRef="InformationRequirement_0hhzr6i">
+        <di:waypoint x="250" y="237" />
+        <di:waypoint x="250" y="210" />
+        <di:waypoint x="250" y="190" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+ Input: 
+Decision Logic Level:
+{
+    "Conditions" : {
+        "port" : {
+            "Type" : "boolean"
+        },
+        "name" : {
+            "Type" : "string"
+        }
+    },
+    "Conclusions" : {
+        "resolve(final HttpHost host)" : {
+            "Type" : "string"
+        }
+    },
+    "DecisionRules" : [
+        {
+            "port" : "port > 0",
+            "name" : "-",
+            "resolve(final HttpHost host)" : "return port;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("http")",
+            "resolve(final HttpHost host)" : "return 80;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "name.equalsIgnoreCase("https")",
+            "resolve(final HttpHost host)" : "return 443;"
+        },
+        {
+            "port" : "port <= 0",
+            "name" : "!(name.equalsIgnoreCase("http")) && !(name.equalsIgnoreCase("https"))",
+            "resolve(final HttpHost host)" : "throw new UnsupportedSchemeException(name + " protocol is not supported");"
+        }
+    ]
+}
+
+Decision Requirement Level:
+{
+    "Decisions" : {
+        "resolve(final HttpHost host)" : {
+            "Input" : ["port", "name"]
+        }
+    },
+    "InputData" : ["port", "name"]
+}
+ 
+ Expected JSON output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1khyx15" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_08mi2kh" name="resolve(final HttpHost host)">
+    <informationRequirement id="InformationRequirement_11zq33g">
+      <requiredInput href="#InputData_1yd1o35" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_10edaps">
+      <requiredInput href="#InputData_1gapmsp" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0fn2rr7">
+      <input id="InputClause_1m3q0rl" label="port">
+        <inputExpression id="LiteralExpression_1mibefk" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input1" label="name">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="resolve(final HttpHost host)" name="" typeRef="string" />
+      <rule id="DecisionRule_152edol">
+        <inputEntry id="UnaryTests_1n1yrsc">
+          <text>port &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k0wvh4">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rssu1i">
+          <text>return port;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kluoj5">
+        <inputEntry id="UnaryTests_11n73o7">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mtb96b">
+          <text>name.equalsIgnoreCase("http")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10proya">
+          <text>return 80;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01m4cqv">
+        <inputEntry id="UnaryTests_0yqqqf1">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dleyfy">
+          <text>name.equalsIgnoreCase("https")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09hc5el">
+          <text>return 443;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zxf3ra">
+        <inputEntry id="UnaryTests_0n5agrw">
+          <text>port &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j6q8qw">
+          <text>!(name.equalsIgnoreCase("http")) &amp;&amp; !(name.equalsIgnoreCase("https"))</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nhkia1">
+          <text>throw new UnsupportedSchemeException(name + " protocol is not supported");</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1yd1o35" name="port" />
+  <inputData id="InputData_1gapmsp" name="name" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0l8iwsm">
+      <dmndi:DMNShape id="DMNShape_1djzll4" dmnElementRef="decision_08mi2kh">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1mjduok" dmnElementRef="InputData_1yd1o35">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0pi63kv" dmnElementRef="InformationRequirement_11zq33g">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0q08g0q" dmnElementRef="InputData_1gapmsp">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1yb2q7y" dmnElementRef="InformationRequirement_10edaps">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+ 
+Given multiple structured JSON objects, you are expected to generate a corresponding DMN XML file based on these JSON objects. Only provide the DMN XML. Do not write anything else. Analyze the following JSON objects: {
+    "Decisions": {
+        "execute() throws BuildException": {
+            "Input": [
+                "sources",
+                "targets",
+                "verbose",
+                "uptodate(ResourceCollection src, ResourceCollection target)"
+            ]
+        },
+        "uptodate(ResourceCollection src, ResourceCollection target)": {
+            "Input": [
+                "neTargets",
+                "neSources",
+                "oldestTarget, newestSource"
+            ]
+        }
+    },
+    "InputData": [
+        "sources",
+        "targets",
+        "verbose",
+        "neTargets",
+        "neSources",
+        "oldestTarget, newestSource"
+    ]
+}{
+    "Conditions": {
+        "sources": {
+            "Type": "boolean"
+        },
+        "targets": {
+            "Type": "boolean"
+        },
+        "sources, targets": {
+            "Type": "boolean"
+        }
+    },
+    "Conclusions": {
+        "execute()": {
+            "Type": "string"
+        }
+    },
+    "DecisionRules": [
+        {
+            "sources": "sources == null",
+            "targets": "-",
+            "sources, targets": "-",
+            "execute()": "throw new BuildException(\"At least one set of source resources must be specified\");"
+        },
+        {
+            "sources": "sources != null",
+            "targets": "targets == null",
+            "sources, targets": "-",
+            "execute()": "throw new BuildException(\"At least one set of target files must be specified\");"
+        },
+        {
+            "sources": "sources != null",
+            "targets": "targets != null",
+            "sources, targets": "!sources.isEmpty() && !targets.isEmpty() && !uptodate(sources, targets)",
+            "execute()": "Delete delete = new Delete(); delete.bindToOwner(this); delete.add(targets); delete.perform();"
+        }
+    ]
+}{
+    "Conditions": {
+        "neTargets": {
+            "Type": "boolean"
+        },
+        "neSources": {
+            "Type": "boolean"
+        },
+        "oldestTarget, newestSource": {
+            "Type": "boolean"
+        }
+    },
+    "Conclusions": {
+        "uptodate(ResourceCollection src, ResourceCollection target)": {
+            "Type": "boolean"
+        }
+    },
+    "DecisionRules": [
+        {
+            "neTargets": "neTargets > 0",
+            "neSources": "-",
+            "oldestTarget, newestSource": "-",
+            "uptodate(ResourceCollection src, ResourceCollection target)": "false"
+        },
+        {
+            "neTargets": "neTargets == 0",
+            "neSources": "neSources > 0",
+            "oldestTarget, newestSource": "-",
+            "uptodate(ResourceCollection src, ResourceCollection target)": "false"
+        },
+        {
+            "neTargets": "neTargets == 0",
+            "neSources": "neSources == 0",
+            "oldestTarget, newestSource": "oldestTarget.getLastModified() >= newestSource.getLastModified()",
+            "uptodate(ResourceCollection src, ResourceCollection target)": "true"
+        },
+        {
+            "neTargets": "neTargets == 0",
+            "neSources": "neSources == 0",
+            "oldestTarget, newestSource": "oldestTarget.getLastModified() < newestSource.getLastModified()",
+            "uptodate(ResourceCollection src, ResourceCollection target)": "false"
+        }
+    ]
+} 
+
+A:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_generated_001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_001" name="sources" />
+  <inputData id="InputData_002" name="targets" />
+  <inputData id="InputData_003" name="verbose" />
+  <inputData id="InputData_004" name="neTargets" />
+  <inputData id="InputData_005" name="neSources" />
+  <inputData id="InputData_006" name="oldestTarget, newestSource" />
+  <decision id="Decision_001" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="InformationRequirement_001">
+      <requiredInput href="#InputData_004" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_002">
+      <requiredInput href="#InputData_005" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_003">
+      <requiredInput href="#InputData_006" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_001">
+      <input id="InputClause_001" label="neTargets">
+        <inputExpression id="LiteralExpression_001" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_002" label="neSources">
+        <inputExpression id="LiteralExpression_002" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_003" label="oldestTarget, newestSource">
+        <inputExpression id="LiteralExpression_003" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_001" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="boolean" />
+      <rule id="DecisionRule_001">
+        <inputEntry id="UnaryTests_001">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_002">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_003">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_004">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_002">
+        <inputEntry id="UnaryTests_004">
+          <text>neTargets == 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_005">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_006">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_005">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_003">
+        <inputEntry id="UnaryTests_007">
+          <text>neTargets == 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_008">
+          <text>neSources == 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_009">
+          <text>oldestTarget.getLastModified() &gt;= newestSource.getLastModified()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_006">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_004">
+        <inputEntry id="UnaryTests_010">
+          <text>neTargets == 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_011">
+          <text>neSources == 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_012">
+          <text>oldestTarget.getLastModified() &lt; newestSource.getLastModified()</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_007">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_002" name="execute() throws BuildException">
+    <informationRequirement id="InformationRequirement_004">
+      <requiredInput href="#InputData_001" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_005">
+      <requiredInput href="#InputData_002" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_006">
+      <requiredInput href="#InputData_003" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_007">
+      <requiredDecision href="#Decision_001" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_002">
+      <input id="InputClause_004" label="sources">
+        <inputExpression id="LiteralExpression_008" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_005" label="targets">
+        <inputExpression id="LiteralExpression_009" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_006" label="sources, targets">
+        <inputExpression id="LiteralExpression_010" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_002" label="execute()" name="" typeRef="string" />
+      <rule id="DecisionRule_005">
+        <inputEntry id="UnaryTests_013">
+          <text>sources == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_015">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_011">
+          <text>throw new BuildException("At least one set of source resources must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_006">
+        <inputEntry id="UnaryTests_016">
+          <text>sources != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_017">
+          <text>targets == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_018">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_012">
+          <text>throw new BuildException("At least one set of target files must be specified");</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_007">
+        <inputEntry id="UnaryTests_019">
+          <text>sources != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_020">
+          <text>targets != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_021">
+          <text>!sources.isEmpty() &amp;&amp; !targets.isEmpty() &amp;&amp; !uptodate(sources, targets)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_013">
+          <text>Delete delete = new Delete(); delete.bindToOwner(this); delete.add(targets); delete.perform();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_001">
+      <dmndi:DMNShape id="DMNShape_Decision_002" dmnElementRef="Decision_002">
+        <dc:Bounds height="80" width="180" x="300" y="150" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputData_001" dmnElementRef="InputData_001">
+        <dc:Bounds height="45" width="125" x="50" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_004" dmnElementRef="InformationRequirement_004">
+        <di:waypoint x="112" y="300" />
+        <di:waypoint x="300" y="230" /> 
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_002" dmnElementRef="InputData_002">
+        <dc:Bounds height="45" width="125" x="200" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_005" dmnElementRef="InformationRequirement_005">
+        <di:waypoint x="262" y="300" />
+        <di:waypoint x="345" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_003" dmnElementRef="InputData_003">
+        <dc:Bounds height="45" width="125" x="350" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_006" dmnElementRef="InformationRequirement_006">
+        <di:waypoint x="412" y="300" />
+        <di:waypoint x="435" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_Decision_001" dmnElementRef="Decision_001">
+        <dc:Bounds height="80" width="180" x="500" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_007" dmnElementRef="InformationRequirement_007">
+        <di:waypoint x="590" y="300" />
+        <di:waypoint x="480" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_004" dmnElementRef="InputData_004">
+        <dc:Bounds height="45" width="125" x="300" y="450" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_001" dmnElementRef="InformationRequirement_001">
+        <di:waypoint x="362" y="450" />
+        <di:waypoint x="500" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_005" dmnElementRef="InputData_005">
+        <dc:Bounds height="45" width="125" x="450" y="450" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_002" dmnElementRef="InformationRequirement_002">
+        <di:waypoint x="512" y="450" />
+        <di:waypoint x="545" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputData_006" dmnElementRef="InputData_006">
+        <dc:Bounds height="45" width="125" x="600" y="450" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_003" dmnElementRef="InformationRequirement_003">
+        <di:waypoint x="662" y="450" />
+        <di:waypoint x="680" y="380" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
+```
+

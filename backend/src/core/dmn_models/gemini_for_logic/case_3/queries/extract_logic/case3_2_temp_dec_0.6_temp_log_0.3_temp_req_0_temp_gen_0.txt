@@ -34,64 +34,32 @@ Q: We will ask you a series of questions on Decision Model and Notation tables. 
         return oldestTarget.getLastModified() >= newestSource.getLastModified();
     }""" 
 
-A: This code decides whether a collection of target resources is up-to-date with respect to a collection of source resources. It determines this by first checking if all target resources exist; if not, it decides the targets are not up-to-date. Then, it checks if all source resources exist; if not, it again decides the targets are not up-to-date. If all resources exist, it compares the last modification time of the oldest target resource with the last modification time of the newest source resource. The code decides that the targets are up-to-date if and only if the oldest target's last modification time is greater than or equal to the newest source's last modification time.
+A: This code decides whether a collection of target resources is up-to-date with respect to a collection of source resources. It determines this by first checking if all target resources exist and if all source resources exist; if any are missing, the targets are not considered up-to-date. If all resources exist, it then compares the last modification timestamp of the oldest target resource with the last modification timestamp of the newest source resource; the targets are considered up-to-date if the oldest target's modification time is greater than or equal to the newest source's modification time.
 
 Q: What does the function return? 
 
-A: The function returns a boolean value.
+A: The function returns a boolean value. It returns `true` if the target resources are considered up-to-date with respect to the source resources, and `false` otherwise.
 
 Q: What are the variables that influence this decision? 
 
-A: The primary variables influencing this decision are the input parameters `src`, which is a collection of source resources, and `target`, which is a collection of target resources. More specifically, the decision depends on the existence of each individual resource within both the `target` and `src` collections, the last modification timestamp of the oldest resource in the `target` collection, and the last modification timestamp of the newest resource in the `src` collection.
+A: The decision is influenced by several factors derived from the `src` and `target` resource collections. These factors are: the existence status of all resources within the `target` collection, the existence status of all resources within the `src` collection, the last modification timestamp of the oldest existing target resource, and the last modification timestamp of the newest existing source resource.
 
 Q: For each input and output, give me an overview of their data type and their possible values. 
 
-A: For the inputs and output of the `uptodate` function, here is an overview of their data types and possible values:
+A: The function takes two inputs, `src` and `target`.
+The first input, `src`, is of the data type `org.apache.tools.ant.types.ResourceCollection`. This variable can represent an empty collection of resources or a collection containing one or more `Resource` objects. Each `Resource` object within this collection effectively provides two key pieces of information relevant to the function's decision: its existence status, which is a boolean value (true if the resource exists, false otherwise), and its last modification timestamp, which is a long integer (typically representing milliseconds since the epoch, or zero if the resource does not exist or does not support timestamps).
+The second input, `target`, is also of the data type `org.apache.tools.ant.types.ResourceCollection`. Similar to `src`, this variable can be an empty collection or can contain one or more `Resource` objects, each characterized by its existence status (boolean) and its last modification timestamp (long).
 
-**Inputs:**
-
-1.  **`src` (Source Resources)**
-    *   **Data Type:** `org.apache.tools.ant.types.ResourceCollection`. This is an interface in Apache Ant that represents a collection of resources, such as files or directories.
-    *   **Possible Values:** An instance of `ResourceCollection` can be an empty collection (containing no resources) or a non-empty collection containing one or more `Resource` objects. Each `Resource` object within this collection is characterized by:
-        *   Its existence status: A boolean indicating whether the resource (e.g., a file) currently exists or not.
-        *   Its last modification timestamp: A `long` integer. According to Ant's conventions, this timestamp is `0` if the resource does not exist or if its modification time cannot be determined. Otherwise, it represents the number of milliseconds since the Unix epoch.
-
-2.  **`target` (Target Resources)**
-    *   **Data Type:** `org.apache.tools.ant.types.ResourceCollection`.
-    *   **Possible Values:** Similar to `src`, an instance of `ResourceCollection` for target resources can be empty or can contain one or more `Resource` objects. Each `Resource` object in the `target` collection also has:
-        *   An existence status.
-        *   A last modification timestamp (`long`), with the same conventions as for source resources (0 if non-existent or unknown, otherwise milliseconds since epoch).
-
-**Output:**
-
-1.  **Return value of the function**
-    *   **Data Type:** `boolean`.
-    *   **Possible Values:** The function is designed to return either `true` or `false`.
-        *   `false` is returned if the code determines that the targets are not up-to-date. This occurs if any resource specified in the `target` collection does not exist. It also occurs if all target resources exist, but any resource specified in the `src` collection does not exist.
-        *   If all resources in both the `target` and `src` collections exist, the function proceeds to compare timestamps. It will return `true` if the last modification time of the oldest resource in the `target` collection is greater than or equal to the last modification time of the newest resource in the `src` collection (meaning targets are considered up-to-date). Otherwise, it returns `false`.
-        *   It is important to note that if all resources in `target` and `src` are verified to exist, but either collection itself is empty, the provided code snippet might encounter a runtime error (such as a `NullPointerException`). This could happen if the internal helper methods `getOldest` or `getNewest` return `null` for an empty collection, and a method is subsequently called on this `null` value. The description of `true` or `false` outcomes for the timestamp comparison step assumes that both collections are non-empty at that stage.
+The function produces a single output, which is its boolean return value.
+The data type of this output is `boolean`.
+The possible values for this output are `true` or `false`.
 
 Q: What are the relevant values of the numerical variables? 
 
-A: The numerical variables that influence this decision and their relevant values are:
-
-1.  **`neTargets` (Number of non-existent target resources)**:
-    *   This is an integer variable.
-    *   A value of `0` is relevant because it indicates that all target resources exist, allowing the function to proceed to the next checks.
-    *   Any integer value greater than `0` (e.g., `1, 2, ...`) is relevant because it indicates that at least one target resource is missing, causing the function to return `false`.
-
-2.  **`neSources` (Number of non-existent source resources)**:
-    *   This is an integer variable.
-    *   A value of `0` is relevant because, assuming `neTargets` was also `0`, it indicates that all source resources exist, allowing the function to proceed to the timestamp comparison.
-    *   Any integer value greater than `0` (e.g., `1, 2, ...`) is relevant because it indicates that at least one source resource is missing, causing the function to return `false`.
-
-3.  **`oldestTarget.getLastModified()` (Last modification timestamp of the oldest target resource)**:
-    *   This is a `long` integer representing milliseconds since the Unix epoch.
-    *   Any valid non-negative `long` value that can be returned by `getLastModified()` is relevant. This typically includes `0` (e.g., for resources created at the epoch, or if the modification time is unknown for an existing resource) and any positive `long` value. The specific numerical value is directly used in the comparison `oldestTarget.getLastModified() >= newestSource.getLastModified()`, so its actual value is critical.
-
-4.  **`newestSource.getLastModified()` (Last modification timestamp of the newest source resource)**:
-    *   This is a `long` integer, similar to the oldest target's timestamp.
-    *   Any valid non-negative `long` value that can be returned by `getLastModified()` is relevant. This includes `0` and any positive `long` values. The specific numerical value is directly used in the comparison against `oldestTarget.getLastModified()`, making its actual value critical for the decision.
+A: The numerical variables that influence this decision are the count of non-existent target resources, the count of non-existent source resources, the last modification timestamp of the oldest target resource, and the last modification timestamp of the newest source resource.
+For the count of non-existent target resources, which is an integer, the relevant values are 0 and any positive integer; the code's behavior changes depending on whether this count is 0 or greater than 0.
+Similarly, for the count of non-existent source resources, also an integer, the relevant values are 0 and any positive integer, as the logic distinguishes between a count of 0 and a count greater than 0.
+Regarding the last modification timestamps of the oldest target and newest source resources, these are long integers that typically represent non-negative values (e.g., milliseconds since the epoch), where 0 is also a possible value. Any specific pair of values for these two timestamps is relevant because the decision depends on the outcome of their direct comparison: specifically, whether the oldest target's timestamp is greater than or equal to the newest source's timestamp. There are no specific, fixed numerical thresholds these individual timestamps are checked against in isolation; their relevance stems from their values relative to each other in this comparison.
 
 Q: 
 Consider the following examples (6 examples; some contain decisions (i.e., at a function level) that can be modeled, and some do not):
@@ -282,46 +250,34 @@ Create a decision table for the part of Java source code provided in the first q
 
 ```json
 {
-    "Conditions": {
-        "neTargets": {
-            "Type": "boolean"
+    "Conditions" : {
+        "neTargets" : {
+            "Type" : "boolean"
         },
-        "neSources": {
-            "Type": "boolean"
-        },
-        "oldestTarget, newestSource": {
-            "Type": "boolean"
+        "neSources" : {
+            "Type" : "boolean"
         }
     },
-    "Conclusions": {
-        "uptodate(ResourceCollection src, ResourceCollection target)": {
-            "Type": "string"
+    "Conclusions" : {
+        "uptodate(ResourceCollection src, ResourceCollection target)" : {
+            "Type" : "string"
         }
     },
-    "DecisionRules": [
+    "DecisionRules" : [
         {
-            "neTargets": "neTargets > 0",
-            "neSources": "-",
-            "oldestTarget, newestSource": "-",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return false;"
+            "neTargets" : "neTargets > 0",
+            "neSources" : "-",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
         },
         {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "neSources > 0",
-            "oldestTarget, newestSource": "-",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return false;"
+            "neTargets" : "!(neTargets > 0)",
+            "neSources" : "neSources > 0",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return false;"
         },
         {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "!(neSources > 0)",
-            "oldestTarget, newestSource": "oldestTarget.getLastModified() >= newestSource.getLastModified()",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
-        },
-        {
-            "neTargets": "!(neTargets > 0)",
-            "neSources": "!(neSources > 0)",
-            "oldestTarget, newestSource": "!(oldestTarget.getLastModified() >= newestSource.getLastModified())",
-            "uptodate(ResourceCollection src, ResourceCollection target)": "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
+            "neTargets" : "!(neTargets > 0)",
+            "neSources" : "!(neSources > 0)",
+            "uptodate(ResourceCollection src, ResourceCollection target)" : "return oldestTarget.getLastModified() >= newestSource.getLastModified();"
         }
     ]
 }
@@ -329,40 +285,36 @@ Create a decision table for the part of Java source code provided in the first q
 
 Q: Is this table complete? (I.e., is there an applicable rule for each set of inputs?) If it is incomplete, can you find an example for which no rule would be applicable? 
 
-A: Yes, the table is complete. The conditions defined are:
-1.  `C1: neTargets > 0`
-2.  `C2: neSources > 0`
-3.  `C3: oldestTarget.getLastModified() >= newestSource.getLastModified()`
+A: Yes, this table is complete. There is an applicable rule for every possible combination of the conditions' outcomes.
 
-Each of these conditions can be either true or false. The decision rules cover all possible combinations of these conditions:
+The conditions are based on `neTargets > 0` and `neSources > 0`. Let's denote `C1 = (neTargets > 0)` and `C2 = (neSources > 0)`.
 
-*   **Rule 1:** Applies if `C1` is true.
-    *   `neTargets`: "neTargets > 0" (C1 is true)
-    *   `neSources`: "-" (C2 can be true or false)
-    *   `oldestTarget, newestSource`: "-" (C3 can be true or false)
-    This covers all cases where `neTargets > 0`.
+The rules cover the following logical cases:
+1.  **Rule 1**: `neTargets` is `neTargets > 0` (C1 is true), `neSources` is `-` (don't care).
+    This rule applies if `neTargets > 0`, regardless of the value of `neSources`.
+    *   If `neTargets > 0` and `neSources > 0` (C1 is true, C2 is true), Rule 1 applies.
+    *   If `neTargets > 0` and `neSources <= 0` (C1 is true, C2 is false), Rule 1 applies.
 
-*   **Rule 2:** Applies if `C1` is false AND `C2` is true.
-    *   `neTargets`: "!(neTargets > 0)" (C1 is false)
-    *   `neSources`: "neSources > 0" (C2 is true)
-    *   `oldestTarget, newestSource`: "-" (C3 can be true or false)
-    This covers cases where `neTargets <= 0` and `neSources > 0`.
+2.  **Rule 2**: `neTargets` is `!(neTargets > 0)` (C1 is false, meaning `neTargets == 0`), `neSources` is `neSources > 0` (C2 is true).
+    This rule applies if `neTargets == 0` AND `neSources > 0`.
 
-*   **Rule 3:** Applies if `C1` is false AND `C2` is false AND `C3` is true.
-    *   `neTargets`: "!(neTargets > 0)" (C1 is false)
-    *   `neSources`: "!(neSources > 0)" (C2 is false)
-    *   `oldestTarget, newestSource`: "oldestTarget.getLastModified() >= newestSource.getLastModified()" (C3 is true)
-    This covers the case where `neTargets <= 0`, `neSources <= 0`, and `oldestTarget.getLastModified() >= newestSource.getLastModified()`.
+3.  **Rule 3**: `neTargets` is `!(neTargets > 0)` (C1 is false, meaning `neTargets == 0`), `neSources` is `!(neSources > 0)` (C2 is false, meaning `neSources == 0`).
+    This rule applies if `neTargets == 0` AND `neSources == 0`.
 
-*   **Rule 4:** Applies if `C1` is false AND `C2` is false AND `C3` is false.
-    *   `neTargets`: "!(neTargets > 0)" (C1 is false)
-    *   `neSources`: "!(neSources > 0)" (C2 is false)
-    *   `oldestTarget, newestSource`: "!(oldestTarget.getLastModified() >= newestSource.getLastModified())" (C3 is false)
-    This covers the case where `neTargets <= 0`, `neSources <= 0`, and `oldestTarget.getLastModified() < newestSource.getLastModified()`.
+These three rules cover all possible combinations of truth values for C1 and C2:
+*   C1 is true: Covered by Rule 1.
+*   C1 is false AND C2 is true: Covered by Rule 2.
+*   C1 is false AND C2 is false: Covered by Rule 3.
 
-These four rules are mutually exclusive and collectively cover all 2x2x2 = 8 possible combinations of the truth values for C1, C2, and C3. Therefore, for any set of inputs that determine the outcomes of these conditions, exactly one rule will be applicable.
+Since `neTargets` and `neSources` are counts (non-negative integers), the conditions `neTargets > 0` and `neSources > 0` will always evaluate to either true or false. The rules provided cover all four possible combinations of these boolean evaluations:
+*   (`neTargets > 0` is true, `neSources > 0` is true): Rule 1 applies.
+*   (`neTargets > 0` is true, `neSources > 0` is false): Rule 1 applies.
+*   (`neTargets > 0` is false, `neSources > 0` is true): Rule 2 applies.
+*   (`neTargets > 0` is false, `neSources > 0` is false): Rule 3 applies.
+
+Therefore, for any set of inputs that determine the values of `neTargets` and `neSources`, one of these rules will be applicable. The table is complete.
 
 Q: According to your table, answer the following question. What are the input to the decision? 
 
-A: According to the table, the inputs to the decision are `neTargets`, `neSources`, and the combined condition involving `oldestTarget` and `newestSource`.
+A: According to the table, the inputs to the decision are `neTargets` and `neSources`. These are the variables listed in the "Conditions" section of the DMN table, and the decision rules are based on expressions involving these variables.
 

@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I am able to recognize elements related to Decision Model and Notation (DMN) in source code, such as decision tables, decision requirements diagrams, and expressions that follow DMN conventions. If you provide source code, I can help identify which parts implement or reference DMN elements.
+A: Yes, I am able to recognize which functions contain Decision Model and Notation (DMN) elements in source code, provided that the code uses recognizable DMN constructs, such as decision tables, DRD (Decision Requirements Diagrams), or DMN-specific libraries and APIs. If you provide source code, I can help identify where DMN elements are present.
 
 Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
 

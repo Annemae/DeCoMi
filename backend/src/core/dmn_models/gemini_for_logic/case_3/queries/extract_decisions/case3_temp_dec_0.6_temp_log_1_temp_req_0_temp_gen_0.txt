@@ -1,6 +1,6 @@
 Q: We will ask you two questions on Decision Model and Notation. Each question starts with "Q:", and each response should start with "A:" followed by your answer. Only provide an answer to the question which has not been answered yet. Respond using only regular sentences, unless specified otherwise. Are you able to recognize which functions contain Decision Model and Notation elements in source code? 
 
-A: Yes, I am able to recognize functions or code elements that implement or reference Decision Model and Notation (DMN) concepts, such as decision tables, input data, business knowledge models, and decision requirements diagrams, when they are present in source code. Please provide the code or further details for analysis.
+A: Yes, I am able to recognize which functions contain elements related to Decision Model and Notation (DMN) in source code, such as decision tables, decision requirements diagrams, and expressions specific to DMN standards.
 
 Q: Consider the following examples (6 examples; each contains one or no decision (at a function level), but real examples may contain more): 
 
@@ -432,13 +432,10 @@ public class DependSet extends MatchingTask {
 First, identify which functions contain decisions. If the file contains any such functions, provide a JSON object listing these functions with the `Model` entry containing an empty string ("") for each. We will assign the model number in the next step.
              
 
-A: 
 {
     "Decisions": [
         {"Model": "", "FunctionName": "execute()"},
-        {"Model": "", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"},
-        {"Model": "", "FunctionName": "logWithModificationTime(Resource r, String what)"},
-        {"Model": "", "FunctionName": "logMissing(ResourceCollection missing, String what)"}
+        {"Model": "", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"}
     ]
 }
 
@@ -451,9 +448,11 @@ Output only a JSON array where each element represents a call relationship with 
 - "callee": the name of the called function.
              
 
-A: 
 [
-    {"caller": "execute()", "callee": "uptodate(ResourceCollection src, ResourceCollection target)"}
+    {
+        "caller": "execute()",
+        "callee": "uptodate(ResourceCollection src, ResourceCollection target)"
+    }
 ]
 
 Q: Third, using the list of functions identified in Step 1 and the call relationships extracted in Step 2, group the functions into DMN models.
@@ -469,8 +468,6 @@ Output only the JSON array with updated `Model` fields. Do not write anything el
 
 [
     {"Model": "model_1", "FunctionName": "execute()"},
-    {"Model": "model_1", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"},
-    {"Model": "model_2", "FunctionName": "logWithModificationTime(Resource r, String what)"},
-    {"Model": "model_3", "FunctionName": "logMissing(ResourceCollection missing, String what)"}
+    {"Model": "model_1", "FunctionName": "uptodate(ResourceCollection src, ResourceCollection target)"}
 ]
 
