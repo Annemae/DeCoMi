@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>DeCoMi - Visualizer</title>
+        <!-- Load dmn-js script for DMN model visualization. -->
+        <script src="https://unpkg.com/dmn-js@17.0.2/dist/dmn-modeler.development.js"></script>
+
+        <!-- Custom JS file. -->
+        <script src="/frontend/js/extractModel.js"></script>    
+
+        <!-- Custom CSS files. -->
+        <link rel="stylesheet" href="/frontend/css/universal.css">
+        <link rel="stylesheet" href="/frontend/css/model.css">
+        
+        <!-- Stylesheets needed for dmn-js. -->
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/diagram-js.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-shared.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-drd.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-decision-table.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-decision-table-controls.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-literal-expression.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-font/css/dmn.css">    
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    </head>
+    <body onload="loadDMNModelInUI()">
+        <h1>DeCoMi - Decision Source Code Mining</h1>
+        <p id="subtitle">A Prototype by Annemae van de Hoef</p>
+
+         <div id="menu">
+            <a href="index.html">Submit File</a>
+            <a href="visualize.html">Show Latest DMN Model</a>
+        </div>
+
+        <div id="editor">
+            <div id="source-code-container"></div>
+
+            <div id="dmn-model-container">
+                <div id="dmn-model"></div>
+            </div>
+        </div>
+    </body>
+</html>
