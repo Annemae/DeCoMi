@@ -1,6 +1,6 @@
 {
     "Conditions" : {
-        "neTargets" : {
+        "neTargets" : { 
             "Type" : "boolean"
         },
         "neSources" : {
@@ -9,7 +9,7 @@
     },
     "Conclusions" : {
         "uptodate(ResourceCollection src, ResourceCollection target)" : {
-            "Type" : "boolean"
+            "Type" : "string"
         }
     },
     "DecisionRules" : [

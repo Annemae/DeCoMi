@@ -4,11 +4,11 @@
             "Input" : ["val"]
         },
         "toNumber(String s)" : {
-            "Input" : ["toNumber(Object val)", "c", "?", "endchar", "c1", "start, len", "startChar", "c2", "ex", "start, end, s"]
+            "Input" : ["toNumber(Object val)", "c", "MSJVM_BUG_WORKAROUND", "endchar", "c1", "start, len", "startChar", "c2", "ex", "start, end, s"]
         },
         "stringToNumber(String s, int start, int radix)" : {
             "Input" : ["toNumber(String s)", "start, end", "sum", "radix", "nfe"]
         }
     },
-    "InputData" : ["val", "start, end", "sum", "radix", "nfe", "c", "?", "endchar", "c1", "start, len", "startChar", "c2", "ex", "start, end, s"]
+    "InputData" : ["val", "start, end", "sum", "radix", "nfe", "c", "MSJVM_BUG_WORKAROUND", "endchar", "c1", "start, len", "startChar", "c2", "ex", "start, end, s"]
 }

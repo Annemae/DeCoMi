@@ -1,4 +1,5 @@
 {
-    "id": "decision1",
-    "lines of code": [[14, 27]]
+    "Decisions": [
+        {"Model": "model_1",
+         "FunctionName": "format(String s)"}]
 }

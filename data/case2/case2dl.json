@@ -30,7 +30,7 @@
         },
         {
             "s" : "s != null",
-            "pageParts" : "-",
+            "pageParts" : "pageParts.length != 2 && pageParts.length < 1",
             "format(String s)" : "return \"\";"	
         }
     ]

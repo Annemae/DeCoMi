@@ -1,8 +1,13 @@
 {
-    "decisions": [
-        {"id": "decision1",
-        "lines of code": [[272, 294], [316, 463], [471, 540]]},
-        {"id": "decision2",
-        "lines of code": [[658, 683], [702, 725]]}
-    ]
+    "Decisions": [
+        {"Model": "model_1",
+         "FunctionName": "toString(Object val)"},
+        {"Model": "model_1",
+         "FunctionName": "numberToString(double d, int base)"},
+        {"Model": "model_2",
+         "FunctionName": "toNumber(Object val)"},
+        {"Model": "model_2",
+         "FunctionName": "stringToNumber(String s, int start, int radix)"},
+        {"Model": "model_2",
+         "FunctionName": "toNumber(String s)"}]
 }

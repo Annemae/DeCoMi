@@ -1,145 +1,58 @@
 {
     "Conditions" : {
-        "toNumber(Object val)" : {
+        "toNumber(String s)" : {
             "Type" : "string"
         },
-        "start, len" : {
+        "start, end" : {
             "Type" : "boolean"
         },
-        "startChar" : {
+        "sum" : {
             "Type" : "boolean"
         },
-        "c1" : {
+        "radix" : {
             "Type" : "boolean"
         },
-        "c2" : {
-            "Type" : "boolean"
-        },
-        "endchar" : {
-            "Type" : "boolean"
-        },
-        "start, end, s" : {
-            "Type" : "boolean"
-        },
-        "MSJVM_BUG_WORKAROUND" : {
-            "Type" : "boolean"
-        },
-        "c" : {
-            "Type" : "boolean"
-        },
-        "ex" : {
+        "nfe" : {
             "Type" : "boolean"
         }
     },
     "Conclusions" : {
-        "toNumber(String s)" : {
+        "stringToNumber(String s, int start, int radix)" : {
             "Type" : "string"
         }
     },
     "DecisionRules" : [
         {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start == len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "-",
-            "start, end, s": "-",
-            "?": "-",
-            "c": "-",
-            "ex": "-",
-            "toNumber(String s)": "return +0.0;"
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start == end",
+            "sum": "-",
+            "radix": "-",
+            "nfe": "-",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
         },
         {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start + 2 < len",
-            "startChar": "startChar == '0'",
-            "c1": "c1 == 'x' || c1 == 'X'",
-            "c2": "-",
-            "endchar": "-",
-            "start, end, s": "-",
-            "?": "-",
-            "c": "-",
-            "ex": "-",
-            "toNumber(String s)": "return stringToNumber(s, start + 2, 16);"
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "sum >= 9007199254740992.0",
+            "radix": "radix == 10",
+            "nfe": "!(NumberFormatException nfe)",
+            "stringToNumber(String s, int start, int radix)": "return Double.valueOf(s.substring(start, end)).doubleValue();"
         },
         {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start + 3 < len && s.charAt(start + 1) == '0'",
-            "startChar": "startChar == '+' || startChar == '-'",
-            "c1": "-",
-            "c2": "c2 == 'x' || c2 == 'X'",
-            "endchar": "-",
-            "start, end, s": "-",
-            "?": "-",
-            "c": "-",
-            "ex": "-",
-            "toNumber(String s)": "return startChar == '-' ? -val : val;"
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "sum >= 9007199254740992.0",
+            "radix": "radix == 10",
+            "nfe": "NumberFormatException nfe",
+            "stringToNumber(String s, int start, int radix)": "return NaN;"
         },
         {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start != len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "endChar == 'y'",
-            "start, end, s": "start + 7 == end && s.regionMatches(start, \"Infinity\", 0, 8)",
-            "?": "-",
-            "c": "-",
-            "ex": "-",
-            "toNumber(String s)": "return startChar == '-' ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;"
-        },
-        {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start != len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "endChar == 'y'",
-            "start, end, s": "start + 7 != end && !(s.regionMatches(start, \"Infinity\", 0, 8))",
-            "?": "-",
-            "c": "-",
-            "ex": "-",
-            "toNumber(String s)": "return NaN;"
-        },
-        {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start != len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "endChar != 'y'",
-            "start, end, s": "-",
-            "?": "MSJVM_BUG_WORKAROUNDS",
-            "c": "('0' > c && c > '9') && c != '.' && c != 'e' && c != 'E' && c != '+' && c != '-'",
-            "ex": "-",
-            "toNumber(String s)": "return NaN;"
-        },
-        {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start != len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "endChar != 'y'",
-            "start, end, s": "-",
-            "?": "-",
-            "c": "-",
-            "ex": "!(NumberFormatException ex)",
-            "toNumber(String s)": "return Double.valueOf(sub).doubleValue();"
-        },
-        {
-            "toNumber(Object val)": "return toNumber((String) val);",
-            "start, len": "start != len",
-            "startChar": "-",
-            "c1": "-",
-            "c2": "-",
-            "endchar": "endChar != 'y'",
-            "start, end, s": "-",
-            "?": "-",
-            "c": "-",
-            "ex": "NumberFormatException ex",
-            "toNumber(String s)": "return NaN;"
+            "toNumber(String s)": "(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)",
+            "start, end": "start != end",
+            "sum": "-",
+            "radix": "-",
+            "nfe": "-",
+            "stringToNumber(String s, int start, int radix)": "return sum;"
         }
     ]
 }

@@ -12,4 +12,3 @@ public String format(String s) {
     }
 
 }
-
