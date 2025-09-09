@@ -858,6 +858,7 @@ def run_query(code, case_name, temperature):
 
     open(f"results/{case_name}_temp_{temperature}.txt", "w").write(query)
 
+
 if __name__ == "__main__":
     for temperature in temperatures:
         for case in cases:

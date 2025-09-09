@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_fmt0001" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_s_inp01" name="s" />
+  <inputData id="InputData_pp_inp02" name="pageParts" />
+  <decision id="Decision_fmt_dec01" name="format(String s)">
+    <informationRequirement id="InformationRequirement_s_req01">
+      <requiredInput href="#InputData_s_inp01" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_pp_req02">
+      <requiredInput href="#InputData_pp_inp02" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_fmt_dt01">
+      <input id="InputClause_s_ic01" label="s">
+        <inputExpression id="LiteralExpression_s_ie01" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_pp_ic02" label="pageParts">
+        <inputExpression id="LiteralExpression_pp_ie02" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_fmt_oc01" label="format(String s)" name="" typeRef="string" />
+      <rule id="DecisionRule_fmt_r01">
+        <inputEntry id="UnaryTests_s_r1e1">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r1e2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_fmt_r1o1">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_fmt_r02">
+        <inputEntry id="UnaryTests_s_r2e1">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r2e2">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_fmt_r2o1">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_fmt_r03">
+        <inputEntry id="UnaryTests_s_r3e1">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r3e2">
+          <text>pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_fmt_r3o1">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_fmt_r04">
+        <inputEntry id="UnaryTests_s_r4e1">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_pp_r4e2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_fmt_r4o1">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_fmt_dia01">
+      <dmndi:DMNShape id="DMNShape_dec_sh01" dmnElementRef="Decision_fmt_dec01">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_s_sh02" dmnElementRef="InputData_s_inp01">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_s_ed01" dmnElementRef="InformationRequirement_s_req01">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_pp_sh03" dmnElementRef="InputData_pp_inp02">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_pp_ed02" dmnElementRef="InformationRequirement_pp_req02">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

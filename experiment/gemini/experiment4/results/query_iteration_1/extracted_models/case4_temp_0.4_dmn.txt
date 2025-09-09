@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0x1y2z3" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="Decision_toString_001" name="toString(Object val)">
+    <informationRequirement id="InformationRequirement_toString_val_001">
+      <requiredInput href="#InputData_val_001" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_toString_001">
+      <input id="InputClause_val_001" label="val">
+        <inputExpression id="LiteralExpression_val_IE_001" typeRef="number">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_toString_001" label="toString(Object val)" typeRef="string" />
+      <rule id="DecisionRule_toString_R1_001">
+        <inputEntry id="UnaryTests_toString_R1_val_001">
+          <text>val == null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R1_out_001">
+          <text>return &quot;null&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_toString_R2_001">
+        <inputEntry id="UnaryTests_toString_R2_val_001">
+          <text>val == Undefined.instance</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R2_out_001">
+          <text>return &quot;undefined&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_toString_R3_001">
+        <inputEntry id="UnaryTests_toString_R3_val_001">
+          <text>val instanceof String</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R3_out_001">
+          <text>return (String)val;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_toString_R4_001">
+        <inputEntry id="UnaryTests_toString_R4_val_001">
+          <text>val instanceof Number</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R4_out_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_toString_R5_001">
+        <inputEntry id="UnaryTests_toString_R5_val_001">
+          <text>val instanceof Scriptable</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R5_out_001">
+          <text>throw errorWithClassName(&quot;msg.primitive.expected&quot;, val);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_toString_R6_001">
+        <inputEntry id="UnaryTests_toString_R6_val_001">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_toString_R6_out_001">
+          <text>return val.toString();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_numberToString_001" name="numberToString(double d, int base)">
+    <informationRequirement id="InformationRequirement_numToString_dec_001">
+      <requiredDecision href="#Decision_toString_001" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_numToString_d_001">
+      <requiredInput href="#InputData_d_001" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_numToString_base_001">
+      <requiredInput href="#InputData_base_001" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_numberToString_001">
+      <input id="InputClause_numToString_ts_001" label="toString(Object val)">
+        <inputExpression id="LiteralExpression_numToString_ts_IE_001" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_numToString_d_001" label="d">
+        <inputExpression id="LiteralExpression_numToString_d_IE_001" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_numToString_base_001" label="base">
+        <inputExpression id="LiteralExpression_numToString_base_IE_001" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_numberToString_001" label="numberToString(double d, int base)" typeRef="string" />
+      <rule id="DecisionRule_numToString_R1_001">
+        <inputEntry id="UnaryTests_numToString_R1_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R1_d_001">
+          <text>d != d</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R1_base_001">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R1_out_001">
+          <text>return &quot;NaN&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R2_001">
+        <inputEntry id="UnaryTests_numToString_R2_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R2_d_001">
+          <text>d == Double.POSITIVE_INFINITY</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R2_base_001">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R2_out_001">
+          <text>return &quot;Infinity&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R3_001">
+        <inputEntry id="UnaryTests_numToString_R3_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R3_d_001">
+          <text>d == Double.NEGATIVE_INFINITY</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R3_base_001">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R3_out_001">
+          <text>return &quot;-Infinity&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R4_001">
+        <inputEntry id="UnaryTests_numToString_R4_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R4_d_001">
+          <text>d == 0.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R4_base_001">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R4_out_001">
+          <text>return &quot;0&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R5_001">
+        <inputEntry id="UnaryTests_numToString_R5_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R5_d_001">
+          <text>d == d &amp;&amp; d != Double.POSITIVE_INFINITY &amp;&amp; d != Double.NEGATIVE_INFINITY &amp;&amp; d != 0.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R5_base_001">
+          <text>(base &lt; 2) || (base &gt; 36)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R5_out_001">
+          <text>throw Context.reportRuntimeError1(&quot;msg.bad.radix&quot;, Integer.toString(base));</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R6_001">
+        <inputEntry id="UnaryTests_numToString_R6_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R6_d_001">
+          <text>d == d &amp;&amp; d != Double.POSITIVE_INFINITY &amp;&amp; d != Double.NEGATIVE_INFINITY &amp;&amp; d != 0.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R6_base_001">
+          <text>base != 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R6_out_001">
+          <text>return DToA.JS_dtobasestr(base, d);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_numToString_R7_001">
+        <inputEntry id="UnaryTests_numToString_R7_ts_001">
+          <text>return numberToString(((Number)val).doubleValue(), 10);</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R7_d_001">
+          <text>d == d &amp;&amp; d != Double.POSITIVE_INFINITY &amp;&amp; d != Double.NEGATIVE_INFINITY &amp;&amp; d != 0.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_numToString_R7_base_001">
+          <text>(base &gt;= 2 &amp;&amp; base &lt;= 36) &amp;&amp; base == 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_numToString_R7_out_001">
+          <text>return result.toString();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_val_001" name="val" />
+  <inputData id="InputData_d_001" name="d" />
+  <inputData id="InputData_base_001" name="base" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_001">
+      <dmndi:DMNShape id="DMNShape_InputVal_001" dmnElementRef="InputData_val_001">
+        <dc:Bounds height="45" width="125" x="87" y="438" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_DecisionToString_001" dmnElementRef="Decision_toString_001">
+        <dc:Bounds height="80" width="180" x="50" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_toString_val_001" dmnElementRef="InformationRequirement_toString_val_001">
+        <di:waypoint x="150" y="438" />
+        <di:waypoint x="140" y="400" />
+        <di:waypoint x="140" y="380" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_InputD_001" dmnElementRef="InputData_d_001">
+        <dc:Bounds height="45" width="125" x="307" y="248" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_InputBase_001" dmnElementRef="InputData_base_001">
+        <dc:Bounds height="45" width="125" x="487" y="248" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_DecisionNumToString_001" dmnElementRef="Decision_numberToString_001">
+        <dc:Bounds height="80" width="180" x="270" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_numToString_dec_001" dmnElementRef="InformationRequirement_numToString_dec_001">
+        <di:waypoint x="140" y="300" />
+        <di:waypoint x="250" y="200" />
+        <di:waypoint x="360" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_numToString_d_001" dmnElementRef="InformationRequirement_numToString_d_001">
+        <di:waypoint x="370" y="248" />
+        <di:waypoint x="360" y="180" />
+        <di:waypoint x="360" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_numToString_base_001" dmnElementRef="InformationRequirement_numToString_base_001">
+        <di:waypoint x="550" y="248" />
+        <di:waypoint x="400" y="180" />
+        <di:waypoint x="360" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

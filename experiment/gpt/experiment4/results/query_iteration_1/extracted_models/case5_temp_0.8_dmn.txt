@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1xyzabc" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_val" name="val" />
+  <inputData id="InputData_start_end" name="start, end" />
+  <inputData id="InputData_sum" name="sum" />
+  <inputData id="InputData_radix" name="radix" />
+  <inputData id="InputData_nfe" name="nfe" />
+  <inputData id="InputData_c" name="c" />
+  <inputData id="InputData_MSJVM" name="MSJVM_BUG_WORKAROUND" />
+  <inputData id="InputData_endchar" name="endchar" />
+  <inputData id="InputData_c1" name="c1" />
+  <inputData id="InputData_start_len" name="start, len" />
+  <inputData id="InputData_startChar" name="startChar" />
+  <inputData id="InputData_c2" name="c2" />
+  <inputData id="InputData_ex" name="ex" />
+  <inputData id="InputData_start_end_s" name="start, end, s" />
+  <decision id="Decision_toNumber_Object_val" name="toNumber(Object val)">
+    <informationRequirement id="InformationRequirement_toNumber_Object_val_val">
+      <requiredInput href="#InputData_val"/>
+    </informationRequirement>
+    <decisionTable id="DecisionTable_toNumber_Object_val">
+      <input id="InputClause_val" label="val">
+        <inputExpression id="LiteralExpression_val" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_toNumber_Object_val" label="toNumber(Object val)" typeRef="string"/>
+      <rule id="DecisionRule_1">
+        <inputEntry id="UnaryTests_1">
+          <text>val instanceof Number</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1">
+          <text>return ((Number) val).doubleValue();</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_2">
+        <inputEntry id="UnaryTests_2">
+          <text>val == null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_2">
+          <text>return +0.0;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_3">
+        <inputEntry id="UnaryTests_3">
+          <text>val == Undefined.instance</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_3">
+          <text>return NaN;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_4">
+        <inputEntry id="UnaryTests_4">
+          <text>val instanceof String</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_4">
+          <text>return toNumber((String) val);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_5">
+        <inputEntry id="UnaryTests_5">
+          <text>val instanceof Boolean</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_5">
+          <text>return ((Boolean) val).booleanValue() ? 1 : +0.0;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_6">
+        <inputEntry id="UnaryTests_6">
+          <text>val instanceof Scriptable</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_6">
+          <text>throw errorWithClassName("msg.primitive.expected", val);</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_7">
+        <inputEntry id="UnaryTests_7">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_7">
+          <text>return NaN;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_toNumber_String_s" name="toNumber(String s)">
+    <informationRequirement id="InformationRequirement_toNumber_String_s_toNumber_Object_val">
+      <requiredInput href="#Decision_toNumber_Object_val"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_c">
+      <requiredInput href="#InputData_c"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_MSJVM">
+      <requiredInput href="#InputData_MSJVM"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_endchar">
+      <requiredInput href="#InputData_endchar"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_c1">
+      <requiredInput href="#InputData_c1"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_start_len">
+      <requiredInput href="#InputData_start_len"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_startChar">
+      <requiredInput href="#InputData_startChar"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_c2">
+      <requiredInput href="#InputData_c2"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_ex">
+      <requiredInput href="#InputData_ex"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_toNumber_String_s_start_end_s">
+      <requiredInput href="#InputData_start_end_s"/>
+    </informationRequirement>
+    <decisionTable id="DecisionTable_toNumber_String_s">
+      <input id="InputClause_1" label="toNumber(Object val)">
+        <inputExpression id="LiteralExpression_1" typeRef="string"/>
+      </input>
+      <input id="InputClause_2" label="start, len">
+        <inputExpression id="LiteralExpression_2" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_3" label="startChar">
+        <inputExpression id="LiteralExpression_3" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_4" label="c1">
+        <inputExpression id="LiteralExpression_4" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_5" label="c2">
+        <inputExpression id="LiteralExpression_5" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_6" label="endchar">
+        <inputExpression id="LiteralExpression_6" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_7" label="start, end, s">
+        <inputExpression id="LiteralExpression_7" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_8" label="MSJVM_BUG_WORKAROUND">
+        <inputExpression id="LiteralExpression_8" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_9" label="c">
+        <inputExpression id="LiteralExpression_9" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_10" label="ex">
+        <inputExpression id="LiteralExpression_10" typeRef="boolean"/>
+      </input>
+      <output id="OutputClause_toNumber_String_s" label="toNumber(String s)" typeRef="string"/>
+      <rule id="DecisionRule_1_str">
+        <inputEntry id="UnaryTests_1_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_1_2"><text>start == len</text></inputEntry>
+        <inputEntry id="UnaryTests_1_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_6"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_1_str"><text>return +0.0;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_2_str">
+        <inputEntry id="UnaryTests_2_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_2_2"><text>start + 2 &lt; len</text></inputEntry>
+        <inputEntry id="UnaryTests_2_3"><text>startChar == '0'</text></inputEntry>
+        <inputEntry id="UnaryTests_2_4"><text>c1 == 'x' || c1 == 'X'</text></inputEntry>
+        <inputEntry id="UnaryTests_2_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_2_6"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_2_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_2_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_2_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_2_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_2_str"><text>return stringToNumber(s, start + 2, 16);</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_3_str">
+        <inputEntry id="UnaryTests_3_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_3_2"><text>start + 3 &lt; len &amp;&amp; s.charAt(start + 1) == '0'</text></inputEntry>
+        <inputEntry id="UnaryTests_3_3"><text>startChar == '+' || startChar == '-'</text></inputEntry>
+        <inputEntry id="UnaryTests_3_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_3_5"><text>c2 == 'x' || c2 == 'X'</text></inputEntry>
+        <inputEntry id="UnaryTests_3_6"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_3_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_3_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_3_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_3_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_3_str"><text>return startChar == '-' ? -val : val;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_4_str">
+        <inputEntry id="UnaryTests_4_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_4_2"><text>start != len</text></inputEntry>
+        <inputEntry id="UnaryTests_4_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_6"><text>endChar == 'y'</text></inputEntry>
+        <inputEntry id="UnaryTests_4_7"><text>start + 7 == end &amp;&amp; s.regionMatches(start, "Infinity", 0, 8)</text></inputEntry>
+        <inputEntry id="UnaryTests_4_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_4_str"><text>return startChar == '-' ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_5_str">
+        <inputEntry id="UnaryTests_5_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_5_2"><text>start != len</text></inputEntry>
+        <inputEntry id="UnaryTests_5_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_5_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_5_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_5_6"><text>endChar == 'y'</text></inputEntry>
+        <inputEntry id="UnaryTests_5_7"><text>start + 7 != end &amp;&amp; !(s.regionMatches(start, "Infinity", 0, 8))</text></inputEntry>
+        <inputEntry id="UnaryTests_5_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_5_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_5_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_5_str"><text>return NaN;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_6_str">
+        <inputEntry id="UnaryTests_6_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_6_2"><text>start != len</text></inputEntry>
+        <inputEntry id="UnaryTests_6_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_6_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_6_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_6_6"><text>endChar != 'y'</text></inputEntry>
+        <inputEntry id="UnaryTests_6_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_6_8"><text>MSJVM_BUG_WORKAROUNDS</text></inputEntry>
+        <inputEntry id="UnaryTests_6_9"><text>('0' &gt; c &amp;&amp; c &gt; '9') &amp;&amp; c != '.' &amp;&amp; c != 'e' &amp;&amp; c != 'E' &amp;&amp; c != '+' &amp;&amp; c != '-'</text></inputEntry>
+        <inputEntry id="UnaryTests_6_10"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_6_str"><text>return NaN;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_7_str">
+        <inputEntry id="UnaryTests_7_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_7_2"><text>start != len</text></inputEntry>
+        <inputEntry id="UnaryTests_7_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_6"><text>endChar != 'y'</text></inputEntry>
+        <inputEntry id="UnaryTests_7_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_7_10"><text>!(NumberFormatException ex)</text></inputEntry>
+        <outputEntry id="LiteralExpression_7_str"><text>return Double.valueOf(sub).doubleValue();</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_8_str">
+        <inputEntry id="UnaryTests_8_1"><text>return toNumber((String) val);</text></inputEntry>
+        <inputEntry id="UnaryTests_8_2"><text>start != len</text></inputEntry>
+        <inputEntry id="UnaryTests_8_3"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_4"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_5"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_6"><text>endChar != 'y'</text></inputEntry>
+        <inputEntry id="UnaryTests_8_7"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_8"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_9"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_8_10"><text>NumberFormatException ex</text></inputEntry>
+        <outputEntry id="LiteralExpression_8_str"><text>return NaN;</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_stringToNumber" name="stringToNumber(String s, int start, int radix)">
+    <informationRequirement id="InformationRequirement_stringToNumber_toNumber_String_s">
+      <requiredInput href="#Decision_toNumber_String_s"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_stringToNumber_start_end">
+      <requiredInput href="#InputData_start_end"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_stringToNumber_sum">
+      <requiredInput href="#InputData_sum"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_stringToNumber_radix">
+      <requiredInput href="#InputData_radix"/>
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_stringToNumber_nfe">
+      <requiredInput href="#InputData_nfe"/>
+    </informationRequirement>
+    <decisionTable id="DecisionTable_stringToNumber">
+      <input id="InputClause_1_s" label="toNumber(String s)">
+        <inputExpression id="LiteralExpression_1_s" typeRef="string"/>
+      </input>
+      <input id="InputClause_2_s" label="start, end">
+        <inputExpression id="LiteralExpression_2_s" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_3_s" label="sum">
+        <inputExpression id="LiteralExpression_3_s" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_4_s" label="radix">
+        <inputExpression id="LiteralExpression_4_s" typeRef="boolean"/>
+      </input>
+      <input id="InputClause_5_s" label="nfe">
+        <inputExpression id="LiteralExpression_5_s" typeRef="boolean"/>
+      </input>
+      <output id="OutputClause_stringToNumber" label="stringToNumber(String s, int start, int radix)" typeRef="string"/>
+      <rule id="DecisionRule_1_s">
+        <inputEntry id="UnaryTests_1_1_s"><text>(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)</text></inputEntry>
+        <inputEntry id="UnaryTests_1_2_s"><text>start == end</text></inputEntry>
+        <inputEntry id="UnaryTests_1_3_s"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_4_s"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_1_5_s"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_1_s"><text>return NaN;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_2_s">
+        <inputEntry id="UnaryTests_2_1_s"><text>(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)</text></inputEntry>
+        <inputEntry id="UnaryTests_2_2_s"><text>start != end</text></inputEntry>
+        <inputEntry id="UnaryTests_2_3_s"><text>sum &gt;= 9007199254740992.0</text></inputEntry>
+        <inputEntry id="UnaryTests_2_4_s"><text>radix == 10</text></inputEntry>
+        <inputEntry id="UnaryTests_2_5_s"><text>!(NumberFormatException nfe)</text></inputEntry>
+        <outputEntry id="LiteralExpression_2_s"><text>return Double.valueOf(s.substring(start, end)).doubleValue();</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_3_s">
+        <inputEntry id="UnaryTests_3_1_s"><text>(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)</text></inputEntry>
+        <inputEntry id="UnaryTests_3_2_s"><text>start != end</text></inputEntry>
+        <inputEntry id="UnaryTests_3_3_s"><text>sum &gt;= 9007199254740992.0</text></inputEntry>
+        <inputEntry id="UnaryTests_3_4_s"><text>radix == 10</text></inputEntry>
+        <inputEntry id="UnaryTests_3_5_s"><text>NumberFormatException nfe</text></inputEntry>
+        <outputEntry id="LiteralExpression_3_s"><text>return NaN;</text></outputEntry>
+      </rule>
+      <rule id="DecisionRule_4_s">
+        <inputEntry id="UnaryTests_4_1_s"><text>(return startChar == '-' ? -val : val;) || (return stringToNumber(s, start + 2, 16);)</text></inputEntry>
+        <inputEntry id="UnaryTests_4_2_s"><text>start != end</text></inputEntry>
+        <inputEntry id="UnaryTests_4_3_s"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_4_s"><text>-</text></inputEntry>
+        <inputEntry id="UnaryTests_4_5_s"><text>-</text></inputEntry>
+        <outputEntry id="LiteralExpression_4_s"><text>return NaN;</text></outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1xyzabc">
+      <dmndi:DMNShape id="DMNShape_val" dmnElementRef="InputData_val">
+        <dc:Bounds height="45" width="125" x="40" y="300" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_start_end" dmnElementRef="InputData_start_end">
+        <dc:Bounds height="45" width="125" x="190" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_sum" dmnElementRef="InputData_sum">
+        <dc:Bounds height="45" width="125" x="320" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_radix" dmnElementRef="InputData_radix">
+        <dc:Bounds height="45" width="125" x="450" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_nfe" dmnElementRef="InputData_nfe">
+        <dc:Bounds height="45" width="125" x="580" y="350" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_c" dmnElementRef="InputData_c">
+        <dc:Bounds height="45" width="125" x="80" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_MSJVM" dmnElementRef="InputData_MSJVM">
+        <dc:Bounds height="45" width="125" x="210" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_endchar" dmnElementRef="InputData_endchar">
+        <dc:Bounds height="45" width="125" x="340" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_c1" dmnElementRef="InputData_c1">
+        <dc:Bounds height="45" width="125" x="470" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_start_len" dmnElementRef="InputData_start_len">
+        <dc:Bounds height="45" width="125" x="600" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_startChar" dmnElementRef="InputData_startChar">
+        <dc:Bounds height="45" width="125" x="730" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_c2" dmnElementRef="InputData_c2">
+        <dc:Bounds height="45" width="125" x="860" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_ex" dmnElementRef="InputData_ex">
+        <dc:Bounds height="45" width="125" x="990" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_start_end_s" dmnElementRef="InputData_start_end_s">
+        <dc:Bounds height="45" width="125" x="1120" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_toNumber_Object_val" dmnElementRef="Decision_toNumber_Object_val">
+        <dc:Bounds height="80" width="180" x="80" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_toNumber_String_s" dmnElementRef="Decision_toNumber_String_s">
+        <dc:Bounds height="80" width="180" x="350" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_stringToNumber" dmnElementRef="Decision_stringToNumber">
+        <dc:Bounds height="80" width="180" x="650" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_toNumber_Object_val_val" dmnElementRef="InformationRequirement_toNumber_Object_val_val">
+        <di:waypoint x="102" y="300" />
+        <di:waypoint x="170" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_toNumber_String_s_toNumber_Object_val" dmnElementRef="InformationRequirement_toNumber_String_s_toNumber_Object_val">
+        <di:waypoint x="260" y="120" />
+        <di:waypoint x="350" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_stringToNumber_toNumber_String_s" dmnElementRef="InformationRequirement_stringToNumber_toNumber_String_s">
+        <di:waypoint x="530" y="120" />
+        <di:waypoint x="650" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_stringToNumber_start_end" dmnElementRef="InformationRequirement_stringToNumber_start_end">
+        <di:waypoint x="252" y="350" />
+        <di:waypoint x="740" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_stringToNumber_sum" dmnElementRef="InformationRequirement_stringToNumber_sum">
+        <di:waypoint x="382" y="350" />
+        <di:waypoint x="740" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_stringToNumber_radix" dmnElementRef="InformationRequirement_stringToNumber_radix">
+        <di:waypoint x="512" y="350" />
+        <di:waypoint x="740" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_stringToNumber_nfe" dmnElementRef="InformationRequirement_stringToNumber_nfe">
+        <di:waypoint x="642" y="350" />
+        <di:waypoint x="740" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

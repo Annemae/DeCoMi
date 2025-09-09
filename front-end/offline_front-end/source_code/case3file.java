@@ -82,7 +82,7 @@ import org.apache.tools.ant.util.StreamUtils;
  * @ant.task category="filesystem"
  * @since Ant 1.4
  */
-public class case3file extends MatchingTask {
+public class DependSet extends MatchingTask {
 
     private static final ResourceSelector NOT_EXISTS = new Not(new Exists());
     private static final ResourceComparator DATE

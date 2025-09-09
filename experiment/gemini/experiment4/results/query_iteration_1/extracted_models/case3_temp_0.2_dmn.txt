@@ -1,0 +1,82 @@
+A: <?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_q2w3e4r" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <inputData id="InputData_npt1234" name="neTargets" />
+  <inputData id="InputData_nps5678" name="neSources" />
+  <decision id="decision_dts1122" name="uptodate(ResourceCollection src, ResourceCollection target)">
+    <informationRequirement id="InformationRequirement_irn1122">
+      <requiredInput href="#InputData_npt1234" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_irs3344">
+      <requiredInput href="#InputData_nps5678" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_dtb5566">
+      <input id="InputClause_icn7788" label="neTargets">
+        <inputExpression id="LiteralExpression_ien9900" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input1" label="neSources">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="uptodate(ResourceCollection src, ResourceCollection target)" name="" typeRef="boolean" />
+      <rule id="DecisionRule_dr10001">
+        <inputEntry id="UnaryTests_ut1n001">
+          <text>neTargets &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_ut1s002">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_le1o001">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_dr20002">
+        <inputEntry id="UnaryTests_ut2n003">
+          <text>neTargets &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_ut2s004">
+          <text>neSources &gt; 0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_le2o002">
+          <text>return false;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_dr30003">
+        <inputEntry id="UnaryTests_ut3n005">
+          <text>neTargets &lt;= 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_ut3s006">
+          <text>neSources &lt;= 0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_le3o003">
+          <text>return oldestTarget.getLastModified() &gt;= newestSource.getLastModified();</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_dgr0001">
+      <dmndi:DMNShape id="DMNShape_shd0001" dmnElementRef="decision_dts1122">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_shn0001" dmnElementRef="InputData_npt1234">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_edn0001" dmnElementRef="InformationRequirement_irn1122">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_shs0001" dmnElementRef="InputData_nps5678">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_eds0001" dmnElementRef="InformationRequirement_irs3344">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

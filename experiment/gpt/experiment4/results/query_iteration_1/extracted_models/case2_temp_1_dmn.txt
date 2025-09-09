@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1t67bnq" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_0acbs0a" name="format(String s)">
+    <informationRequirement id="InformationRequirement_1s9ykgm">
+      <requiredInput href="#InputData_12z6wq9" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ahqkml">
+      <requiredInput href="#InputData_1knyq57" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_16xrfrg">
+      <input id="InputClause_1qpev3p" label="s">
+        <inputExpression id="LiteralExpression_1tr8uwg" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1r26vow" label="pageParts">
+        <inputExpression id="LiteralExpression_0alwhef" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1y19wfj" label="format(String s)" name="" typeRef="string" />
+      <rule id="DecisionRule_1o2gkxl">
+        <inputEntry id="UnaryTests_1o2oqla">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v2azzk">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r4d3qy">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yavmwl">
+        <inputEntry id="UnaryTests_0p4x1dc">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nips8v">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_097a67h">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18rkld7">
+        <inputEntry id="UnaryTests_1joq3jk">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17k7y22">
+          <text>pageParts.length >= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_029ivxk">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0phniqw">
+        <inputEntry id="UnaryTests_1iqqgll">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gr06tw">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0et60g5">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_12z6wq9" name="s" />
+  <inputData id="InputData_1knyq57" name="pageParts" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_13jz7wh">
+      <dmndi:DMNShape id="DMNShape_0xk5n8o" dmnElementRef="decision_0acbs0a">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_17y6n2y" dmnElementRef="InputData_12z6wq9">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1dtwvgf" dmnElementRef="InformationRequirement_1s9ykgm">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1oq5xa7" dmnElementRef="InputData_1knyq57">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0on4fsz" dmnElementRef="InformationRequirement_0ahqkml">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

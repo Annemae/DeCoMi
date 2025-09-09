@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>DeCoMi - Home</title>
+
+        <!-- Custom JS file. -->
+        <script src="/front-end/js/extractModel.js"></script> 
+        
+        <!-- Custom CSS files. -->
+        <link rel="stylesheet" href="/front-end/css/universal.css">
+        <link rel="stylesheet" href="/front-end/css/file.css">
+    </head>
+    <body>
+        <h1>DeCoMi - Decision Source Code Mining</h1>
+        <p id="subtitle">A Prototype by Annemae van de Hoef</p>
+
+         <div id="menu">
+            <a href="index.html">Submit File</a>
+            <a href="visualize.html">Show Latest DMN Model</a>
+        </div>
+
+        <div id="input-file">
+            <h3>Input File:</h3>
+            <!-- Make sure only Java source code files are accepted. -->
+            <input type="file" id="file" accept=".java">
+
+            <button onclick="sendFile()">Submit</button>
+        </div>
+    </body>
+</html>

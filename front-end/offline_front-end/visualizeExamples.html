@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>DeCoMi - Visualizer</title>
+        <!-- Custom CSS files. -->
+        <link rel="stylesheet" href="/front-end/css/universal.css">
+        <link rel="stylesheet" href="/front-end/css/visualize.css">
+        
+        <!-- Highlight.js link. -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+
+        <!-- Links for dmn-js. -->
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/diagram-js.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-shared.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-drd.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-decision-table.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-decision-table-controls.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-js-literal-expression.css">
+        <link rel="stylesheet" href="https://unpkg.com/dmn-js@17.0.2/dist/assets/dmn-font/css/dmn.css">    
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+        <!-- Load dmn-js script for DMN model visualization. -->
+        <script src="https://unpkg.com/dmn-js@17.0.2/dist/dmn-modeler.development.js"></script>
+
+        <!-- Custom script file. -->
+        <script src="example.js"></script>    
+
+        <!-- Highlight.js script for syntax highlighting. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    </head>
+    <body onload="loadDMNModelInUI()">
+        <h1>DeCoMi - Decision Source Code Mining</h1>
+        <p id="subtitle">A Prototype by Annemae van de Hoef</p>
+
+         <div id="menu">
+            <a href="example.html">Pick Example</a>
+            <a href="visualizeExamples.html">Show Latest DMN Model</a>
+        </div>
+
+        <div id="editor">
+            <div id="source-code-container"></div>
+
+            <div id="dmn-model-container">
+                <div id="dmn-model"></div>
+            </div>
+        </div>
+    </body>
+</html>

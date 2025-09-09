@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_1v8kz6b" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="decision_0l82f5y" name="format(String s)">
+    <informationRequirement id="InformationRequirement_0ys1n8n">
+      <requiredInput href="#InputData_1zj2a7q" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0r8v9h1">
+      <requiredInput href="#InputData_1c3rv4d" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0f4gk8w">
+      <input id="InputClause_0u3gs1o" label="s">
+        <inputExpression id="LiteralExpression_1f9yqac" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1jgqvaw" label="pageParts">
+        <inputExpression id="LiteralExpression_0jv2q4n" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1qgtw9u" label="format(String s)" name="" typeRef="string" />
+      <rule id="DecisionRule_1a2b3c4">
+        <inputEntry id="UnaryTests_1q1x2w3">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_2w2y3z4">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g9q7u3">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_2b3c4d5">
+        <inputEntry id="UnaryTests_5x6y7z8">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_7y8z9a0">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_2t4r5e6">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_3c4d5e6">
+        <inputEntry id="UnaryTests_9a0b1c2">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b2c3d4">
+          <text>pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_3y5u6i7">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_4d5e6f7">
+        <inputEntry id="UnaryTests_2c3d4e5">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_3d4e5f6">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_4o6p7q8">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1zj2a7q" name="s" />
+  <inputData id="InputData_1c3rv4d" name="pageParts" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0n5gk3l">
+      <dmndi:DMNShape id="DMNShape_1k5jz2h" dmnElementRef="decision_0l82f5y">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1b6lq3i" dmnElementRef="InputData_1zj2a7q">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0g3h8bv" dmnElementRef="InformationRequirement_0ys1n8n">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_2c7mr4j" dmnElementRef="InputData_1c3rv4d">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1wjz6gd" dmnElementRef="InformationRequirement_0r8v9h1">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

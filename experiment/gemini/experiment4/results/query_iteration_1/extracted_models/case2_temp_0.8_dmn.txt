@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_7f2a3b1" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="Decision_9g8h7i6" name="format(String s)">
+    <informationRequirement id="InformationRequirement_k1l2m3n">
+      <requiredInput href="#InputData_1a2b3c4" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_o4p5q6r">
+      <requiredInput href="#InputData_5d6e7f8" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_s7t8u9v">
+      <input id="InputClause_w1x2y3z" label="s">
+        <inputExpression id="LiteralExpression_a4b5c6d" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input1" label="pageParts">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="format(String s)" name="" typeRef="string" />
+      <rule id="DecisionRule_e7f8g9h">
+        <inputEntry id="UnaryTests_i1j2k3l">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_m4n5o6p">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_q7r8s9t">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_u1v2w3x">
+        <inputEntry id="UnaryTests_y4z5a6b">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_c7d8e9f">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_g1h2i3j">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_k4l5m6n">
+        <inputEntry id="UnaryTests_o7p8q9r">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_s1t2u3v">
+          <text>pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_w4x5y6z">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0a1b2c3">
+        <inputEntry id="UnaryTests_d4e5f6g">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_h7i8j9k">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_l1m2n3o">
+          <text>return &quot;&quot;;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1a2b3c4" name="s" />
+  <inputData id="InputData_5d6e7f8" name="pageParts" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_p4q5r6s">
+      <dmndi:DMNShape id="DMNShape_t7u8v9w" dmnElementRef="Decision_9g8h7i6">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_x1y2z3a" dmnElementRef="InputData_1a2b3c4">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_f7g8h9i" dmnElementRef="InformationRequirement_k1l2m3n">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="189" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_b4c5d6e" dmnElementRef="InputData_5d6e7f8">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_j1k2l3m" dmnElementRef="InformationRequirement_o4p5q6r">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="190" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

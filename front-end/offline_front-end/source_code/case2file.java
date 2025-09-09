@@ -8,7 +8,7 @@ import org.jabref.logic.layout.LayoutFormatter;
  * For instance, if the pages field is set to "345-360" or "345--360",
  * this formatter will return "360".
  */
-public class case2file implements LayoutFormatter {
+public class LastPage implements LayoutFormatter {
 
     @Override
     public String format(String s) {

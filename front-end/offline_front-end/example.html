@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>DeCoMi - Home</title>
+
+        <!-- Custom JS file. -->
+        <script src="example.js"></script> 
+        
+        <!-- Custom CSS files. -->
+        <link rel="stylesheet" href="/front-end/css/universal.css">
+        <link rel="stylesheet" href="/front-end/css/file.css">
+    </head>
+    <body>
+        <h1>DeCoMi - Decision Source Code Mining</h1>
+        <p id="subtitle">A Prototype by Annemae van de Hoef</p>
+
+         <div id="menu">
+            <a href="example.html">Pick Example</a>
+            <a href="visualizeExamples.html">Show Latest DMN Model</a>
+        </div>
+
+        <div id="input-file">
+            <h3>Pick an example:</h3>
+
+            <select id="cases">
+                <option value="1">Case 1</option>
+                <option value="2">Case 2</option>
+                <option value="3">Case 3</option>
+                <option value="4">Case 4</option>
+                <option value="5">Case 5</option>
+            </select>
+
+            <button onclick="pickExample()">Pick</button>
+        </div>
+    </body>
+</html>

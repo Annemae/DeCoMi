@@ -1,0 +1,75 @@
+html, body {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+p {
+    margin: 0;
+}
+
+#source-code {
+    font-size: 17px;
+    margin: 0;
+    overflow: scroll;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+#editor {
+    display: grid;
+    height: 800px;
+    width: 100%; 
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+/* Model picker CSS. */
+#model-picker {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    border-radius: 5px;
+    padding: 10px;
+    flex-direction: column;
+}
+
+#model-select {
+    width: 5%;
+    display: flex;
+}
+
+#select-text {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 0px 0px 10px 0px;
+    text-decoration: none;
+}
+
+/* DMN model and source code CSS. */
+#dmn-model, #source-code {
+    background-color: white;
+    border-radius: 5px;
+    padding: 0px;
+    flex: 1;
+    overflow: auto;
+}
+
+#source-code-container, #dmn-model-container {
+    background-color: #333;
+    border-radius: 5px;
+    display: flex;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex-direction: column;
+    overflow: hidden;
+}

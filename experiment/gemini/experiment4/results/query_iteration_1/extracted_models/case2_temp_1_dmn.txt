@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_f0rm4t" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="17.2.0">
+  <decision id="Decision_fmtDec1" name="format(String s)">
+    <informationRequirement id="InformationRequirement_sReq01">
+      <requiredInput href="#InputData_sInp0t" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_ppReq02">
+      <requiredInput href="#InputData_ppInp0t" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_fmtTbl1">
+      <input id="InputClause_sCls01" label="s">
+        <inputExpression id="LiteralExpression_sExp01" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="input1" label="pageParts">
+        <inputExpression id="inputExpression1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="format(String s)" name="" typeRef="string" />
+      <rule id="DecisionRule_01rl01">
+        <inputEntry id="UnaryTests_01sE01">
+          <text>s == null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01pE01">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01oE01">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02rl02">
+        <inputEntry id="UnaryTests_02sE02">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02pE02">
+          <text>pageParts.length == 2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02oE02">
+          <text>return pageParts[1];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03rl03">
+        <inputEntry id="UnaryTests_03sE03">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03pE03">
+          <text>pageParts.length &gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03oE03">
+          <text>return pageParts[0];</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04rl04">
+        <inputEntry id="UnaryTests_04sE04">
+          <text>s != null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04pE04">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04oE04">
+          <text>return "";</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_sInp0t" name="s" />
+  <inputData id="InputData_ppInp0t" name="pageParts" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_dia001">
+      <dmndi:DMNShape id="DMNShape_decShp1" dmnElementRef="Decision_fmtDec1">
+        <dc:Bounds height="80" width="180" x="220" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_sShp01" dmnElementRef="InputData_sInp0t">
+        <dc:Bounds height="45" width="125" x="157" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_sEdg01" dmnElementRef="InformationRequirement_sReq01">
+        <di:waypoint x="220" y="218" />
+        <di:waypoint x="280" y="180" />
+        <di:waypoint x="280" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_ppShp02" dmnElementRef="InputData_ppInp0t">
+        <dc:Bounds height="45" width="125" x="338" y="219" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_ppEdg02" dmnElementRef="InformationRequirement_ppReq02">
+        <di:waypoint x="401" y="219" />
+        <di:waypoint x="340" y="180" />
+        <di:waypoint x="340" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
