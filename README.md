@@ -5,7 +5,7 @@ A prototype by Annemae van de Hoef
 This repository contains the final prototype developed for the thesis on extracting DMN models from source code.
 
 ## How to Start  
-Unfortunately, the original version of the prototype cannot be run, as the LLMs initially used are no longer available due to discontinuation and the expiration of trial access. An 'offline' version of the prototype is provided here: https://decomi-prototype.web.app/
+Unfortunately, the original version of the prototype cannot be run, as the LLMs initially used are no longer available due to discontinuation and the expiration of trial access. An 'offline' version of the prototype is provided, which shows 5 DMN models extracted using the prototype. The offline version can be found here: https://decomi-prototype.web.app/
 
 Nevertheless, the following instructions demonstrate how the prototype can be set up and run locally, even though the full functionality with the original LLMs is not available:
 
@@ -20,7 +20,7 @@ Once the dependencies are installed, the back-end can be started using:
 flask run
 ```
 
-After the back-end is running, the front-end can be deployed using a suitable extension, such as Live Server, which serves the HTML, CSS, and JavaScript files locally in a web browser. This setup allows full interaction with the prototype, even in an offline environment.
+After the back-end is running, the front-end can be deployed using a suitable extension, such as Live Server, which serves the HTML, CSS, and JavaScript files locally in a web browser. This local setup allows full interaction with the prototype, even in an offline environment.
 
 ## Project Structure  
 - **back-end**  
@@ -34,11 +34,11 @@ After the back-end is running, the front-end can be deployed using a suitable ex
   - The decision requirement level JSON object (used for the DRD extraction experiment).
   - The decision logic level JSON objects, one for each individual decision (used for the decision table extraction experiment).
 - **experiment**: contains the queries and results from all four experiments, including all iterations conducted with GPT-4.1 and Gemini 2.5 Pro.
-- **front-end**: contains the front-end of the prototype, including the CSS, HTML, and JavaScript files, as well as the code for the 'offline' version, since the LLMs originally used were no longer available.
+- **front-end**: contains the front-end of the prototype, including the CSS, HTML, and JavaScript files, as well as the code for the 'offline' version.
 
 ## Software Quality  
 During development of the prototype, the following quality aspects were considered:  
 
 - **Functionality**: the software was implemented according to the requirements defined in the thesis.  
 - **Usability**: although no formal usability requirements were specified, the front-end was designed with a simple and intuitive UX. For example, users can navigate directly to a decision in the source code by clicking on it in the DMN model.
-- **Maintainability**: explanatory comments were added to the front-end and back-end source code, and `flake8` was applied to the back-end to encourage compliance with Python style guidelines.  
+- **Maintainability**: explanatory comments were added to the front-end and back-end source code, and `flake8` was applied to the back-end to encourage compliance with Python style guidelines [IN PROGRESS].  

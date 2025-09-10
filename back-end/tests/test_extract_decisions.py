@@ -3797,6 +3797,7 @@ decision_3_model_2 = """toNumber(String s) {
         }
     }"""
 
+
 def test_extract_function_source_code() -> None:
     """Test whether correct source code is given back, based on LLM response."""
     result = extract_grouped_decisions_source_code(response, source_code)

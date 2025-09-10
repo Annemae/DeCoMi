@@ -105,11 +105,12 @@ function loadDMNModelInUI() {
                 }
             });
         });
+        
 
         // Loads in the DMN model options into the model picker.
         modelPicker = document.getElementById('model-picker');
         modelSelect = document.getElementById('model-select');
-        if (dmnModels.length > 1) {
+        if (dmnModels.length >= 1) {
             modelPicker.hidden = false;
             modelPicker.style.display = "flex";
 
