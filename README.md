@@ -27,7 +27,7 @@ After the back-end is running, the front-end can be deployed using a suitable ex
   - `prototype_results`: contains example prototype results generated via the back-end for logic extraction using both Gemini 2.5 Pro and GPT-4.1 across all temperature settings. These results were generated because Gemini 2.5 Pro was discontinued during the conduction of the experiments, and at the time, the optimal settings for decision logic extraction were not yet determined. By generating prototype results for all possible scenarios prior to discontinuation, it was ensured that the data could be used later in the thesis.
   - `src`: contains the back-end source code of the prototype, including a Flask API and the implementation of the core prototype steps.
 - **data**: includes ten experimental cases used for experimentation and validation, representing the gold standard, as well as some illustrative examples. Each case contains the following components:
-  - The DMN XML file containing the complete DMN model (used for the DMN model conversion experiment).
+  - The DMN XML file containing the complete DMN model (used for the DMN model conversion experiment), as well as .png files which show the DMN model.
   - The whole Java source code file in which all decisions are present (used for the decision identification experiment).
   - The Java source code containing only the relevant decisions for the case.
   - The JSON object defining the relevant decisions for the case (used for the decision identification experiment).
